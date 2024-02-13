@@ -1,0 +1,7 @@
+mutation RoomCreate($title: String!) {
+  roomCreate(data: {title: $title}) {
+    id
+    title
+    created_at
+  }
+}

@@ -1,0 +1,7 @@
+mutation RoomDelete($id: ID!) {
+  roomDelete(data: {id: $id}) {
+    id
+    title
+    created_at
+  }
+}

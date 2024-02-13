@@ -1,0 +1,21 @@
+query CurrentRoom($id: ID!) {
+  rooms(WHERE: {id: {EQ: $id}}) {
+    id
+    title
+    current_task_id
+    room_users {
+      id
+      user {
+        id
+        name
+      }
+    }
+    tasks(ORDER: {created_at: {SORT: DESC}}) {
+      id
+      title
+      voting_status_id
+      point
+      avg_point
+    }
+  }
+}

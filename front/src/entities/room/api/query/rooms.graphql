@@ -1,0 +1,9 @@
+query Rooms {
+  rooms(
+    ORDER: {created_at: {SORT: DESC}, id: {SORT: ASC}}
+  ) {
+    id
+    title
+    created_at
+  }
+}

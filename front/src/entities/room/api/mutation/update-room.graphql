@@ -1,0 +1,7 @@
+mutation RoomUpdate($id: ID!, $title: String!) {
+  roomUpdate(data: {id: $id, title: $title}) {
+    id
+    title
+    created_at
+  }
+}

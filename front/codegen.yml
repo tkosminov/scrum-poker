@@ -1,0 +1,26 @@
+schema: 'http://localhost:8080/graphql'
+generates:
+  ./src/entities/generated/graphql.ts:
+    config:
+      dedupeFragments: true
+      avoidOptionals: true
+      declarationKind: 'interface'
+      skipTypename: false
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - "typescript"
+  ./src/entities:
+    documents: "./src/entities/**/*.graphql"
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: './generated/graphql.ts'
+    config:
+      declarationKind: 'interface'
+      skipTypename: true
+      avoidOptionals: true
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - "typescript-operations"
+      - "typescript-document-nodes"
