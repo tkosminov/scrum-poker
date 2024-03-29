@@ -1,6 +1,6 @@
 query Rooms {
   rooms(
-    ORDER: {created_at: {SORT: DESC}, id: {SORT: ASC}}
+    ORDER: {created_at: {SORT: DESC, PRIORITY: 1}, id: {SORT: ASC, PRIORITY: 2}}
   ) {
     id
     title

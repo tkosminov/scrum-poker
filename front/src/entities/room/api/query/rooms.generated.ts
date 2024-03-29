@@ -10,7 +10,9 @@ export type RoomsQuery = { rooms: Array<{ id: string, title: string | null, crea
 
 export const Rooms = gql`
     query Rooms {
-  rooms(ORDER: {created_at: {SORT: DESC}, id: {SORT: ASC}}) {
+  rooms(
+    ORDER: {created_at: {SORT: DESC, PRIORITY: 1}, id: {SORT: ASC, PRIORITY: 2}}
+  ) {
     id
     title
     created_at

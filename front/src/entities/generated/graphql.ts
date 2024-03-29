@@ -436,5 +436,6 @@ export interface Vote_OrderInputType {
 
 export interface Field_OrderInputType {
   NULLS: InputMaybe<EOrderNulls>;
+  PRIORITY: InputMaybe<Scalars['Int']['input']>;
   SORT: EOrderMethod;
 }
