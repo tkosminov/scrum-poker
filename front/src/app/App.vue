@@ -1,5 +1,5 @@
 <template>
-  <NavbarWidget />
+  <CNavbar />
 
   <div class="container mt-6">
     <RouterView />
@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import { NavbarWidget } from '@/widgets'
+import { CNavbar } from '@/shared'
 </script>
 
 <style scoped lang="scss">
