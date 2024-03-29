@@ -4,7 +4,7 @@
       <template v-if="room_model.loading">
         <CPreloader />
       </template>
-    
+
       <RoomInfoWidget />
     </div>
   </div>

@@ -1,18 +1,21 @@
 <template>
   <div class="row">
-    <div class="col-4">1</div>
-    <div class="col-4">
-      <template v-if="room">
+    <template v-if="room">
+      <div class="col-4 d-flex align-items-center"></div>
+      <div class="col-4 d-flex align-items-center">
         <RoomCardDetail :room="room" />
-      </template>
-    </div>
-    <div class="col-4">3</div>
+      </div>
+
+      <div class="col-4 d-flex align-items-center">
+        <RoomCardQr :room="room" />
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRoomModel } from '@/entities';
-import { CurrentRoomQuery, RoomCardDetail } from '@/entities/room';
+import { CurrentRoomQuery, RoomCardDetail, RoomCardQr } from '@/entities/room';
 
 import { Ref, ref } from 'vue';
 

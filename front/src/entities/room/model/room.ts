@@ -79,9 +79,9 @@ export const useRoomModel = defineStore({
       this.loading = true;
       this.loading_error = undefined;
 
-      const { mutate, loading, error } = await roomCreate(variables);
+      const { mutate, loading, error, onDone } = await roomCreate(variables);
 
-      const response = await mutate();
+      mutate();
 
       watch(
         loading,
@@ -97,7 +97,9 @@ export const useRoomModel = defineStore({
         }
       );
 
-      return response?.data?.roomCreate;
+      onDone(({ data }) => {
+        this.rooms?.unshift(data!.roomCreate);
+      });
     },
     async updateRoom(variables: RoomUpdateMutationVariables) {
       this.loading = true;

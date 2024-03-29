@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid"
+    class="row"
     v-for="room in rooms"
     :key="room.id"
   >

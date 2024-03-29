@@ -5,7 +5,17 @@
         <CPreloader />
       </template>
 
-      <RoomsListWidget />
+      <div class="row">
+        <div class="col-4"></div>
+
+        <div class="col-4">
+          <RoomsListWidget />
+        </div>
+
+        <div class="col-4">
+          <RoomCreateFeature />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -13,6 +23,7 @@
 <script setup lang="ts">
   import { onBeforeMount } from 'vue';
   import { RoomsListWidget } from '@/widgets'
+  import { RoomCreateFeature } from '@/features'
   import { useRoomModel } from '@/entities';
   import { CPreloader } from '@/shared'
 

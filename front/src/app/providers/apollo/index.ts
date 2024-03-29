@@ -1,4 +1,4 @@
-export { DefaultApolloClient } from '@vue/apollo-composable';
+export { DefaultApolloClient, provideApolloClients } from '@vue/apollo-composable';
 import { ApolloClient, createHttpLink, InMemoryCache, split } from '@apollo/client/core';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
