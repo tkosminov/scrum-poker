@@ -58,7 +58,7 @@ function closeDeleteRoomModal() {
 }
 
 async function deleteRoom() {
-  await room_model.deleteRoom({ id: props.room.id })
+  await room_model.delete({ id: props.room.id })
 
   closeDeleteRoomModal()
 

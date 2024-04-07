@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-primary mtb-5" @click="openCreateRoomModal">
+  <button type="button" class="btn btn-primary" @click="openCreateRoomModal">
     Создать
   </button>
 
@@ -65,7 +65,7 @@ function closeCreateRoomModal() {
 }
 
 async function createRoom() {
-  await room_model.createRoom({ title: title.value })
+  await room_model.create({ title: title.value })
 
   closeCreateRoomModal()
 

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { computed, watch } from 'vue';
+import { BehaviorSubject } from 'rxjs';
 
 import {
   rooms,
@@ -14,24 +15,30 @@ import {
   RoomDeleteMutationVariables,
   roomDelete,
   roomCreateEvent,
+  RoomDeleteEventSubscriptionVariables,
+  roomDeleteEvent,
+  RoomUpdateEventSubscriptionVariables,
+  roomUpdateEvent,
 } from '../api';
 
 interface IState {
-  current_room: CurrentRoomQuery['rooms'][0] | undefined;
-  rooms: RoomsQuery['rooms'] | undefined;
   loading: boolean;
   loading_error: string | undefined;
   stoppers: Array<() => void>;
+  rooms: RoomsQuery['rooms'];
+  current_room: CurrentRoomQuery['rooms'][0] | undefined;
+  deleted_id$: BehaviorSubject<string>;
 }
 
 export const useRoomModel = defineStore({
   id: 'roomModel',
   state: (): IState => ({
-    rooms: undefined,
-    current_room: undefined,
+    stoppers: [],
     loading: false,
     loading_error: undefined,
-    stoppers: [],
+    rooms: [],
+    current_room: undefined,
+    deleted_id$: new BehaviorSubject(''),
   }),
   actions: {
     async fetchRooms() {
@@ -80,7 +87,7 @@ export const useRoomModel = defineStore({
         }
       );
     },
-    async createRoom(variables: RoomCreateMutationVariables) {
+    async create(variables: RoomCreateMutationVariables) {
       this.loading = true;
       this.loading_error = undefined;
 
@@ -102,7 +109,7 @@ export const useRoomModel = defineStore({
         }
       );
     },
-    async deleteRoom(variables: RoomDeleteMutationVariables) {
+    async delete(variables: RoomDeleteMutationVariables) {
       this.loading = true;
       this.loading_error = undefined;
 
@@ -124,7 +131,7 @@ export const useRoomModel = defineStore({
         }
       );
     },
-    async updateRoom(variables: RoomUpdateMutationVariables) {
+    async update(variables: RoomUpdateMutationVariables) {
       this.loading = true;
       this.loading_error = undefined;
 
@@ -153,13 +160,53 @@ export const useRoomModel = defineStore({
 
       this.stoppers = [];
     },
-    async roomCreateSubscribe() {
+    async createSubscribe() {
       const { onResult, onError, stop } = await roomCreateEvent({});
 
       this.stoppers.push(stop);
 
       onResult(({ data }) => {
-        this.rooms?.unshift(data?.roomCreateEvent as RoomsQuery['rooms'][0]);
+        this.rooms.unshift(data!.roomCreateEvent as RoomsQuery['rooms'][0]);
+      });
+
+      onError((error) => {
+        console.error(error);
+      });
+    },
+    async updateSubscribe(variables: RoomUpdateEventSubscriptionVariables) {
+      const { onResult, onError, stop } = await roomUpdateEvent(variables);
+
+      this.stoppers.push(stop);
+
+      onResult(({ data }) => {
+        const idx = this.rooms.findIndex((r) => r.id === data!.roomUpdateEvent.id);
+
+        if (idx !== -1) {
+          this.rooms[idx].title = data!.roomUpdateEvent.title;
+        }
+
+        if (this.current_room?.id === data!.roomUpdateEvent.id) {
+          this.current_room.title = data!.roomUpdateEvent.title;
+        }
+      });
+
+      onError((error) => {
+        console.error(error);
+      });
+    },
+    async deleteSubscribe(variables: RoomDeleteEventSubscriptionVariables) {
+      const { onResult, onError, stop } = await roomDeleteEvent(variables);
+
+      this.stoppers.push(stop);
+
+      onResult(({ data }) => {
+        const idx = this.rooms.findIndex((r) => r.id === data!.roomDeleteEvent.id);
+
+        if (idx !== -1) {
+          this.rooms.splice(idx, 1);
+        }
+
+        this.deleted_id$.next(data!.roomDeleteEvent.id);
       });
 
       onError((error) => {

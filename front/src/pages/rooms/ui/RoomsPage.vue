@@ -21,29 +21,31 @@
 </template>
 
 <script setup lang="ts">
-  import { onBeforeMount, onBeforeUnmount } from 'vue';
-  import { RoomsListWidget } from '@/widgets'
-  import { RoomCreateFeature } from '@/features'
-  import { useRoomModel } from '@/entities';
-  import { CPreloader, useBreadcrumbModel } from '@/shared'
+import { onBeforeMount, onBeforeUnmount } from 'vue';
+import { RoomsListWidget } from '@/widgets'
+import { RoomCreateFeature } from '@/features'
+import { useRoomModel } from '@/entities';
+import { CPreloader, useBreadcrumbModel } from '@/shared'
 
-  const room_model = useRoomModel()
-  const breadcrumb_model = useBreadcrumbModel()
+const room_model = useRoomModel()
+const breadcrumb_model = useBreadcrumbModel()
 
-  onBeforeMount(async () => {
-    breadcrumb_model.set([{
-      name: 'Комнаты',
-      is_current: true
-    }]);
+onBeforeMount(async () => {
+  breadcrumb_model.set([{
+    name: 'Комнаты',
+    is_current: true
+  }]);
 
-    room_model.roomCreateSubscribe()
+  room_model.createSubscribe()
+  room_model.updateSubscribe({ channel_id: null })
+  room_model.deleteSubscribe({ channel_id: null })
 
-    await room_model.fetchRooms();
-  })
+  await room_model.fetchRooms();
+})
 
-  onBeforeUnmount(() => {
-    room_model.unsubscribe();
-  })
+onBeforeUnmount(() => {
+  room_model.unsubscribe();
+})
 </script>
 
 <style scoped lang="scss"></style>
