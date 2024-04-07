@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-  import { onBeforeMount } from 'vue';
+  import { onBeforeMount, onBeforeUnmount } from 'vue';
   import { RoomsListWidget } from '@/widgets'
   import { RoomCreateFeature } from '@/features'
   import { useRoomModel } from '@/entities';
@@ -36,7 +36,13 @@
       is_current: true
     }]);
 
+    room_model.roomCreateSubscribe()
+
     await room_model.fetchRooms();
+  })
+
+  onBeforeUnmount(() => {
+    room_model.unsubscribe();
   })
 </script>
 

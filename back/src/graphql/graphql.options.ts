@@ -7,14 +7,20 @@ import { DocumentNode, GraphQLArgs } from 'graphql';
 import { Request } from 'express';
 import { DataSource } from 'typeorm';
 import { setDataSource } from 'nestjs-graphql-easy';
+import { ConnectionInitMessage, Context } from 'graphql-ws';
+import { IncomingMessage } from 'http';
 
 import { LoggerStore } from '../logger/logger.store';
+import { LoggerService } from '../logger/logger.service';
 
 export const GRAPHQL_SUBSCRIPTION = 'GRAPHQL_SUBSCRIPTION';
 
 @Injectable()
 export class GraphQLOptions implements GqlOptionsFactory {
-  constructor(private readonly dataSource: DataSource) {
+  constructor(
+    private readonly dataSource: DataSource,
+    private readonly loggerService: LoggerService
+  ) {
     setDataSource(this.dataSource);
   }
 
@@ -23,7 +29,18 @@ export class GraphQLOptions implements GqlOptionsFactory {
       autoSchemaFile: true,
       driver: YogaDriver,
       subscriptions: {
-        'graphql-ws': true,
+        'graphql-ws': {
+          onConnect: (
+            ctx: Context<
+              ConnectionInitMessage['payload'],
+              { request: IncomingMessage & { logger_store: LoggerStore; current_user: IJwtPayload } }
+            >
+          ) => {
+            ctx.extra.request.logger_store = new LoggerStore(this.loggerService);
+
+            return true;
+          },
+        },
         'subscriptions-transport-ws': false,
       },
       context: ({ req }: { req: Request & { logger_store: LoggerStore; current_user: IJwtPayload } }) => ({

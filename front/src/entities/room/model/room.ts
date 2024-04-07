@@ -13,6 +13,7 @@ import {
   RoomUpdateMutationVariables,
   RoomDeleteMutationVariables,
   roomDelete,
+  roomCreateEvent,
 } from '../api';
 
 interface IState {
@@ -20,6 +21,7 @@ interface IState {
   rooms: RoomsQuery['rooms'] | undefined;
   loading: boolean;
   loading_error: string | undefined;
+  stoppers: Array<() => void>;
 }
 
 export const useRoomModel = defineStore({
@@ -29,6 +31,7 @@ export const useRoomModel = defineStore({
     current_room: undefined,
     loading: false,
     loading_error: undefined,
+    stoppers: [],
   }),
   actions: {
     async fetchRooms() {
@@ -81,7 +84,7 @@ export const useRoomModel = defineStore({
       this.loading = true;
       this.loading_error = undefined;
 
-      const { mutate, loading, error, onDone } = await roomCreate(variables);
+      const { mutate, loading, error } = await roomCreate(variables);
 
       mutate();
 
@@ -98,10 +101,6 @@ export const useRoomModel = defineStore({
           immediate: true,
         }
       );
-
-      onDone(({ data }) => {
-        this.rooms?.unshift(data!.roomCreate);
-      });
     },
     async deleteRoom(variables: RoomDeleteMutationVariables) {
       this.loading = true;
@@ -146,6 +145,26 @@ export const useRoomModel = defineStore({
           immediate: true,
         }
       );
+    },
+    unsubscribe() {
+      this.stoppers.forEach((stop) => {
+        stop();
+      });
+
+      this.stoppers = [];
+    },
+    async roomCreateSubscribe() {
+      const { onResult, onError, stop } = await roomCreateEvent({});
+
+      this.stoppers.push(stop);
+
+      onResult(({ data }) => {
+        this.rooms?.unshift(data?.roomCreateEvent as RoomsQuery['rooms'][0]);
+      });
+
+      onError((error) => {
+        console.error(error);
+      });
     },
   },
 });

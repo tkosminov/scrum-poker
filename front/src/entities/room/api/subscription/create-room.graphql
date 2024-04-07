@@ -1,0 +1,7 @@
+subscription RoomCreateEvent {
+  roomCreateEvent {
+    id
+    title
+    created_at
+  }
+}

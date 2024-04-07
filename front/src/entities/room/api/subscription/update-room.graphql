@@ -1,0 +1,7 @@
+subscription RoomUpdateEvent($channel_id: ID) {
+  roomUpdateEvent(channel_id: $channel_id) {
+    id
+    title
+    created_at
+  }
+}

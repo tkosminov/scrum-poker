@@ -1,0 +1,7 @@
+subscription RoomDeleteEvent($channel_id: ID) {
+  roomDeleteEvent(channel_id: $channel_id) {
+    id
+    title
+    created_at
+  }
+}
