@@ -1,29 +1,25 @@
 <template>
-  <div class="row">
-    <div class="col-12">
-      <button type="button" class="btn btn-primary mtb-5" @click="openCreateRoomModal">
-        Создать
-      </button>
+  <button type="button" class="btn btn-primary mtb-5" @click="openCreateRoomModal">
+    Создать
+  </button>
 
-      <div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModalLabel" aria-hidden="true" ref="create_room_modal_ref">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="createRoomModalLabel">Новая комната</h1>
-            </div>
+  <div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModalLabel" aria-hidden="true" ref="create_room_modal_ref">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="createRoomModalLabel">Новая комната</h1>
+        </div>
 
-            <div class="modal-body">
-              <div class="form-floating">
-                <input type="text" class="form-control" id="roomTitle" placeholder="Введите название..." v-model="title" />
-                <label for="roomTitle">Название</label>
-              </div>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-              <button type="button" class="btn btn-primary" @click="createRoom">Создать</button>
-            </div>
+        <div class="modal-body">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="roomTitle" placeholder="Введите название..." v-model="title" />
+            <label for="roomTitle">Название</label>
           </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-primary" @click="createRoom">Создать</button>
         </div>
       </div>
     </div>

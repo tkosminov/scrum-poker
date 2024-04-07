@@ -11,6 +11,8 @@ import {
   roomCreate,
   roomUpdate,
   RoomUpdateMutationVariables,
+  RoomDeleteMutationVariables,
+  roomDelete,
 } from '../api';
 
 interface IState {
@@ -101,13 +103,13 @@ export const useRoomModel = defineStore({
         this.rooms?.unshift(data!.roomCreate);
       });
     },
-    async updateRoom(variables: RoomUpdateMutationVariables) {
+    async deleteRoom(variables: RoomDeleteMutationVariables) {
       this.loading = true;
       this.loading_error = undefined;
 
-      const { mutate, loading, error } = await roomUpdate(variables);
+      const { mutate, loading, error } = await roomDelete(variables);
 
-      const response = await mutate();
+      mutate();
 
       watch(
         loading,
@@ -122,8 +124,28 @@ export const useRoomModel = defineStore({
           immediate: true,
         }
       );
+    },
+    async updateRoom(variables: RoomUpdateMutationVariables) {
+      this.loading = true;
+      this.loading_error = undefined;
 
-      return response?.data?.roomUpdate;
+      const { mutate, loading, error } = await roomUpdate(variables);
+
+      mutate();
+
+      watch(
+        loading,
+        (value) => {
+          this.loading = value;
+
+          if (!value) {
+            this.loading_error = error.value?.message;
+          }
+        },
+        {
+          immediate: true,
+        }
+      );
     },
   },
 });

@@ -16,7 +16,7 @@
     "@vue/apollo-composable": "^4.0.0",
     "axios": "^1.6.2",
     "bootstrap": "^5.3.3",
-    "bootstrap-icons": "^1.11.2",
+    "bootstrap-icons": "^1.11.3",
     "floating-vue": "^5.2.2",
     "graphql-ws": "^5.14.3",
     "jwt-decode": "^4.0.0",

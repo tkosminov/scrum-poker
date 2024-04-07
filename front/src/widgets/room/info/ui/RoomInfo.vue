@@ -7,7 +7,10 @@
       </div>
 
       <div class="col-4 d-flex align-items-center">
-        <RoomCardQr :room="room" />
+        <div class="btn-group" role="group" aria-label="features">
+          <RoomCardQr :room="room" />
+          <RoomDeleteFeature :room="room" />
+        </div>
       </div>
     </template>
   </div>
@@ -16,6 +19,7 @@
 <script setup lang="ts">
 import { useRoomModel } from '@/entities';
 import { CurrentRoomQuery, RoomCardDetail, RoomCardQr } from '@/entities/room';
+import RoomDeleteFeature from '@/features/room/delete';
 
 import { Ref, ref } from 'vue';
 
