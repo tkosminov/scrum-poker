@@ -24,9 +24,11 @@
 <script setup lang="ts">
 import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
+import { useToast } from "vue-toastification";
 import { CurrentRoomQuery, useRoomModel } from '@/entities';
 
 const props = defineProps<{ room: CurrentRoomQuery['rooms'][0] }>();
+const toast = useToast();
 
 const delete_room_modal_ref: Ref<HTMLDivElement | null> = ref(null);
 let delete_room_modal_value: Modal | null = null;
@@ -59,6 +61,10 @@ async function deleteRoom() {
   await room_model.deleteRoom({ id: props.room.id })
 
   closeDeleteRoomModal()
+
+  toast.success("Комната удалена!", {
+    timeout: 2500,
+  });
 }
 </script>
 

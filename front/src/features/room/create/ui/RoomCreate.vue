@@ -29,7 +29,10 @@
 <script setup lang="ts">
 import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
+import { useToast } from "vue-toastification";
 import { useRoomModel } from '@/entities';
+
+const toast = useToast();
 
 const create_room_modal_ref: Ref<HTMLDivElement | null> = ref(null);
 let create_room_modal_value: Modal | null = null;
@@ -65,6 +68,10 @@ async function createRoom() {
   await room_model.createRoom({ title: title.value })
 
   closeCreateRoomModal()
+
+  toast.success("Комната создана!", {
+    timeout: 2500,
+  });
 }
 </script>
 

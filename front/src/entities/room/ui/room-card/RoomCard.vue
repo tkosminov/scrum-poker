@@ -1,5 +1,5 @@
 <template>
-  <div class="card mtb-5">
+  <div class="card">
     <div class="card-body">
       <h4 class="card-title">
         <router-link
@@ -8,6 +8,7 @@
           {{ props.room.title }}
         </router-link>
       </h4>
+
       <h6 class="card-subtitle mb-2 text-body-secondary">{{ props.room.id }}</h6>
     </div>
   </div>

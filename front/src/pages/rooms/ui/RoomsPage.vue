@@ -25,11 +25,17 @@
   import { RoomsListWidget } from '@/widgets'
   import { RoomCreateFeature } from '@/features'
   import { useRoomModel } from '@/entities';
-  import { CPreloader } from '@/shared'
+  import { CPreloader, useBreadcrumbModel } from '@/shared'
 
   const room_model = useRoomModel()
+  const breadcrumb_model = useBreadcrumbModel()
 
   onBeforeMount(async () => {
+    breadcrumb_model.set([{
+      name: 'Комнаты',
+      is_current: true
+    }]);
+
     await room_model.fetchRooms();
   })
 </script>
