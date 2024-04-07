@@ -3,11 +3,11 @@
     <i class="bi bi-pencil"></i>
   </button>
 
-  <div class="modal fade" id="UpdateRoomModal" tabindex="-1" aria-labelledby="UpdateRoomModalLabel" aria-hidden="true" ref="update_room_modal_ref">
+  <div class="modal fade" id="updateRoomModal" tabindex="-1" aria-labelledby="updateRoomModalLabel" aria-hidden="true" ref="update_room_modal_ref">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="UpdateRoomModalLabel">Редактировать комнату</h1>
+          <h1 class="modal-title fs-5" id="updateRoomModalLabel">Редактировать комнату</h1>
         </div>
 
         <div class="modal-body">
