@@ -1,16 +1,23 @@
 <template>
   <div class="row">
     <template v-if="room">
-      <div class="col-4 d-flex align-items-center"></div>
-      <div class="col-4 d-flex align-items-center">
+      <div class="col-2 d-none d-sm-none d-md-block"></div>
+
+      <div class="col-8 col-sm-8 col-md-7">
         <RoomCardDetail :room="room" />
       </div>
 
-      <div class="col-4 d-flex align-items-center">
-        <div class="btn-group" role="group" aria-label="features">
-          <RoomCardCopy :room="room" />
-          <RoomUpdateFeature :room="room" />
-          <RoomDeleteFeature :room="room" />
+      <div class="col-4 col-sm-4 col-md-3">
+        <div class="btn-toolbar" role="toolbar" aria-label="room actions">
+          <div class="btn-group" role="group" aria-label="copy">
+            <RoomCardCopy :room="room" />
+          </div>
+          <div class="btn-group" role="group" aria-label="update">
+            <RoomUpdateFeature :room="room" />
+          </div>
+          <div class="btn-group" role="group" aria-label="delete">
+            <RoomDeleteFeature :room="room" />
+          </div>
         </div>
       </div>
     </template>

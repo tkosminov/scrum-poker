@@ -4,7 +4,7 @@
     v-for="room in rooms"
     :key="room.id"
   >
-    <div class="col-12">
+    <div class="col-12 mb-2">
       <RoomCard :room="room" />
     </div>
   </div>

@@ -6,25 +6,25 @@
       </template>
 
       <div class="row">
-        <div class="col-4 d-flex align-items-center"></div>
+        <div class="col-2 d-none d-sm-none d-md-block"></div>
 
-        <div class="col-4 d-flex align-items-center">
+        <div class="col-8 col-sm-8">
           <h1>Комнаты</h1>
         </div>
 
-        <div class="col-4 d-flex align-items-center">
+        <div class="col-4 col-sm-2">
           <RoomCreateFeature />
         </div>
       </div>
 
       <div class="row">
-        <div class="col-2"></div>
+        <div class="col-2 d-none d-sm-none d-md-block"></div>
 
-        <div class="col-8">
+        <div class="col-xs-12 col-sm-8">
           <RoomsListWidget />
         </div>
 
-        <div class="col-2">
+        <div class="col-2 d-none d-sm-none d-md-block">
         </div>
       </div>
     </div>
