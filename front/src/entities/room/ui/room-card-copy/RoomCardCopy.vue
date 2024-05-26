@@ -5,9 +5,7 @@
     </button>
 
     <template #popper>
-      <div class="card p-5">
-        <img :src="qr_code" class="card-img-top" loading="lazy" :alt="room_url">
-
+      <div class="card">
         <div class="card-body">
           <button class="btn btn-primary" @click="copyRoomUrl">Копировать ссылку</button>
         </div>
@@ -25,7 +23,6 @@ const toast = useToast();
 
 const chart_url = import.meta.env.VITE_APP_CHART_GOOGLEAPIS;
 const room_url = `${window.location.origin}/${props.room.id}`
-const qr_code = `${chart_url}${encodeURIComponent(room_url)}`
 
 function copyRoomUrl() {
   navigator.clipboard.writeText(room_url)

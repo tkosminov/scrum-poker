@@ -8,7 +8,7 @@
 
       <div class="col-4 d-flex align-items-center">
         <div class="btn-group" role="group" aria-label="features">
-          <RoomCardQr :room="room" />
+          <RoomCardCopy :room="room" />
           <RoomUpdateFeature :room="room" />
           <RoomDeleteFeature :room="room" />
         </div>
@@ -18,8 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRoomModel } from '@/entities';
-import { CurrentRoomQuery, RoomCardDetail, RoomCardQr } from '@/entities/room';
+import { useRoomModel, CurrentRoomQuery, RoomCardDetail, RoomCardCopy } from '@/entities';
 import { RoomDeleteFeature, RoomUpdateFeature } from '@/features';
 
 import { Ref, ref } from 'vue';

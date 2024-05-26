@@ -1,5 +1,5 @@
 import RoomCard from './room-card/RoomCard.vue';
 import RoomCardDetail from './room-card-detail/RoomCardDetail.vue';
-import RoomCardQr from './room-card-qr/RoomCardQr.vue';
+import RoomCardCopy from './room-card-copy/RoomCardCopy.vue';
 
-export { RoomCard, RoomCardDetail, RoomCardQr };
+export { RoomCard, RoomCardDetail, RoomCardCopy };

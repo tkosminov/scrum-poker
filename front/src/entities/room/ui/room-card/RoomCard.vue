@@ -20,9 +20,4 @@ import { RoomsQuery } from '../../api';
 const props = defineProps<{ room: RoomsQuery['rooms'][0] }>();
 </script>
 
-<style scoped lang="scss">
-.mtb-5 {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-</style>
+<style scoped lang="scss"></style>
