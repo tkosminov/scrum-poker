@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useSubscription } from '@vue/apollo-composable';
 import { DocumentNode } from '@apollo/client';
 
-import { getCookie } from './cookie';
+import { getAccessToken } from './jwt';
 
 export async function query<T>(
   query: DocumentNode,
@@ -9,7 +9,7 @@ export async function query<T>(
   headers: Record<string, unknown> = {}
 ) {
   return useQuery<T>(query, variables, {
-    context: { headers: { authorization: getCookie('jwt'), ...headers } },
+    context: { headers: { authorization: getAccessToken(), ...headers } },
   });
 }
 
@@ -20,7 +20,7 @@ export async function mutation<T>(
 ) {
   return useMutation<T>(query, {
     variables,
-    context: { headers: { authorization: getCookie('jwt'), ...headers } },
+    context: { headers: { authorization: getAccessToken(), ...headers } },
   });
 }
 
@@ -30,6 +30,6 @@ export async function subscription<T>(
   headers: Record<string, unknown> = {}
 ) {
   return useSubscription<T>(query, variables, {
-    context: { headers: { authorization: getCookie('jwt'), ...headers } },
+    context: { headers: { authorization: getAccessToken(), ...headers } },
   });
 }

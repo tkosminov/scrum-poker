@@ -17,8 +17,6 @@ export class OAuthMiddleware implements NestMiddleware {
       return next();
     }
 
-    return next();
-
     const token = getRequestHeader(req, 'authorization');
 
     if (token?.length) {

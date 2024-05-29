@@ -3,3 +3,5 @@ export { type CurrentUserQuery, type CurrentUserQueryVariables } from './query/c
 
 export { userUpdate } from './mutation';
 export { type UserUpdateMutation, type UserUpdateMutationVariables } from './mutation/update-user.generated';
+
+export { signIn, refreshToken, type ISignInResponse } from './rest';

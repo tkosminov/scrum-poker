@@ -7,8 +7,8 @@ export class OAuthController {
   constructor(private readonly oauthService: OAuthService) {}
 
   @Get('sign-in')
-  protected async signIn() {
-    return this.oauthService.signIn();
+  protected async signIn(@Query('name') name?: string | null) {
+    return this.oauthService.signIn(name);
   }
 
   @Get('refresh')

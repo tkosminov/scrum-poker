@@ -18,13 +18,13 @@ import {
 export class OAuthService {
   constructor(@InjectRepository(User) private readonly user_repository: Repository<User>) {}
 
-  public async signIn() {
+  public async signIn(name?: string | null) {
     const {
       raw: [user],
     }: { raw: [User] } = await this.user_repository
       .createQueryBuilder()
       .insert()
-      .values({ name: randomAnimalName() })
+      .values({ name: name || randomAnimalName() })
       .returning('*')
       .execute();
 

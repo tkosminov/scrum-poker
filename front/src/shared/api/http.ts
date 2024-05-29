@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const http_client = axios.create({ baseURL: import.meta.env.VITE_APP_API });
 
-export async function get(path: string, headers: Record<string, string | number> = {}) {
-  return http_client.get(path, {
+export async function get<T>(path: string, headers: Record<string, string | number> = {}) {
+  return http_client.get<T>(path, {
     headers,
   });
 }

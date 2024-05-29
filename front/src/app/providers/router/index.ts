@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import { existsRefreshToken } from '@/shared/api';
+
 import { routes } from './routes';
 
 export const router = createRouter({
@@ -16,4 +18,15 @@ export const router = createRouter({
     });
   },
   routes,
+});
+
+router.beforeResolve((to, _from, next) => {
+  if (to.name !== 'sign-in' && !existsRefreshToken()) {
+    next({
+      name: 'sign-in',
+      query: { redirect_to: to.fullPath },
+    });
+  } else {
+    next();
+  }
 });
