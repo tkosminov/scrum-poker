@@ -21,7 +21,6 @@ import { CurrentRoomQuery } from '../../api';
 const props = defineProps<{ room: CurrentRoomQuery['rooms'][0] }>();
 const toast = useToast();
 
-const chart_url = import.meta.env.VITE_APP_CHART_GOOGLEAPIS;
 const room_url = `${window.location.origin}/${props.room.id}`
 
 function copyRoomUrl() {

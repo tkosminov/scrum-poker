@@ -1,0 +1,13 @@
+mutation TaskUpdate($id: ID!, $title: String!) {
+  taskUpdate(data: {
+    id: $id,
+    title: $title
+  }) {
+    id
+    room_id
+    title
+    voting_status_id
+    point
+    avg_point
+  }
+}

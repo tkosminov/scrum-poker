@@ -1,0 +1,13 @@
+mutation TaskCreate($room_id: ID!, $title: String!) {
+  taskCreate(data: {
+    room_id: $room_id,
+    title: $title
+  }) {
+    id
+    room_id
+    title
+    voting_status_id
+    point
+    avg_point
+  }
+}

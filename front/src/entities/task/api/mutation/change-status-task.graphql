@@ -1,0 +1,7 @@
+mutation TaskChangeStatus($id: ID!, $voting_status_id: EVotingStatusId!) {
+  taskChangeStatus(data: {id: $id, voting_status_id: $voting_status_id}) {
+    id
+    room_id
+    voting_status_id
+  }
+}

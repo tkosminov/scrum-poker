@@ -5,20 +5,20 @@ import { BehaviorSubject } from 'rxjs';
 import {
   rooms,
   RoomsQuery,
-  CurrentRoomQuery,
   currentRoom,
+  CurrentRoomQuery,
   CurrentRoomQueryVariables,
-  RoomCreateMutationVariables,
   roomCreate,
+  RoomCreateMutationVariables,
   roomUpdate,
   RoomUpdateMutationVariables,
-  RoomDeleteMutationVariables,
   roomDelete,
+  RoomDeleteMutationVariables,
   roomCreateEvent,
-  RoomDeleteEventSubscriptionVariables,
   roomDeleteEvent,
-  RoomUpdateEventSubscriptionVariables,
+  RoomDeleteEventSubscriptionVariables,
   roomUpdateEvent,
+  RoomUpdateEventSubscriptionVariables,
 } from '../api';
 
 interface IState {
@@ -109,11 +109,11 @@ export const useRoomModel = defineStore({
         }
       );
     },
-    async delete(variables: RoomDeleteMutationVariables) {
+    async update(variables: RoomUpdateMutationVariables) {
       this.loading = true;
       this.loading_error = undefined;
 
-      const { mutate, loading, error } = await roomDelete(variables);
+      const { mutate, loading, error } = await roomUpdate(variables);
 
       mutate();
 
@@ -131,11 +131,11 @@ export const useRoomModel = defineStore({
         }
       );
     },
-    async update(variables: RoomUpdateMutationVariables) {
+    async delete(variables: RoomDeleteMutationVariables) {
       this.loading = true;
       this.loading_error = undefined;
 
-      const { mutate, loading, error } = await roomUpdate(variables);
+      const { mutate, loading, error } = await roomDelete(variables);
 
       mutate();
 

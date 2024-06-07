@@ -1,0 +1,6 @@
+mutation TaskDelete($id: ID!) {
+  taskDelete(data: {id: $id}) {
+    id
+    room_id
+  }
+}

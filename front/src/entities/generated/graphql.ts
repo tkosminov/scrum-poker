@@ -104,7 +104,7 @@ export interface MutationTaskDeleteArgs {
 
 
 export interface MutationTaskSetCurrentArgs {
-  data: TaskChangeStatusDto;
+  data: TaskSetCurrentDto;
 }
 
 
@@ -347,6 +347,10 @@ export interface TaskCreateDto {
 }
 
 export interface TaskDeleteDto {
+  id: Scalars['ID']['input'];
+}
+
+export interface TaskSetCurrentDto {
   id: Scalars['ID']['input'];
 }
 

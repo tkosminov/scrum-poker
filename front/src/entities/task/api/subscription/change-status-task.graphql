@@ -1,0 +1,10 @@
+subscription TaskChangeStatusEvent($channel_id: ID!) {
+  taskChangeStatusEvent(channel_id: $channel_id) {
+    id
+    room_id
+    title
+    voting_status_id
+    point
+    avg_point
+  }
+}

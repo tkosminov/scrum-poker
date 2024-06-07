@@ -10,7 +10,7 @@
       <div class="col-4 col-sm-4 col-md-3">
         <div class="btn-toolbar" role="toolbar" aria-label="room actions">
           <div class="btn-group" role="group" aria-label="copy">
-            <RoomCardCopy :room="room" />
+            <RoomCardLink :room="room" />
           </div>
           <div class="btn-group" role="group" aria-label="update">
             <RoomUpdateFeature :room="room" />
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRoomModel, CurrentRoomQuery, RoomCardDetail, RoomCardCopy } from '@/entities';
+import { useRoomModel, CurrentRoomQuery, RoomCardDetail, RoomCardLink } from '@/entities';
 import { RoomDeleteFeature, RoomUpdateFeature } from '@/features';
 
 import { Ref, ref } from 'vue';

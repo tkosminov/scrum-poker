@@ -1,0 +1,10 @@
+query Tasks($room_id: ID!) {
+  tasks(WHERE: {room_id: {EQ: $room_id}}, ORDER: {created_at: {SORT: DESC}}) {
+    id
+    room_id
+    title
+    voting_status_id
+    point
+    avg_point
+  }
+}

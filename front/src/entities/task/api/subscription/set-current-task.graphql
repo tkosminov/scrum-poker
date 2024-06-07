@@ -1,0 +1,6 @@
+subscription TaskSetCurrentEvent($channel_id: ID!) {
+  taskSetCurrentEvent(channel_id: $channel_id) {
+    id
+    room_id
+  }
+}

@@ -1,0 +1,6 @@
+subscription TaskDeleteEvent($channel_id: ID!) {
+  taskDeleteEvent(channel_id: $channel_id) {
+    id
+    room_id
+  }
+}

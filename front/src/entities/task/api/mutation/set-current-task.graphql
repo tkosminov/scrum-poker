@@ -1,0 +1,6 @@
+mutation TaskSetCurrent($id: ID!) {
+  taskSetCurrent(data: {id: $id}) {
+    id
+    room_id
+  }
+}

@@ -14,6 +14,7 @@ import { TaskCreateDTO } from './mutation-input/create.dto';
 import { TaskUpdateDTO } from './mutation-input/update.dto';
 import { TaskDeleteDTO } from './mutation-input/delete.dto';
 import { TaskChangeStatusDTO } from './mutation-input/change-status.dto';
+import { TaskSetCurrentDTO } from './mutation-input/set-current.dto';
 
 @Resolver(() => Task)
 export class TaskResolver {
@@ -123,7 +124,7 @@ export class TaskResolver {
   }
 
   @Mutation(() => Task)
-  protected async taskSetCurrent(@Args('data') data: TaskChangeStatusDTO) {
+  protected async taskSetCurrent(@Args('data') data: TaskSetCurrentDTO) {
     const task = await this.taskService.setCurrent(data);
 
     this.pubSub.publish('taskSetCurrentEvent', { taskSetCurrentEvent: task, channel_ids: [task.room_id] });
