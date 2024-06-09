@@ -64,11 +64,11 @@ export class Task {
   public voting_status_id: EVotingStatusId;
 
   @Field(() => Int, { nullable: true })
-  @Column('integer', { nullable: false })
-  public point: number;
+  @Column('integer', { nullable: true })
+  public closest_point: number;
 
   @Field(() => Float, { nullable: true })
-  @Column('double precision', { nullable: false })
+  @Column('double precision', { nullable: true })
   public avg_point: number;
 
   /**

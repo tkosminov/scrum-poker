@@ -7,7 +7,7 @@ mutation TaskCreate($room_id: ID!, $title: String!) {
     room_id
     title
     voting_status_id
-    point
+    closest_point
     avg_point
   }
 }

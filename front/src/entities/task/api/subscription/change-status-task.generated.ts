@@ -7,7 +7,7 @@ export type TaskChangeStatusEventSubscriptionVariables = Types.Exact<{
 }>;
 
 
-export type TaskChangeStatusEventSubscription = { taskChangeStatusEvent: { id: string, room_id: string, title: string, voting_status_id: Types.EVotingStatusId, point: number | null, avg_point: number | null } };
+export type TaskChangeStatusEventSubscription = { taskChangeStatusEvent: { id: string, room_id: string, title: string, voting_status_id: Types.EVotingStatusId, closest_point: number | null, avg_point: number | null } };
 
 
 export const TaskChangeStatusEvent = gql`
@@ -17,7 +17,7 @@ export const TaskChangeStatusEvent = gql`
     room_id
     title
     voting_status_id
-    point
+    closest_point
     avg_point
   }
 }

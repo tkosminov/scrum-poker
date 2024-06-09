@@ -8,12 +8,31 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
   Column,
+  registerEnumType,
 } from 'nestjs-graphql-easy';
 import { Index, JoinColumn, ManyToOne } from 'typeorm';
 import { DateTimeISOResolver } from 'graphql-scalars';
 
 import { Task } from '../task/task.entity';
 import { RoomUser } from '../room-user/room-user.entity';
+
+export enum EVotePoint {
+  ZERO = 0,
+  ONE = 1,
+  TWO = 2,
+  THREE = 3,
+  FIVE = 5,
+  EIGHT = 8,
+  THIRTY = 13,
+  TWENTY_ONE = 21,
+  THIRTY_FOUR = 34,
+  FIFTY_FIVE = 55,
+  EIGHTY_NINE = 89,
+}
+
+registerEnumType(EVotePoint, {
+  name: 'EVotePoint',
+});
 
 @ObjectType()
 @Entity()

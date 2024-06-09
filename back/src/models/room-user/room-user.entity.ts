@@ -41,6 +41,15 @@ export class RoomUser {
   public updated_at: Date;
 
   /**
+   * ! info
+   */
+
+  @Field(() => Boolean, { filterable: true, sortable: true, nullable: false })
+  @Index()
+  @Column('boolean', { nullable: false, default: false })
+  public connected: boolean;
+
+  /**
    * ! relations
    */
 

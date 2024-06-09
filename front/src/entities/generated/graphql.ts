@@ -16,6 +16,14 @@ export interface Scalars {
   DateTimeISO: { input: any; output: any; }
 }
 
+export interface Boolean_FilterInputType {
+  EQ: InputMaybe<Scalars['Boolean']['input']>;
+  IN: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  NOT_EQ: InputMaybe<Scalars['Boolean']['input']>;
+  NOT_IN: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  NULL: InputMaybe<Scalars['Boolean']['input']>;
+}
+
 export interface DateTimeIso_FilterInputType {
   EQ: InputMaybe<Scalars['DateTimeISO']['input']>;
   IN: InputMaybe<Array<Scalars['DateTimeISO']['input']>>;
@@ -32,6 +40,20 @@ export enum EOrderMethod {
 export enum EOrderNulls {
   First = 'FIRST',
   Last = 'LAST'
+}
+
+export enum EVotePoint {
+  Eight = 'EIGHT',
+  EightyNine = 'EIGHTY_NINE',
+  FiftyFive = 'FIFTY_FIVE',
+  Five = 'FIVE',
+  One = 'ONE',
+  Thirty = 'THIRTY',
+  ThirtyFour = 'THIRTY_FOUR',
+  Three = 'THREE',
+  TwentyOne = 'TWENTY_ONE',
+  Two = 'TWO',
+  Zero = 'ZERO'
 }
 
 export enum EVotingStatusId {
@@ -57,7 +79,8 @@ export interface Mutation {
   roomCreate: Room;
   roomDelete: Room;
   roomUpdate: Room;
-  roomUserUpdate: RoomUser;
+  roomUserJoin: RoomUser;
+  roomUserLeave: RoomUser;
   taskChangeStatus: Task;
   taskCreate: Task;
   taskDelete: Task;
@@ -83,8 +106,13 @@ export interface MutationRoomUpdateArgs {
 }
 
 
-export interface MutationRoomUserUpdateArgs {
-  data: RoomUserUpdateDto;
+export interface MutationRoomUserJoinArgs {
+  data: RoomUserCreateDto;
+}
+
+
+export interface MutationRoomUserLeaveArgs {
+  data: RoomUserCreateDto;
 }
 
 
@@ -202,6 +230,7 @@ export interface RoomUpdateDto {
 
 export interface RoomUser {
   __typename?: 'RoomUser';
+  connected: Scalars['Boolean']['output'];
   created_at: Scalars['DateTimeISO']['output'];
   id: Scalars['ID']['output'];
   room_id: Scalars['ID']['output'];
@@ -210,20 +239,21 @@ export interface RoomUser {
   user_id: Scalars['ID']['output'];
 }
 
-export interface RoomUserUpdateDto {
-  name: Scalars['String']['input'];
+export interface RoomUserCreateDto {
   room_id: Scalars['ID']['input'];
 }
 
 export interface RoomUser_FilterInputType {
   AND: InputMaybe<Array<RoomUser_FilterInputType>>;
   OR: InputMaybe<Array<RoomUser_FilterInputType>>;
+  connected: InputMaybe<Boolean_FilterInputType>;
   id: InputMaybe<Id_FilterInputType>;
   room_id: InputMaybe<Id_FilterInputType>;
   user_id: InputMaybe<Id_FilterInputType>;
 }
 
 export interface RoomUser_OrderInputType {
+  connected: InputMaybe<Field_OrderInputType>;
   created_at: InputMaybe<Field_OrderInputType>;
   id: InputMaybe<Field_OrderInputType>;
   room_id: InputMaybe<Field_OrderInputType>;
@@ -263,7 +293,8 @@ export interface Subscription {
   roomCreateEvent: Room;
   roomDeleteEvent: Room;
   roomUpdateEvent: Room;
-  roomUserUpdateEvent: RoomUser;
+  roomUserJoinEvent: RoomUser;
+  roomUserLeaveEvent: RoomUser;
   taskChangeStatusEvent: Task;
   taskCreateEvent: Task;
   taskDeleteEvent: Task;
@@ -283,7 +314,12 @@ export interface SubscriptionRoomUpdateEventArgs {
 }
 
 
-export interface SubscriptionRoomUserUpdateEventArgs {
+export interface SubscriptionRoomUserJoinEventArgs {
+  channel_id: Scalars['ID']['input'];
+}
+
+
+export interface SubscriptionRoomUserLeaveEventArgs {
   channel_id: Scalars['ID']['input'];
 }
 
@@ -320,9 +356,9 @@ export interface SubscriptionVoteChangeEventArgs {
 export interface Task {
   __typename?: 'Task';
   avg_point: Maybe<Scalars['Float']['output']>;
+  closest_point: Maybe<Scalars['Int']['output']>;
   created_at: Scalars['DateTimeISO']['output'];
   id: Scalars['ID']['output'];
-  point: Maybe<Scalars['Int']['output']>;
   room_id: Scalars['ID']['output'];
   title: Scalars['String']['output'];
   updated_at: Scalars['DateTimeISO']['output'];
@@ -412,7 +448,7 @@ export interface Vote {
 }
 
 export interface VoteChangeDto {
-  point: Scalars['Int']['input'];
+  point: EVotePoint;
   task_id: Scalars['ID']['input'];
 }
 

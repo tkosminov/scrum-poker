@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { findClosestNumbers } from '../../helpers/array.helper';
 import { Room } from '../room/room.entity';
-import { Vote } from '../vote/vote.entity';
+import { Vote, EVotePoint } from '../vote/vote.entity';
 
 import { EVotingStatusId, Task } from './task.entity';
 import { TaskCreateDTO } from './mutation-input/create.dto';
@@ -63,13 +64,69 @@ export class TaskService {
 
     task.voting_status_id = data.voting_status_id;
 
-    await this.task_repository.update(task.id, { voting_status_id: data.voting_status_id });
+    switch (data.voting_status_id) {
+      case EVotingStatusId.NOT_STARTED:
+        await this.vote_repository.delete({ task_id: task.id });
 
-    if (data.voting_status_id === EVotingStatusId.NOT_STARTED) {
-      await this.vote_repository.delete({ task_id: task.id });
+        task.avg_point = null;
+        task.closest_point = null;
+
+        break;
+      case EVotingStatusId.COMPLETED:
+        const res = await this.calculatePoints(task.id);
+
+        task.avg_point = res.avg_point;
+        task.closest_point = res.closest_point;
+
+        break;
+      default:
+        break;
     }
 
+    await this.task_repository.update(task.id, {
+      voting_status_id: task.voting_status_id,
+      avg_point: task.avg_point,
+      closest_point: task.closest_point,
+    });
+
     return task;
+  }
+
+  private async calculatePoints(task_id: string) {
+    const {
+      raw: [res],
+    }: { raw: [{ avg_point: number }] } = await this.vote_repository
+      .createQueryBuilder()
+      .select('ROUND(AVG(NULLIF(vote.point, 0)), 1)', 'avg_point')
+      .where({
+        task_id,
+      })
+      .execute();
+
+    const possible_values = Object.values(EVotePoint).reduce<number[]>((acc, curr) => {
+      if (typeof curr !== 'string') {
+        acc.push(curr);
+      }
+
+      return acc;
+    }, []);
+
+    const closest_points = findClosestNumbers(possible_values, res.avg_point);
+
+    if (closest_points.length === 1) {
+      return {
+        avg_point: res.avg_point,
+        closest_point: closest_points[0],
+      };
+    }
+
+    const left_diff = res.avg_point - closest_points[0];
+    const right_diff = closest_points[1] - res.avg_point;
+
+    return {
+      avg_point: res.avg_point,
+      closest_point: left_diff < right_diff ? closest_points[0] : closest_points[1],
+    };
   }
 
   public async setCurrent(data: TaskSetCurrentDTO) {

@@ -32,3 +32,23 @@ export function groupBy<T>(array: T[], key: string): { [key: string]: T[] } {
     {} as { [key: string]: T[] }
   );
 }
+
+export function findClosestNumbers(arr: number[], value: number) {
+  const sorted_arr = arr.sort((a, b) => a - b);
+
+  for (let i = 0; i < sorted_arr.length; i++) {
+    if (value === sorted_arr[i]) {
+      return [sorted_arr[i]];
+    }
+
+    if (value > sorted_arr[i] && value < sorted_arr[i + 1]) {
+      return [sorted_arr[i], sorted_arr[i + 1]];
+    }
+  }
+
+  if (value < sorted_arr[0]) {
+    return [sorted_arr[0]];
+  }
+
+  return [sorted_arr[sorted_arr.length - 1]];
+}

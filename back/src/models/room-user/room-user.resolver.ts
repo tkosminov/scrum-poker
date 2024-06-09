@@ -10,7 +10,7 @@ import { User } from '../user/user.entity';
 
 import { RoomUser } from './room-user.entity';
 import { RoomUserService } from './room-user.service';
-import { RoomUserUpdateDTO } from './mutation-input/update.dto';
+import { RoomUserCreateDTO } from './mutation-input/create.dto';
 
 @Resolver(() => RoomUser)
 export class RoomUserResolver {
@@ -35,20 +35,34 @@ export class RoomUserResolver {
   }
 
   @Mutation(() => RoomUser)
-  protected async roomUserUpdate(@CurrentUserGql() current_user: IJwtPayload, @Args('data') data: RoomUserUpdateDTO) {
-    const room_user = await this.roomUserService.update(current_user, data);
+  protected async roomUserJoin(@CurrentUserGql() current_user: IJwtPayload, @Args('data') data: RoomUserCreateDTO) {
+    const room_user = await this.roomUserService.join(current_user, data);
 
-    this.pubSub.publish('roomUserUpdateEvent', { roomUserUpdateEvent: room_user, channel_ids: [room_user.room_id] });
-
-    return room_user;
+    this.pubSub.publish('roomUserJoinEvent', { roomUserJoinEvent: room_user, channel_ids: [room_user.room_id] });
   }
 
   @Subscription(() => RoomUser, {
     filter: (payload, variables) => payload.channel_ids.includes(variables.channel_id),
   })
-  protected async roomUserUpdateEvent(
+  protected async roomUserJoinEvent(
     @Args({ name: 'channel_id', type: () => ID, nullable: false }) _channel_id: string
   ) {
-    return this.pubSub.asyncIterator('roomUserUpdateEvent');
+    return this.pubSub.asyncIterator('roomUserJoinEvent');
+  }
+
+  @Mutation(() => RoomUser)
+  protected async roomUserLeave(@CurrentUserGql() current_user: IJwtPayload, @Args('data') data: RoomUserCreateDTO) {
+    const room_user = await this.roomUserService.leave(current_user, data);
+
+    this.pubSub.publish('roomUserLeaveEvent', { roomUserLeaveEvent: room_user, channel_ids: [room_user.room_id] });
+  }
+
+  @Subscription(() => RoomUser, {
+    filter: (payload, variables) => payload.channel_ids.includes(variables.channel_id),
+  })
+  protected async roomUserLeaveEvent(
+    @Args({ name: 'channel_id', type: () => ID, nullable: false }) _channel_id: string
+  ) {
+    return this.pubSub.asyncIterator('roomUserLeaveEvent');
   }
 }
