@@ -1,9 +1,9 @@
 <template>
   <div class="row">
     <template v-if="room">
-      <div class="col-2 d-none d-sm-none d-md-block"></div>
+      <div class="col-3 d-none d-sm-none d-md-block"></div>
 
-      <div class="col-8 col-sm-8 col-md-7">
+      <div class="col-8 col-sm-8 col-md-6">
         <RoomCardDetail :room="room" />
       </div>
 

@@ -11,8 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRoomModel } from '@/entities';
-import { RoomsQuery, RoomCard } from '@/entities/room';
+import { useRoomModel, RoomsQuery, RoomCard } from '@/entities';
 
 import { Ref, ref } from 'vue';
 
