@@ -71,3 +71,13 @@ export function getRequestHeader(req: Request, field: string) {
 export function getUserAgent(req: Request) {
   return getRequestHeader(req, 'user-agent') || '-';
 }
+
+export function getCookie(cookies: string, key: string): string | null {
+  cookies.split(';').forEach((cookie) => {
+    if (cookie.trim().startsWith(`${key}=`)) {
+      return cookie.split('=')[1];
+    }
+  });
+
+  return null;
+}

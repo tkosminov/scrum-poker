@@ -9,7 +9,10 @@ import { DataSource } from 'typeorm';
 import { setDataSource } from 'nestjs-graphql-easy';
 import { ConnectionInitMessage, Context } from 'graphql-ws';
 import { IncomingMessage } from 'http';
+import { verify } from 'jsonwebtoken';
 
+import { getCookie } from '../helpers/req.helper';
+// import { EExceptionType, authorizationFailed, jwtTokenExpiredSignature, unauthorized } from '../helpers/errors.helper';
 import { LoggerStore } from '../logger/logger.store';
 import { LoggerService } from '../logger/logger.service';
 
@@ -36,9 +39,29 @@ export class GraphQLOptions implements GqlOptionsFactory {
               { request: IncomingMessage & { logger_store: LoggerStore; current_user: IJwtPayload } }
             >
           ) => {
-            ctx.extra.request.logger_store = new LoggerStore(this.loggerService);
+            const access_token = getCookie(ctx.extra.request.headers.cookie || '', 'access_token');
 
-            return true;
+            if (access_token?.length) {
+              try {
+                const payload = verify(access_token, process.env.JWT_SECRET) as IJwtPayload;
+
+                if (!payload.token_type || payload.token_type !== 'access') {
+                  // throw authorizationFailed(EExceptionType.COMMON);
+                  return false;
+                }
+
+                ctx.extra.request.current_user = payload;
+                ctx.extra.request.logger_store = new LoggerStore(this.loggerService);
+
+                return true;
+              } catch (e) {
+                // throw jwtTokenExpiredSignature(EExceptionType.COMMON);
+                return false;
+              }
+            }
+
+            return false;
+            // throw unauthorized(EExceptionType.COMMON);
           },
         },
         'subscriptions-transport-ws': false,
