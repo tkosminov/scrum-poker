@@ -15,7 +15,10 @@
     </div>
 
     <div class="col-xs-12 col-sm-3">
-      3
+      <div class="row mb-2">
+        <TaskCreateFeature />
+      </div>
+
       <TasksListWidget />
     </div>
   </div>
@@ -27,6 +30,7 @@ import { router } from '@/app/providers';
 import { useRoomModel, useTaskModel } from '@/entities';
 import { RoomInfoWidget, TasksListWidget } from '@/widgets'
 import { CPreloader, useBreadcrumbModel } from '@/shared'
+import { TaskCreateFeature } from '@/features'
 
 const props = defineProps<{ id: string }>();
 const room_model = useRoomModel()

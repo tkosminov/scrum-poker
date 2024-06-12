@@ -58,7 +58,7 @@ export class Task {
   @Column('character varying', { nullable: false })
   public title: string;
 
-  @Field(() => EVotingStatusId)
+  @Field(() => String)
   @Index()
   @Column('enum', { enum: EVotingStatusId, nullable: false, default: EVotingStatusId.NOT_STARTED })
   public voting_status_id: EVotingStatusId;

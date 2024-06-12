@@ -73,11 +73,13 @@ export function getUserAgent(req: Request) {
 }
 
 export function getCookie(cookies: string, key: string): string | null {
+  let value: string | null = null;
+
   cookies.split(';').forEach((cookie) => {
     if (cookie.trim().startsWith(`${key}=`)) {
-      return cookie.split('=')[1];
+      value = cookie.split('=')[1];
     }
   });
 
-  return null;
+  return value;
 }

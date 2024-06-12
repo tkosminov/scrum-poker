@@ -8,7 +8,7 @@ export type TaskChangeStatusMutationVariables = Types.Exact<{
 }>;
 
 
-export type TaskChangeStatusMutation = { taskChangeStatus: { id: string, room_id: string, voting_status_id: Types.EVotingStatusId } };
+export type TaskChangeStatusMutation = { taskChangeStatus: { id: string, room_id: string, voting_status_id: string } };
 
 
 export const TaskChangeStatus = gql`
