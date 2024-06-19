@@ -4,25 +4,27 @@
     </template>
 
     <div class="row">
-      <div class="col-4 d-none d-sm-none d-md-block"></div>
+      <div class="col-4 d-none d-sm-none d-md-none d-lg-block"></div>
 
-      <div class="col-8 col-sm-8 col-md-4">
+      <div class="col-8 col-sm-8 col-md-8 col-lg-4">
         <h1>Комнаты</h1>
       </div>
 
-      <div class="col-4 col-sm-4">
-        <RoomCreateFeature />
+      <div class="col-4 col-sm-4 col-md-4 col-lg-4">
+        <div class="d-flex justify-content-center">
+          <RoomCreateFeature />
+        </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-2 d-none d-sm-none d-md-block"></div>
+      <div class="col-4 d-none d-sm-none d-md-none d-lg-block"></div>
 
-      <div class="col-xs-12 col-sm-8">
+      <div class="col-12 col-sm-8 col-md-8 col-lg-4">
         <RoomsListWidget />
       </div>
 
-      <div class="col-2 d-none d-sm-none d-md-block">
+      <div class="col-4 d-none d-sm-none d-md-none d-lg-block">
       </div>
     </div>
 </template>
