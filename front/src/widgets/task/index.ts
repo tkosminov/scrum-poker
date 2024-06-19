@@ -1,3 +1,4 @@
 import TasksListWidget from './list';
+import TasksCardWidget from './card';
 
-export { TasksListWidget };
+export { TasksListWidget, TasksCardWidget };

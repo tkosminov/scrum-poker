@@ -8,7 +8,12 @@
       </div>
 
       <div class="col-4 col-sm-4 col-md-3">
-        <div class="btn-toolbar" role="toolbar" aria-label="room actions">
+        <div class="d-inline-flex gap-1">
+          <RoomCardLink :room="room" />
+          <RoomUpdateFeature :room="room" />
+          <RoomDeleteFeature :room="room" />
+        </div>
+        <!-- <div class="btn-toolbar" role="toolbar" aria-label="room actions">
           <div class="btn-group" role="group" aria-label="copy">
             <RoomCardLink :room="room" />
           </div>
@@ -18,7 +23,7 @@
           <div class="btn-group" role="group" aria-label="delete">
             <RoomDeleteFeature :room="room" />
           </div>
-        </div>
+        </div> -->
       </div>
     </template>
   </div>

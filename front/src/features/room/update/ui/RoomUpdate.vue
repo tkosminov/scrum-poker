@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-info" @click="openUpdateRoomModal">
+  <button type="button" class="btn btn-dark" @click="openUpdateRoomModal">
     <i class="bi bi-pencil"></i>
   </button>
 
@@ -18,8 +18,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-          <button type="button" class="btn btn-info" @click="updateRoom">
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-dark" @click="updateRoom">
             <i class="bi bi-pencil"></i> Сохранить
           </button>
         </div>

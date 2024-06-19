@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-danger" @click="openDeleteRoomModal">
+  <button type="button" class="btn btn-dark" @click="openDeleteRoomModal">
     <i class="bi bi-trash"></i>
   </button>
 
@@ -11,8 +11,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-          <button type="button" class="btn btn-danger" @click="deleteRoom">
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-dark" @click="deleteRoom">
             <i class="bi bi-trash"></i> Удалить
           </button>
         </div>

@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { GqlOptionsFactory } from '@nestjs/graphql';
 import { YogaDriver, YogaDriverConfig } from '@graphql-yoga/nestjs';
 import { useLogger } from '@envelop/core';
 
-import { DocumentNode, GraphQLArgs } from 'graphql';
+import { DocumentNode, GraphQLArgs, GraphQLError } from 'graphql';
 import { Request } from 'express';
 import { DataSource } from 'typeorm';
 import { setDataSource } from 'nestjs-graphql-easy';
@@ -71,6 +71,54 @@ export class GraphQLOptions implements GqlOptionsFactory {
         logger_store: req.logger_store,
         current_user: req.current_user,
       }),
+      maskedErrors: {
+        maskError(error, message: string) {
+          if (error instanceof GraphQLError) {
+            if (error.originalError?.name === GraphQLError.name) {
+              return error;
+            }
+
+            let graphql_error_message = error.originalError?.name || message;
+            let original_error_message: unknown = error.message;
+
+            if (error.originalError instanceof HttpException) {
+              const response = error.originalError.getResponse();
+
+              if (response) {
+                if (typeof response === 'string') {
+                  original_error_message = response;
+                } else {
+                  original_error_message = (response as { message?: unknown }).message;
+                }
+              }
+            } else if (error.originalError?.name === 'NonErrorThrown') {
+              graphql_error_message = 'BadRequestException';
+              original_error_message = (
+                error.originalError as unknown as {
+                  name: string;
+                  thrownValue: { status: string; message: unknown };
+                }
+              ).thrownValue.message;
+            }
+
+            return new GraphQLError(graphql_error_message, {
+              nodes: error.nodes,
+              source: error.source,
+              positions: error.positions,
+              path: error.path,
+              extensions: {
+                originalError: { message: original_error_message },
+              },
+            });
+          } else {
+            return new GraphQLError(message, {
+              extensions: {
+                originalError: error instanceof Error ? { message: error.message } : undefined,
+              },
+            });
+          }
+        },
+      },
       plugins: [
         useLogger({
           logFn: (

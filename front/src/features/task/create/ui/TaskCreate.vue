@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-primary" @click="openCreateTaskModal">
+  <button type="button" class="btn btn-dark" @click="openCreateTaskModal">
     Добавить задачу
   </button>
 

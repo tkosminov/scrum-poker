@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-primary" @click="openCreateRoomModal">
+  <button type="button" class="btn btn-dark" @click="openCreateRoomModal">
     Создать
   </button>
 
@@ -18,8 +18,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-          <button type="button" class="btn btn-primary" @click="createRoom">Создать</button>
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-dark" @click="createRoom">Создать</button>
         </div>
       </div>
     </div>

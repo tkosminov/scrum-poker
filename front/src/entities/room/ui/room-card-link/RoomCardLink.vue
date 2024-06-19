@@ -1,13 +1,16 @@
 <template>
   <VDropdown>
-    <button type="button" class="btn btn-primary">
+    <button type="button" class="btn btn-dark">
       <i class="bi bi-share"></i>
     </button>
 
     <template #popper>
       <div class="card">
         <div class="card-body">
-          <button class="btn btn-primary" @click="copyRoomUrl">Копировать ссылку</button>
+          <button class="btn btn-dark" @click="copyRoomUrl">
+            <i class="bi bi-share"></i>
+            Копировать ссылку
+          </button>
         </div>
       </div>
     </template>
