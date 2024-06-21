@@ -1,3 +1,15 @@
 .mt-6 {
   margin-top: 3.5rem !important;
 }
+
+.scroll-y {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.scroll-x {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}

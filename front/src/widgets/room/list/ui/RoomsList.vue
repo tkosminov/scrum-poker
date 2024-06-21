@@ -2,7 +2,7 @@
   <div
     class="row"
     v-for="room in rooms"
-    :key="room.id"
+    :key="`${room.id}_${room.title}`"
   >
     <div class="col-12 mb-2">
       <RoomCard :room="room" />

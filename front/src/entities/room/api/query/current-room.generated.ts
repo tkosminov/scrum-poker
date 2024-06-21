@@ -7,7 +7,7 @@ export type CurrentRoomQueryVariables = Types.Exact<{
 }>;
 
 
-export type CurrentRoomQuery = { rooms: Array<{ id: string, title: string | null, current_task_id: string | null }> };
+export type CurrentRoomQuery = { rooms: Array<{ id: string, title: string, current_task_id: string | null }> };
 
 
 export const CurrentRoom = gql`

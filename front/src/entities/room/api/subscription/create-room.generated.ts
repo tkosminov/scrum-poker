@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 export type RoomCreateEventSubscriptionVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type RoomCreateEventSubscription = { roomCreateEvent: { id: string, title: string | null, created_at: any } };
+export type RoomCreateEventSubscription = { roomCreateEvent: { id: string, title: string, created_at: any } };
 
 
 export const RoomCreateEvent = gql`

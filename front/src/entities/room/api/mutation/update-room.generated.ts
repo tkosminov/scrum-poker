@@ -8,7 +8,7 @@ export type RoomUpdateMutationVariables = Types.Exact<{
 }>;
 
 
-export type RoomUpdateMutation = { roomUpdate: { id: string, title: string | null, created_at: any } };
+export type RoomUpdateMutation = { roomUpdate: { id: string, title: string, created_at: any } };
 
 
 export const RoomUpdate = gql`

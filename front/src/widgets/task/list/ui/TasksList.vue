@@ -2,17 +2,17 @@
   <div
     class="row"
     v-for="task in tasks"
-    :key="task.id"
+    :key="`${task.id}_${task.title}`"
   >
     <div class="col-12 mb-2 p-0">
-      <TasksCardWidget :task="task"/>
+      <TaskCardWidget :task="task"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useTaskModel, TasksQuery } from '@/entities';
-import { TasksCardWidget } from '@/widgets'
+import { TaskCardWidget } from '@/widgets'
 
 import { Ref, ref } from 'vue';
 

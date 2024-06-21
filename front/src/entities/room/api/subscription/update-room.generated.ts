@@ -7,7 +7,7 @@ export type RoomUpdateEventSubscriptionVariables = Types.Exact<{
 }>;
 
 
-export type RoomUpdateEventSubscription = { roomUpdateEvent: { id: string, title: string | null, created_at: any } };
+export type RoomUpdateEventSubscription = { roomUpdateEvent: { id: string, title: string, created_at: any } };
 
 
 export const RoomUpdateEvent = gql`

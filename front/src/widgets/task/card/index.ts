@@ -1,3 +1,3 @@
-import TasksCardWidget from './ui/TasksCard.vue';
+import TaskCardWidget from './ui/TaskCard.vue';
 
-export default TasksCardWidget;
+export default TaskCardWidget;

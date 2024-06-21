@@ -43,9 +43,9 @@ export class Room {
    * ! info
    */
 
-  @Field(() => String, { filterable: true, sortable: true, nullable: true })
+  @Field(() => String, { filterable: true, sortable: true })
   @Index()
-  @Column('character varying', { nullable: true })
+  @Column('character varying', { nullable: false })
   public title: string;
 
   /**

@@ -199,7 +199,7 @@ export interface Room {
   id: Scalars['ID']['output'];
   room_users: Maybe<Array<RoomUser>>;
   tasks: Maybe<Array<Task>>;
-  title: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
   updated_at: Scalars['DateTimeISO']['output'];
 }
 

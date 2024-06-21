@@ -11,9 +11,12 @@
         </div>
 
         <div class="modal-body">
-          <div class="form-floating">
-            <input type="text" class="form-control" id="roomTitle" placeholder="Введите название..." v-model="title" />
+          <div class="form-floating" :class="{ 'was-validated': !form_valid }">
+            <input type="text" class="form-control" id="roomTitle" placeholder="Введите название..." v-model="title" required />
             <label for="roomTitle">Название</label>
+            <div class="invalid-feedback">
+              Введите название комнаты
+            </div>
           </div>
         </div>
 
@@ -39,6 +42,7 @@ let create_room_modal_value: Modal | null = null;
 
 const room_model = useRoomModel()
 const title: Ref<string> = ref("")
+const form_valid: Ref<boolean> = ref(true)
 
 onMounted(() => {
   if (create_room_modal_ref.value instanceof HTMLDivElement) {
@@ -49,6 +53,9 @@ onMounted(() => {
 });
 
 function openCreateRoomModal(event: Event) {
+  form_valid.value = true;
+  title.value = ""
+
   event.preventDefault();
 
   if (create_room_modal_value) {
@@ -60,11 +67,15 @@ function closeCreateRoomModal() {
   if (create_room_modal_value) {
     create_room_modal_value.hide();
   }
-
-  title.value = ""
 }
 
 async function createRoom() {
+  if (!title.value.length) {
+    form_valid.value = false;
+
+    return;
+  }
+
   await room_model.create({ title: title.value })
 
   closeCreateRoomModal()

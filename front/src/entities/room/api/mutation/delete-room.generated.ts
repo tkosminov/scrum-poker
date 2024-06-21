@@ -7,7 +7,7 @@ export type RoomDeleteMutationVariables = Types.Exact<{
 }>;
 
 
-export type RoomDeleteMutation = { roomDelete: { id: string, title: string | null, created_at: any } };
+export type RoomDeleteMutation = { roomDelete: { id: string, title: string, created_at: any } };
 
 
 export const RoomDelete = gql`
