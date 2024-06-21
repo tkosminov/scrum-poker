@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-dark" @click="openUpdateTaskModal">
+  <button type="button" class="btn btn-dark w-100" @click="openUpdateTaskModal">
     <i class="bi bi-pencil"></i>
   </button>
 

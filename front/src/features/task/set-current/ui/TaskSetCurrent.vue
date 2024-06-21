@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="btn"
+    class="btn w-100"
     :class="{ 'btn-dark': is_current, 'btn-outline-dark': !is_current }"
     @click="setCurrentTask"
   >

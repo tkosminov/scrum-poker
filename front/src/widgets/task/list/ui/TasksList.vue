@@ -4,7 +4,7 @@
     v-for="task in tasks"
     :key="`${task.id}_${task.title}`"
   >
-    <div class="col-12 mb-2 p-0">
+    <div class="col-12 mb-2">
       <TaskCardWidget :task="task"/>
     </div>
   </div>

@@ -41,6 +41,12 @@ export const useRoomModel = defineStore({
     deleted_id$: new BehaviorSubject(''),
   }),
   actions: {
+    clearState() {
+      this.loading = false;
+      this.loading_error = undefined;
+      this.rooms = [];
+      this.current_room = undefined;
+    },
     async fetchRooms() {
       this.loading = true;
       this.loading_error = undefined;

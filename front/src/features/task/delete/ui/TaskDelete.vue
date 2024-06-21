@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-dark" @click="openDeleteTaskModal">
+  <button type="button" class="btn btn-dark w-100" @click="openDeleteTaskModal">
     <i class="bi bi-trash"></i>
   </button>
 

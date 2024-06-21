@@ -45,6 +45,8 @@ onBeforeMount(async () => {
     is_current: true
   }]);
 
+  room_model.clearState()
+
   room_model.createSubscribe()
   room_model.updateSubscribe({ channel_id: null })
   room_model.deleteSubscribe({ channel_id: null })

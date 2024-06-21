@@ -1,6 +1,8 @@
 <template>
   <div class="row">
-    {{ task_model.current_task?.title }}
+    <div class="col-12">
+      <h4>{{ task_model.current_task?.title }}</h4>
+    </div>
   </div>
 </template>
 

@@ -50,6 +50,13 @@ export const useTaskModel = defineStore({
     deleted_id$: new BehaviorSubject(''),
   }),
   actions: {
+    clearState() {
+      this.loading = false;
+      this.loading_error = undefined;
+      this.tasks = [];
+      this.current_task_id = undefined;
+      this.current_task = undefined;
+    },
     initCurrentTask(task_id?: string | null) {
       if (task_id) {
         this.current_task_id = task_id;

@@ -7,16 +7,22 @@
 
   <div class="row">
     <div class="col-xs-12 col-sm-4">
-      1
+      <CHr title="Пользователи" />
     </div>
 
     <div class="col-xs-12 col-sm-4">
+      <CHr title="Текущая задача" />
+
       <TaskCurrentWidget />
     </div>
 
     <div class="col-xs-12 col-sm-4">
+      <CHr title="Список задач" />
+
       <div class="row mb-2">
-        <TaskCreateFeature />
+        <div class="col-12">
+          <TaskCreateFeature />
+        </div>
       </div>
 
       <TasksListWidget />
@@ -29,7 +35,7 @@ import { onBeforeMount, onBeforeUnmount } from 'vue';
 import { router } from '@/app/providers';
 import { useRoomModel, useTaskModel } from '@/entities';
 import { RoomInfoWidget, TasksListWidget, TaskCurrentWidget } from '@/widgets'
-import { CPreloader, useBreadcrumbModel } from '@/shared'
+import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
 import { TaskCreateFeature } from '@/features'
 
 const props = defineProps<{ id: string }>();
@@ -38,6 +44,9 @@ const task_model = useTaskModel()
 const breadcrumb_model = useBreadcrumbModel()
 
 onBeforeMount(async () => {
+  room_model.clearState();
+  task_model.clearState();
+
   room_model.updateSubscribe({ channel_id: props.id });
   room_model.deleteSubscribe({ channel_id: props.id });
 
