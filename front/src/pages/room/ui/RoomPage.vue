@@ -11,7 +11,7 @@
     </div>
 
     <div class="col-xs-12 col-sm-4">
-      2
+      <TaskCurrentWidget />
     </div>
 
     <div class="col-xs-12 col-sm-4">
@@ -28,7 +28,7 @@
 import { onBeforeMount, onBeforeUnmount } from 'vue';
 import { router } from '@/app/providers';
 import { useRoomModel, useTaskModel } from '@/entities';
-import { RoomInfoWidget, TasksListWidget } from '@/widgets'
+import { RoomInfoWidget, TasksListWidget, TaskCurrentWidget } from '@/widgets'
 import { CPreloader, useBreadcrumbModel } from '@/shared'
 import { TaskCreateFeature } from '@/features'
 
@@ -64,6 +64,8 @@ room_model.deleted_id$.subscribe((value) => {
 
 room_model.$subscribe((_mutation, state) => {
   if (state.current_room) {
+    task_model.initCurrentTask(state.current_room.current_task_id)
+
     breadcrumb_model.set([
       {
         name: 'Комнаты',

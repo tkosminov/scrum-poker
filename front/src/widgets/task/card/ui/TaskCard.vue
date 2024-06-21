@@ -6,10 +6,7 @@
 
     <div class="card-body">
       <div class="d-flex justify-content-start gap-1">
-        <button type="button" class="btn btn-dark">
-          <i class="bi bi-hand-index"></i>
-        </button>
-  
+        <TaskSetCurrentFeature :task="props.task" />
         <TaskUpdateFeature :task="props.task" />
         <TaskDeleteFeature :task="props.task" />
       </div>
@@ -19,7 +16,7 @@
 
 <script setup lang="ts">
 import { TasksQuery } from '@/entities';
-import { TaskUpdateFeature, TaskDeleteFeature } from '@/features';
+import { TaskUpdateFeature, TaskDeleteFeature, TaskSetCurrentFeature } from '@/features';
 
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
 </script>

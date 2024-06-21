@@ -26,8 +26,6 @@ export class TaskService {
       raw: [task],
     }: { raw: [Task] } = await this.task_repository.createQueryBuilder().insert().values(data).returning('*').execute();
 
-    await this.room_repository.update(task.room_id, { current_task_id: task.id });
-
     return task;
   }
 

@@ -33,6 +33,7 @@ interface IState {
   loading_error: string | undefined;
   stoppers: Array<() => void>;
   tasks: TasksQuery['tasks'];
+  current_task_id: string | undefined;
   current_task: TasksQuery['tasks'][0] | undefined;
   deleted_id$: BehaviorSubject<string>;
 }
@@ -44,10 +45,26 @@ export const useTaskModel = defineStore({
     loading: false,
     loading_error: undefined,
     tasks: [],
+    current_task_id: undefined,
     current_task: undefined,
     deleted_id$: new BehaviorSubject(''),
   }),
   actions: {
+    initCurrentTask(task_id?: string | null) {
+      if (task_id) {
+        this.current_task_id = task_id;
+      }
+
+      if (!this.current_task_id) {
+        return;
+      }
+
+      const idx = this.tasks.findIndex((r) => r.id === this.current_task_id);
+
+      if (idx !== -1) {
+        this.current_task = this.tasks[idx];
+      }
+    },
     async fetchTasks(variables: TasksQueryVariables) {
       this.loading = true;
       this.loading_error = undefined;
@@ -63,6 +80,9 @@ export const useTaskModel = defineStore({
 
           if (!value) {
             this.tasks = response.value;
+
+            this.initCurrentTask();
+
             this.loading_error = error.value?.message;
           }
         },
@@ -251,11 +271,7 @@ export const useTaskModel = defineStore({
       this.stoppers.push(stop);
 
       onResult(({ data }) => {
-        const idx = this.tasks.findIndex((r) => r.id === data!.taskSetCurrentEvent.id);
-
-        if (idx !== -1) {
-          this.current_task = this.tasks[idx];
-        }
+        this.initCurrentTask(data!.taskSetCurrentEvent.id);
       });
 
       onError((error) => {

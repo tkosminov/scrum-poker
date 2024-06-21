@@ -1,5 +1,6 @@
 import TaskCreateFeature from './create';
 import TaskUpdateFeature from './update';
 import TaskDeleteFeature from './delete';
+import TaskSetCurrentFeature from './set-current';
 
-export { TaskCreateFeature, TaskUpdateFeature, TaskDeleteFeature };
+export { TaskCreateFeature, TaskUpdateFeature, TaskDeleteFeature, TaskSetCurrentFeature };
