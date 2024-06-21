@@ -14,7 +14,7 @@
 import { Ref, ref } from "vue";
 import { useToast } from "vue-toastification";
 
-import { CurrentRoomQuery } from '../../api';
+import { CurrentRoomQuery } from '@/entities';
 
 const props = defineProps<{ room: CurrentRoomQuery['rooms'][0] }>();
 const toast = useToast();

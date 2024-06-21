@@ -8,8 +8,6 @@
           {{ props.room.title }}
         </router-link>
       </h4>
-
-      <h6 class="card-subtitle mb-2 text-body-secondary">{{ props.room.id }}</h6>
     </div>
   </div>
 </template>

@@ -9,7 +9,7 @@
 
       <div class="col-12 col-sm-4 col-md-4 col-lg-4">
         <div class="d-flex justify-content-center gap-1">
-          <RoomCardLink :room="room" />
+          <RoomCopyLinkFeature :room="room" />
           <RoomUpdateFeature :room="room" />
           <RoomDeleteFeature :room="room" />
         </div>
@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRoomModel, CurrentRoomQuery, RoomCardDetail, RoomCardLink } from '@/entities';
-import { RoomDeleteFeature, RoomUpdateFeature } from '@/features';
+import { useRoomModel, CurrentRoomQuery, RoomCardDetail } from '@/entities';
+import { RoomDeleteFeature, RoomUpdateFeature, RoomCopyLinkFeature } from '@/features';
 
 import { Ref, ref } from 'vue';
 

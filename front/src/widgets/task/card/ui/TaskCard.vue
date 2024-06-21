@@ -7,7 +7,7 @@
     <div class="card-body">
       <div class="d-flex justify-content-start gap-1">
         <button type="button" class="btn btn-dark">
-          <i class="bi bi-check2-circle"></i>
+          <i class="bi bi-hand-index"></i>
         </button>
   
         <TaskUpdateFeature :task="props.task" />
