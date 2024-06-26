@@ -10,6 +10,6 @@ const repositories = TypeOrmModule.forFeature([RoomUser]);
 @Module({
   imports: [repositories],
   providers: [RoomUserResolver, RoomUserService],
-  exports: [repositories],
+  exports: [repositories, RoomUserService],
 })
 export class RoomUserModule {}

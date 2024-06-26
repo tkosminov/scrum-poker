@@ -4,7 +4,7 @@ import { Args, Context, GraphQLExecutionContext, ID, Resolver, Subscription } fr
 import { ELoaderType, Filter, Loader, Mutation, Order, Pagination, Query } from 'nestjs-graphql-easy';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 
-import { GRAPHQL_SUBSCRIPTION } from '../../graphql/graphql.options';
+import { GRAPHQL_SUBSCRIPTION } from '../../graphql-pub-sub/graphql-pub-sub.module';
 import { CurrentUserGql } from '../../oauth/oauth.decorator';
 
 import { Vote } from './vote.entity';

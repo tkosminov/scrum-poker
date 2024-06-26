@@ -5,7 +5,7 @@ import { Query, ELoaderType, Loader, Filter, Order, Pagination, ResolveField, Mu
 import { DataSource } from 'typeorm';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 
-import { GRAPHQL_SUBSCRIPTION } from '../../graphql/graphql.options';
+import { GRAPHQL_SUBSCRIPTION } from '../../graphql-pub-sub/graphql-pub-sub.module';
 import { Vote } from '../vote/vote.entity';
 
 import { Task } from './task.entity';

@@ -12,17 +12,16 @@ import { IncomingMessage } from 'http';
 import { verify } from 'jsonwebtoken';
 
 import { getCookie } from '../helpers/req.helper';
-// import { EExceptionType, authorizationFailed, jwtTokenExpiredSignature, unauthorized } from '../helpers/errors.helper';
 import { LoggerStore } from '../logger/logger.store';
 import { LoggerService } from '../logger/logger.service';
-
-export const GRAPHQL_SUBSCRIPTION = 'GRAPHQL_SUBSCRIPTION';
+import { RoomUserService } from '../models/room-user/room-user.service';
 
 @Injectable()
 export class GraphQLOptions implements GqlOptionsFactory {
   constructor(
     private readonly dataSource: DataSource,
-    private readonly loggerService: LoggerService
+    private readonly loggerService: LoggerService,
+    private readonly roomUserService: RoomUserService
   ) {
     setDataSource(this.dataSource);
   }
@@ -46,7 +45,6 @@ export class GraphQLOptions implements GqlOptionsFactory {
                 const payload = verify(access_token, process.env.JWT_SECRET) as IJwtPayload;
 
                 if (!payload.token_type || payload.token_type !== 'access') {
-                  // throw authorizationFailed(EExceptionType.COMMON);
                   return false;
                 }
 
@@ -55,13 +53,21 @@ export class GraphQLOptions implements GqlOptionsFactory {
 
                 return true;
               } catch (e) {
-                // throw jwtTokenExpiredSignature(EExceptionType.COMMON);
                 return false;
               }
             }
 
             return false;
-            // throw unauthorized(EExceptionType.COMMON);
+          },
+          onDisconnect: async (
+            ctx: Context<
+              ConnectionInitMessage['payload'],
+              { request: IncomingMessage & { logger_store: LoggerStore; current_user: IJwtPayload } }
+            >
+          ) => {
+            if (ctx.extra.request.current_user) {
+              await this.roomUserService.onDisconnect(ctx.extra.request.current_user);
+            }
           },
         },
         'subscriptions-transport-ws': false,

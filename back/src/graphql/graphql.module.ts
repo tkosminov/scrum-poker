@@ -1,13 +1,9 @@
 import { GraphQLModule as NestJSGraphQLModule } from '@nestjs/graphql';
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { YogaDriverConfig, YogaDriver } from '@graphql-yoga/nestjs';
-import { RedisPubSub } from 'graphql-redis-subscriptions';
 
-import { REDIS_SUB, REDIS_PUB } from '../redis/redis.providers';
+import { GraphQLOptions } from './graphql.options';
 
-import { GRAPHQL_SUBSCRIPTION, GraphQLOptions } from './graphql.options';
-
-@Global()
 @Module({
   imports: [
     NestJSGraphQLModule.forRootAsync<YogaDriverConfig>({
@@ -17,16 +13,6 @@ import { GRAPHQL_SUBSCRIPTION, GraphQLOptions } from './graphql.options';
       driver: YogaDriver,
     }),
   ],
-  providers: [
-    {
-      provide: GRAPHQL_SUBSCRIPTION,
-      useFactory: () =>
-        new RedisPubSub({
-          publisher: REDIS_PUB,
-          subscriber: REDIS_SUB,
-        }),
-    },
-  ],
-  exports: [GRAPHQL_SUBSCRIPTION],
+  exports: [],
 })
 export class GraphQLModule {}

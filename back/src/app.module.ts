@@ -7,12 +7,13 @@ import { HealthzModule } from './healthz/healthz.module';
 import { LoggerModule } from './logger/logger.module';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { ModelsModule } from './models/models.module';
+import { GraphQLPubSubModule } from './graphql-pub-sub/graphql-pub-sub.module';
 import { GraphQLModule } from './graphql/graphql.module';
 import { OAuthModule } from './oauth/oauth.module';
 import { OAuthMiddleware } from './oauth/oauth.middleware';
 
 @Module({
-  imports: [LoggerModule, HealthzModule, DatabaseModule, ModelsModule, GraphQLModule, OAuthModule],
+  imports: [LoggerModule, HealthzModule, DatabaseModule, ModelsModule, GraphQLPubSubModule, GraphQLModule, OAuthModule],
   controllers: [],
   providers: [],
 })

@@ -1,10 +1,10 @@
 import { Inject } from '@nestjs/common';
-import { Args, Context, GraphQLExecutionContext, ID, Parent, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Context, GraphQLExecutionContext, ID, Resolver, Subscription } from '@nestjs/graphql';
 
-import { Query, ELoaderType, Loader, Filter, Order, Pagination, ResolveField, Mutation } from 'nestjs-graphql-easy';
+import { Query, ELoaderType, Loader, Filter, Order, Pagination, Mutation } from 'nestjs-graphql-easy';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 
-import { GRAPHQL_SUBSCRIPTION } from '../../graphql/graphql.options';
+import { GRAPHQL_SUBSCRIPTION } from '../../graphql-pub-sub/graphql-pub-sub.module';
 
 import { Room } from './room.entity';
 import { RoomService } from './room.service';
