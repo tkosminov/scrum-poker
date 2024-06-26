@@ -1,12 +1,16 @@
 import { mutation } from '@/shared/api';
-import { TaskCreateMutationVariables, TaskCreateMutation, TaskCreate } from './create-task.generated';
-import { TaskUpdateMutationVariables, TaskUpdateMutation, TaskUpdate } from './update-task.generated';
-import { TaskDeleteMutationVariables, TaskDeleteMutation, TaskDelete } from './delete-task.generated';
-import { TaskSetCurrentMutationVariables, TaskSetCurrentMutation, TaskSetCurrent } from './set-current-task.generated';
+import { TaskCreate, type TaskCreateMutation, type TaskCreateMutationVariables } from './create-task.generated';
+import { TaskUpdate, type TaskUpdateMutation, type TaskUpdateMutationVariables } from './update-task.generated';
+import { TaskDelete, type TaskDeleteMutation, type TaskDeleteMutationVariables } from './delete-task.generated';
 import {
-  TaskChangeStatusMutationVariables,
-  TaskChangeStatusMutation,
+  TaskSetCurrent,
+  type TaskSetCurrentMutation,
+  type TaskSetCurrentMutationVariables,
+} from './set-current-task.generated';
+import {
   TaskChangeStatus,
+  type TaskChangeStatusMutation,
+  type TaskChangeStatusMutationVariables,
 } from './change-status-task.generated';
 
 export async function taskCreate(variables: TaskCreateMutationVariables) {

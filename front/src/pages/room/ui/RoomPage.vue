@@ -31,21 +31,32 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, onBeforeUnmount } from 'vue';
+import { Ref, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { router } from '@/app/providers';
-import { useRoomModel, useTaskModel } from '@/entities';
+import { useRoomModel, useTaskModel, useRoomUserModel, useUserModel } from '@/entities';
 import { RoomInfoWidget, TasksListWidget, TaskCurrentWidget } from '@/widgets'
 import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
 import { TaskCreateFeature } from '@/features'
 
 const props = defineProps<{ id: string }>();
+const user_model = useUserModel()
 const room_model = useRoomModel()
 const task_model = useTaskModel()
+const room_user_model = useRoomUserModel()
 const breadcrumb_model = useBreadcrumbModel()
+
+const send_leave_event: Ref<boolean> = ref(true);
 
 onBeforeMount(async () => {
   room_model.clearState();
   task_model.clearState();
+  room_user_model.clearState();
+
+  await room_user_model.roomUserJoin({ room_id: props.id })
+
+  await room_model.fetchCurrentRoom({ id: props.id });
+  await task_model.fetchTasks({ room_id: props.id })
+  await room_user_model.fetchRoomUsers({ room_id: props.id })
 
   room_model.updateSubscribe({ channel_id: props.id });
   room_model.deleteSubscribe({ channel_id: props.id });
@@ -56,17 +67,32 @@ onBeforeMount(async () => {
   task_model.setCurrentSubscribe({ channel_id: props.id });
   task_model.changeStatusSubscribe({ channel_id: props.id });
 
-  await room_model.fetchCurrentRoom({ id: props.id });
-  await task_model.fetchTasks({ room_id: props.id })
+  room_user_model.roomUserJoinSubscribe({ channel_id: props.id })
+  room_user_model.roomUserLeaveSubscribe({ channel_id: props.id })
 })
 
-onBeforeUnmount(() => {
+onBeforeUnmount(async () => {
   room_model.unsubscribe()
   task_model.unsubscribe()
+  room_user_model.unsubscribe()
+
+  if (send_leave_event.value) {
+    await room_user_model.roomUserLeave({ room_id: props.id })
+  }
 })
 
 room_model.deleted_id$.subscribe((value) => {
   if (value === props.id) {
+    send_leave_event.value = false;
+
+    router.push({ name: 'rooms' })
+  }
+})
+
+room_user_model.deleted_id$.subscribe((value) => {
+  if (value === user_model.current_user?.id) {
+    send_leave_event.value = false;
+
     router.push({ name: 'rooms' })
   }
 })

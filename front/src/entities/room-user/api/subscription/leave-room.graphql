@@ -1,0 +1,6 @@
+subscription RoomUserLeaveEvent($channel_id: ID!) {
+  roomUserLeaveEvent(channel_id: $channel_id) {
+    id
+    user_id
+  }
+}

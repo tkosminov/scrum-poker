@@ -1,5 +1,5 @@
-import CPreloader from './preloader/CPreloader.vue';
-import CNavbar from './navbar/CNavbar.vue';
-import CHr from './hr/CHr.vue';
+import CPreloader from './preloader';
+import CNavbar from './navbar';
+import CHr from './hr';
 
 export { CPreloader, CNavbar, CHr };

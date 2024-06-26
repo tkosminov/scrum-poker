@@ -1,7 +1,7 @@
 import { mutation } from '@/shared/api';
-import { RoomCreateMutation, RoomCreate, RoomCreateMutationVariables } from './create-room.generated';
-import { RoomUpdateMutationVariables, RoomUpdateMutation, RoomUpdate } from './update-room.generated';
-import { RoomDeleteMutationVariables, RoomDeleteMutation, RoomDelete } from './delete-room.generated';
+import { RoomCreate, type RoomCreateMutation, type RoomCreateMutationVariables } from './create-room.generated';
+import { RoomUpdate, type RoomUpdateMutation, type RoomUpdateMutationVariables } from './update-room.generated';
+import { RoomDelete, type RoomDeleteMutation, type RoomDeleteMutationVariables } from './delete-room.generated';
 
 export async function roomCreate(variables: RoomCreateMutationVariables) {
   return mutation<RoomCreateMutation>(RoomCreate, variables);

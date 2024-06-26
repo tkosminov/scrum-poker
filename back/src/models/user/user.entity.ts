@@ -17,11 +17,11 @@ import { RoomUser } from '../room-user/room-user.entity';
 @ObjectType()
 @Entity()
 export class User {
-  @Field(() => ID, { filterable: true, sortable: true })
+  @Field(() => ID, { filterable: true, sortable: true, nullable: false })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field(() => DateTimeISOResolver, { sortable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, nullable: false })
   @CreateDateColumn({
     type: 'timestamp without time zone',
     precision: 3,
@@ -29,7 +29,7 @@ export class User {
   })
   public created_at: Date;
 
-  @Field(() => DateTimeISOResolver, { sortable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, nullable: false })
   @UpdateDateColumn({
     type: 'timestamp without time zone',
     precision: 3,
@@ -41,7 +41,7 @@ export class User {
    * ! info
    */
 
-  @Field(() => String, { filterable: true, sortable: true })
+  @Field(() => String, { filterable: true, sortable: true, nullable: false })
   @Index()
   @Column('character varying', { nullable: false })
   public name: string;

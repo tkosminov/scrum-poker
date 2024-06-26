@@ -1,7 +1,7 @@
 import { query } from '@/shared/api';
 
-import { Rooms, RoomsQuery, RoomsQueryVariables } from './rooms.generated';
-import { CurrentRoom, CurrentRoomQuery, CurrentRoomQueryVariables } from './current-room.generated';
+import { Rooms, type RoomsQuery, type RoomsQueryVariables } from './rooms.generated';
+import { CurrentRoom, type CurrentRoomQuery, type CurrentRoomQueryVariables } from './current-room.generated';
 
 export function rooms(variables: RoomsQueryVariables) {
   return query<RoomsQuery>(Rooms, variables);

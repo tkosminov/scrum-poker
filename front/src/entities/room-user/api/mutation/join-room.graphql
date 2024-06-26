@@ -1,0 +1,5 @@
+mutation RoomUserJoin($room_id: ID!) {
+  roomUserJoin(data: {room_id: $room_id}) {
+    id
+  }
+}

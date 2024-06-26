@@ -22,7 +22,7 @@ export class Room {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field(() => DateTimeISOResolver, { sortable: true, filterable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, filterable: true, nullable: false })
   @Index()
   @CreateDateColumn({
     type: 'timestamp without time zone',
@@ -31,7 +31,7 @@ export class Room {
   })
   public created_at: Date;
 
-  @Field(() => DateTimeISOResolver, { sortable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, nullable: false })
   @UpdateDateColumn({
     type: 'timestamp without time zone',
     precision: 3,
@@ -43,7 +43,7 @@ export class Room {
    * ! info
    */
 
-  @Field(() => String, { filterable: true, sortable: true })
+  @Field(() => String, { filterable: true, sortable: true, nullable: false })
   @Index()
   @Column('character varying', { nullable: false })
   public title: string;

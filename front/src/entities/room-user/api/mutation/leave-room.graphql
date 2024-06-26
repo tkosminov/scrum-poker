@@ -1,0 +1,5 @@
+mutation RoomUserLeave($room_id: ID!) {
+  roomUserLeave(data: {room_id: $room_id}) {
+    id
+  }
+}

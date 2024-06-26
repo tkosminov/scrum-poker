@@ -29,11 +29,11 @@ registerEnumType(EVotingStatusId, {
 @ObjectType()
 @Entity()
 export class Task {
-  @Field(() => ID, { filterable: true, sortable: true })
+  @Field(() => ID, { filterable: true, sortable: true, nullable: false })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field(() => DateTimeISOResolver, { sortable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, nullable: false })
   @CreateDateColumn({
     type: 'timestamp without time zone',
     precision: 3,
@@ -41,7 +41,7 @@ export class Task {
   })
   public created_at: Date;
 
-  @Field(() => DateTimeISOResolver, { sortable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, nullable: false })
   @UpdateDateColumn({
     type: 'timestamp without time zone',
     precision: 3,
@@ -53,12 +53,12 @@ export class Task {
    * ! Info
    */
 
-  @Field(() => String, { filterable: true, sortable: true })
+  @Field(() => String, { filterable: true, sortable: true, nullable: false })
   @Index()
   @Column('character varying', { nullable: false })
   public title: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: false })
   @Index()
   @Column('enum', { enum: EVotingStatusId, nullable: false, default: EVotingStatusId.NOT_STARTED })
   public voting_status_id: EVotingStatusId;
@@ -75,7 +75,7 @@ export class Task {
    * ! relations
    */
 
-  @Field(() => ID, { filterable: true, sortable: true })
+  @Field(() => ID, { filterable: true, sortable: true, nullable: false })
   @Index()
   @Column('uuid', { nullable: false })
   public room_id: string;

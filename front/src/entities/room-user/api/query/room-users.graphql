@@ -1,0 +1,9 @@
+query RoomUsers($room_id: ID!) {
+  roomUsers(WHERE: {room_id: {EQ: $room_id}, connected: {EQ: true}}) {
+    id
+    connected
+    user {
+      name
+    }
+  }
+}

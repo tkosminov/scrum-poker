@@ -4,21 +4,21 @@ import { BehaviorSubject } from 'rxjs';
 
 import {
   rooms,
-  RoomsQuery,
+  type RoomsQuery,
   currentRoom,
-  CurrentRoomQuery,
-  CurrentRoomQueryVariables,
+  type CurrentRoomQuery,
+  type CurrentRoomQueryVariables,
   roomCreate,
-  RoomCreateMutationVariables,
+  type RoomCreateMutationVariables,
   roomUpdate,
-  RoomUpdateMutationVariables,
+  type RoomUpdateMutationVariables,
   roomDelete,
-  RoomDeleteMutationVariables,
+  type RoomDeleteMutationVariables,
   roomCreateEvent,
   roomDeleteEvent,
-  RoomDeleteEventSubscriptionVariables,
+  type RoomDeleteEventSubscriptionVariables,
   roomUpdateEvent,
-  RoomUpdateEventSubscriptionVariables,
+  type RoomUpdateEventSubscriptionVariables,
 } from '../api';
 
 interface IState {

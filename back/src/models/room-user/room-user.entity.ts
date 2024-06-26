@@ -20,11 +20,11 @@ import { Vote } from '../vote/vote.entity';
 @Entity()
 @Index(['user_id', 'room_id'], { unique: true })
 export class RoomUser {
-  @Field(() => ID, { filterable: true, sortable: true })
+  @Field(() => ID, { filterable: true, sortable: true, nullable: false })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field(() => DateTimeISOResolver, { sortable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, nullable: false })
   @CreateDateColumn({
     type: 'timestamp without time zone',
     precision: 3,
@@ -32,7 +32,7 @@ export class RoomUser {
   })
   public created_at: Date;
 
-  @Field(() => DateTimeISOResolver, { sortable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, nullable: false })
   @UpdateDateColumn({
     type: 'timestamp without time zone',
     precision: 3,
@@ -53,7 +53,7 @@ export class RoomUser {
    * ! relations
    */
 
-  @Field(() => ID, { filterable: true, sortable: true })
+  @Field(() => ID, { filterable: true, sortable: true, nullable: false })
   @Index()
   @Column('uuid', { nullable: false })
   public room_id: string;
@@ -62,7 +62,7 @@ export class RoomUser {
   @JoinColumn({ name: 'room_id' })
   public room: Room;
 
-  @Field(() => ID, { filterable: true, sortable: true })
+  @Field(() => ID, { filterable: true, sortable: true, nullable: false })
   @Index()
   @Column('uuid', { nullable: false })
   public user_id: string;

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-
-import { existsRefreshToken } from '@/shared/api';
+import { existsRefreshToken } from '@/shared';
 
 import { routes } from './routes';
 

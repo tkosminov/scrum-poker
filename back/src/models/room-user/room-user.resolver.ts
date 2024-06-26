@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { Args, Context, GraphQLExecutionContext, ID, Parent, Resolver, Subscription } from '@nestjs/graphql';
 
-import { ELoaderType, Loader, Mutation, ResolveField } from 'nestjs-graphql-easy';
+import { ELoaderType, Filter, Loader, Mutation, Order, Query, ResolveField } from 'nestjs-graphql-easy';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 
 import { GRAPHQL_SUBSCRIPTION } from '../../graphql/graphql.options';
@@ -18,6 +18,22 @@ export class RoomUserResolver {
     private readonly roomUserService: RoomUserService,
     @Inject(GRAPHQL_SUBSCRIPTION) private readonly pubSub: RedisPubSub
   ) {}
+
+  @Query(() => [RoomUser])
+  protected async roomUsers(
+    @Loader({
+      loader_type: ELoaderType.MANY,
+      field_name: 'roomUsers',
+      entity: () => RoomUser,
+      entity_fk_key: 'id',
+    })
+    field_alias: string,
+    @Filter(() => RoomUser) _filter: unknown,
+    @Order(() => RoomUser) _order: unknown,
+    @Context() ctx: GraphQLExecutionContext
+  ) {
+    return await ctx[field_alias];
+  }
 
   @ResolveField(() => User, { nullable: false })
   protected async user(
@@ -39,6 +55,8 @@ export class RoomUserResolver {
     const room_user = await this.roomUserService.join(current_user, data);
 
     this.pubSub.publish('roomUserJoinEvent', { roomUserJoinEvent: room_user, channel_ids: [room_user.room_id] });
+
+    return room_user;
   }
 
   @Subscription(() => RoomUser, {
@@ -55,6 +73,8 @@ export class RoomUserResolver {
     const room_user = await this.roomUserService.leave(current_user, data);
 
     this.pubSub.publish('roomUserLeaveEvent', { roomUserLeaveEvent: room_user, channel_ids: [room_user.room_id] });
+
+    return room_user;
   }
 
   @Subscription(() => RoomUser, {

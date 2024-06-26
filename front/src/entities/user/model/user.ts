@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { computed, watch } from 'vue';
-import { AxiosError } from 'axios';
 
 import {
   setAccessToken,
@@ -13,11 +12,11 @@ import {
 
 import {
   currentUser,
-  CurrentUserQuery,
-  refreshToken,
-  signIn,
+  type CurrentUserQuery,
   userUpdate,
-  UserUpdateMutationVariables,
+  type UserUpdateMutationVariables,
+  signIn,
+  refreshToken,
   type ISignInResponse,
 } from '../api';
 

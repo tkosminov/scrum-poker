@@ -2,28 +2,28 @@ import { subscription } from '@/shared/api';
 
 import {
   TaskCreateEvent,
-  TaskCreateEventSubscription,
-  TaskCreateEventSubscriptionVariables,
+  type TaskCreateEventSubscription,
+  type TaskCreateEventSubscriptionVariables,
 } from './create-task.generated';
 import {
   TaskUpdateEvent,
-  TaskUpdateEventSubscription,
-  TaskUpdateEventSubscriptionVariables,
+  type TaskUpdateEventSubscription,
+  type TaskUpdateEventSubscriptionVariables,
 } from './update-task.generated';
 import {
   TaskDeleteEvent,
-  TaskDeleteEventSubscription,
-  TaskDeleteEventSubscriptionVariables,
+  type TaskDeleteEventSubscription,
+  type TaskDeleteEventSubscriptionVariables,
 } from './delete-task.generated';
 import {
   TaskSetCurrentEvent,
-  TaskSetCurrentEventSubscription,
-  TaskSetCurrentEventSubscriptionVariables,
+  type TaskSetCurrentEventSubscription,
+  type TaskSetCurrentEventSubscriptionVariables,
 } from './set-current-task.generated';
 import {
   TaskChangeStatusEvent,
-  TaskChangeStatusEventSubscription,
-  TaskChangeStatusEventSubscriptionVariables,
+  type TaskChangeStatusEventSubscription,
+  type TaskChangeStatusEventSubscriptionVariables,
 } from './change-status-task.generated';
 
 export function taskCreateEvent(variables: TaskCreateEventSubscriptionVariables) {

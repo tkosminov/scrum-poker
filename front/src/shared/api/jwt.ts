@@ -1,5 +1,3 @@
-import { jwtDecode } from "jwt-decode";
-
 import { getCookie, setCookie } from './cookie';
 
 export function getAccessToken() {

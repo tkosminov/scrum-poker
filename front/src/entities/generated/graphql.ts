@@ -158,10 +158,17 @@ export interface PaginationInputType {
 export interface Query {
   __typename?: 'Query';
   currentUser: User;
+  roomUsers: Array<RoomUser>;
   rooms: Array<Room>;
   tasks: Array<Task>;
   users: Array<User>;
   votes: Array<Vote>;
+}
+
+
+export interface QueryRoomUsersArgs {
+  ORDER: InputMaybe<RoomUser_OrderInputType>;
+  WHERE: InputMaybe<RoomUser_FilterInputType>;
 }
 
 
@@ -197,22 +204,8 @@ export interface Room {
   created_at: Scalars['DateTimeISO']['output'];
   current_task_id: Maybe<Scalars['ID']['output']>;
   id: Scalars['ID']['output'];
-  room_users: Maybe<Array<RoomUser>>;
-  tasks: Maybe<Array<Task>>;
   title: Scalars['String']['output'];
   updated_at: Scalars['DateTimeISO']['output'];
-}
-
-
-export interface RoomRoom_UsersArgs {
-  ORDER: InputMaybe<RoomUser_OrderInputType>;
-  WHERE: InputMaybe<RoomUser_FilterInputType>;
-}
-
-
-export interface RoomTasksArgs {
-  ORDER: InputMaybe<Task_OrderInputType>;
-  WHERE: InputMaybe<Task_FilterInputType>;
 }
 
 export interface RoomCreateDto {

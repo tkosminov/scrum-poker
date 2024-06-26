@@ -38,11 +38,11 @@ registerEnumType(EVotePoint, {
 @Entity()
 @Index(['room_user_id', 'task_id'], { unique: true })
 export class Vote {
-  @Field(() => ID, { filterable: true, sortable: true })
+  @Field(() => ID, { filterable: true, sortable: true, nullable: false })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field(() => DateTimeISOResolver, { sortable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, nullable: false })
   @CreateDateColumn({
     type: 'timestamp without time zone',
     precision: 3,
@@ -50,7 +50,7 @@ export class Vote {
   })
   public created_at: Date;
 
-  @Field(() => DateTimeISOResolver, { sortable: true })
+  @Field(() => DateTimeISOResolver, { sortable: true, nullable: false })
   @UpdateDateColumn({
     type: 'timestamp without time zone',
     precision: 3,
@@ -62,7 +62,7 @@ export class Vote {
    * ! info
    */
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: false })
   @Column('integer', { nullable: false })
   public point: number;
 
@@ -70,7 +70,7 @@ export class Vote {
    * ! relations
    */
 
-  @Field(() => ID, { filterable: true, sortable: true })
+  @Field(() => ID, { filterable: true, sortable: true, nullable: false })
   @Index()
   @Column('uuid', { nullable: false })
   public room_user_id: string;
@@ -79,7 +79,7 @@ export class Vote {
   @JoinColumn({ name: 'room_user_id' })
   public room_user: RoomUser;
 
-  @Field(() => ID, { filterable: true, sortable: true })
+  @Field(() => ID, { filterable: true, sortable: true, nullable: false })
   @Index()
   @Column('uuid', { nullable: false })
   public task_id: string;

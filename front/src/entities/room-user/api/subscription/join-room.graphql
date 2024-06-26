@@ -1,0 +1,9 @@
+subscription RoomUserJoinEvent($channel_id: ID!) {
+  roomUserJoinEvent(channel_id: $channel_id) {
+    id
+    connected
+    user {
+      name
+    }
+  }
+}

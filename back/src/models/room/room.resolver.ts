@@ -7,8 +7,6 @@ import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { GRAPHQL_SUBSCRIPTION } from '../../graphql/graphql.options';
 
 import { Room } from './room.entity';
-import { Task } from '../task/task.entity';
-import { RoomUser } from '../room-user/room-user.entity';
 import { RoomService } from './room.service';
 import { RoomCreateDTO } from './mutation-input/create.dto';
 import { RoomUpdateDTO } from './mutation-input/update.dto';
@@ -36,40 +34,6 @@ export class RoomResolver {
     @Context() ctx: GraphQLExecutionContext
   ) {
     return await ctx[field_alias];
-  }
-
-  @ResolveField(() => [Task], { nullable: true })
-  protected async tasks(
-    @Parent() room: Room,
-    @Loader({
-      loader_type: ELoaderType.ONE_TO_MANY,
-      field_name: 'tasks',
-      entity: () => Task,
-      entity_fk_key: 'room_id',
-    })
-    field_alias: string,
-    @Filter(() => Task) _filter: unknown,
-    @Order(() => Task) _order: unknown,
-    @Context() ctx: GraphQLExecutionContext
-  ): Promise<Task[]> {
-    return await ctx[field_alias].load(room.id);
-  }
-
-  @ResolveField(() => [RoomUser], { nullable: true })
-  protected async room_users(
-    @Parent() room: Room,
-    @Loader({
-      loader_type: ELoaderType.ONE_TO_MANY,
-      field_name: 'room_users',
-      entity: () => RoomUser,
-      entity_fk_key: 'room_id',
-    })
-    field_alias: string,
-    @Filter(() => RoomUser) _filter: unknown,
-    @Order(() => RoomUser) _order: unknown,
-    @Context() ctx: GraphQLExecutionContext
-  ): Promise<RoomUser[]> {
-    return await ctx[field_alias].load(room.id);
   }
 
   @Mutation(() => Room)

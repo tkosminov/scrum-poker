@@ -2,18 +2,18 @@ import { subscription } from '@/shared/api';
 
 import {
   RoomCreateEvent,
-  RoomCreateEventSubscription,
-  RoomCreateEventSubscriptionVariables,
+  type RoomCreateEventSubscription,
+  type RoomCreateEventSubscriptionVariables,
 } from './create-room.generated';
 import {
   RoomUpdateEvent,
-  RoomUpdateEventSubscription,
-  RoomUpdateEventSubscriptionVariables,
+  type RoomUpdateEventSubscription,
+  type RoomUpdateEventSubscriptionVariables,
 } from './update-room.generated';
 import {
   RoomDeleteEvent,
-  RoomDeleteEventSubscription,
-  RoomDeleteEventSubscriptionVariables,
+  type RoomDeleteEventSubscription,
+  type RoomDeleteEventSubscriptionVariables,
 } from './delete-room.generated';
 
 export function roomCreateEvent(variables: RoomCreateEventSubscriptionVariables) {
