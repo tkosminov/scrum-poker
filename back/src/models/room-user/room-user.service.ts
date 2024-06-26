@@ -28,6 +28,8 @@ export class RoomUserService {
       where: { room_id: data.room_id, user_id: current_user.id },
     });
 
+    room_user.connected = false;
+
     await this.room_user_repository.update(room_user.id, { connected: false });
 
     return room_user;
