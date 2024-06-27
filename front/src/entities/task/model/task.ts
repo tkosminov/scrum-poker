@@ -56,6 +56,7 @@ export const useTaskModel = defineStore({
       this.tasks = [];
       this.current_task_id = undefined;
       this.current_task = undefined;
+      this.deleted_id$.next('');
     },
     initCurrentTask(task_id?: string | null) {
       if (task_id) {
@@ -266,6 +267,7 @@ export const useTaskModel = defineStore({
         }
 
         this.deleted_id$.next(data!.taskDeleteEvent.id);
+        this.deleted_id$.next('');
       });
 
       onError((error) => {

@@ -8,6 +8,8 @@
   <div class="row">
     <div class="col-xs-12 col-sm-4">
       <CHr title="Пользователи" />
+
+      <RoomUsersListWidget />
     </div>
 
     <div class="col-xs-12 col-sm-4">
@@ -34,7 +36,7 @@
 import { Ref, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { router } from '@/app/providers';
 import { useRoomModel, useTaskModel, useRoomUserModel, useUserModel } from '@/entities';
-import { RoomInfoWidget, TasksListWidget, TaskCurrentWidget } from '@/widgets'
+import { RoomInfoWidget, TasksListWidget, TaskCurrentWidget, RoomUsersListWidget } from '@/widgets'
 import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
 import { TaskCreateFeature } from '@/features'
 

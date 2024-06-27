@@ -38,6 +38,7 @@ export const useRoomUserModel = defineStore({
       this.loading = false;
       this.loading_error = undefined;
       this.room_users = [];
+      this.deleted_id$.next('');
     },
     async fetchRoomUsers(variables: RoomUsersQueryVariables) {
       this.loading = true;
@@ -122,7 +123,7 @@ export const useRoomUserModel = defineStore({
         const not_exists = this.room_users.findIndex((ru) => ru.id === data!.roomUserJoinEvent.id) === -1;
 
         if (not_exists) {
-          this.room_users.unshift(data!.roomUserJoinEvent as RoomUsersQuery['roomUsers'][0]);
+          this.room_users.push(data!.roomUserJoinEvent as RoomUsersQuery['roomUsers'][0]);
         }
       });
 
@@ -143,6 +144,7 @@ export const useRoomUserModel = defineStore({
         }
 
         this.deleted_id$.next(data!.roomUserLeaveEvent.user_id);
+        this.deleted_id$.next('');
       });
 
       onError((error) => {

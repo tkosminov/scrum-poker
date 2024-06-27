@@ -46,6 +46,7 @@ export const useRoomModel = defineStore({
       this.loading_error = undefined;
       this.rooms = [];
       this.current_room = undefined;
+      this.deleted_id$.next('');
     },
     async fetchRooms() {
       this.loading = true;
@@ -213,6 +214,7 @@ export const useRoomModel = defineStore({
         }
 
         this.deleted_id$.next(data!.roomDeleteEvent.id);
+        this.deleted_id$.next('');
       });
 
       onError((error) => {
