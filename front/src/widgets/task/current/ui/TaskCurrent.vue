@@ -32,16 +32,15 @@
 </template>
 
 <script setup lang="ts">
-import { useTaskModel, EVotingStatusId } from '@/entities';
+import { useTaskModel, EVotingStatusId, useRoomModel } from '@/entities';
 import { TaskChangeStatusFeature } from '@/features';
 import { CHr } from '@/shared'
 
+const room_model = useRoomModel()
 const task_model = useTaskModel()
 
 task_model.$subscribe((_mutation, state) => {
-  if (state.current_task) {
-    console.log('1')
-  }
+  room_model.changeCurrentTaskId(state.current_task_id);
 })
 </script>
 

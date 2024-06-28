@@ -33,7 +33,7 @@ interface IState {
   loading_error: string | undefined;
   stoppers: Array<() => void>;
   tasks: TasksQuery['tasks'];
-  current_task_id: string | undefined;
+  current_task_id: string | null;
   current_task: TasksQuery['tasks'][0] | undefined;
   deleted_id$: BehaviorSubject<string>;
 }
@@ -45,7 +45,7 @@ export const useTaskModel = defineStore({
     loading: false,
     loading_error: undefined,
     tasks: [],
-    current_task_id: undefined,
+    current_task_id: null,
     current_task: undefined,
     deleted_id$: new BehaviorSubject(''),
   }),
@@ -54,11 +54,11 @@ export const useTaskModel = defineStore({
       this.loading = false;
       this.loading_error = undefined;
       this.tasks = [];
-      this.current_task_id = undefined;
+      this.current_task_id = null;
       this.current_task = undefined;
       this.deleted_id$.next('');
     },
-    initCurrentTask(task_id?: string | null) {
+    initCurrentTask(task_id: string | null) {
       if (task_id) {
         this.current_task_id = task_id;
       }
@@ -89,7 +89,7 @@ export const useTaskModel = defineStore({
           if (!value) {
             this.tasks = response.value;
 
-            this.initCurrentTask();
+            this.initCurrentTask(null);
 
             this.loading_error = error.value?.message;
           }

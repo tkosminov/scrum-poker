@@ -48,6 +48,11 @@ export const useRoomModel = defineStore({
       this.current_room = undefined;
       this.deleted_id$.next('');
     },
+    changeCurrentTaskId(task_id: string | null) {
+      if (this.current_room) {
+        this.current_room.current_task_id = task_id;
+      }
+    },
     async fetchRooms() {
       this.loading = true;
       this.loading_error = undefined;
