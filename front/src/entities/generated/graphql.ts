@@ -356,7 +356,7 @@ export interface Task {
   title: Scalars['String']['output'];
   updated_at: Scalars['DateTimeISO']['output'];
   votes: Maybe<Array<Vote>>;
-  voting_status_id: Scalars['String']['output'];
+  voting_status_id: EVotingStatusId;
 }
 
 

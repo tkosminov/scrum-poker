@@ -20,11 +20,27 @@
       <CHr title="Результат голосования"/>
     
       <div class="row">
-        <div class="col-6">
-          <i class="bi bi-align-middle"></i> {{ task_model.current_task.avg_point }}
+        <div class="col-6 border-end">
+          <h4
+            class="text-center cursor-help"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top" 
+            title="Среднее значение"
+          >
+            <i class="bi bi-align-middle"></i>  <br />
+            <span class="badge text-bg-secondary">{{ task_model.current_task.avg_point }}</span>
+          </h4>
         </div>
         <div class="col-6">
-          <i class="bi bi-wrench-adjustable-circle"></i> {{ task_model.current_task.closest_point }}
+          <h4
+            class="text-center cursor-help"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top" 
+            title="Округленное значение"
+          >
+            <i class="bi bi-wrench-adjustable-circle"></i> <br />
+            <span class="badge text-bg-secondary">{{ task_model.current_task.closest_point }}</span>
+          </h4>
         </div>
       </div>
     </template>
@@ -44,4 +60,8 @@ task_model.$subscribe((_mutation, state) => {
 })
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.cursor-help {
+  cursor: help;
+}
+</style>
