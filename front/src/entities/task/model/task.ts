@@ -63,10 +63,6 @@ export const useTaskModel = defineStore({
         this.current_task_id = task_id;
       }
 
-      if (!this.current_task_id) {
-        return;
-      }
-
       const idx = this.tasks.findIndex((r) => r.id === this.current_task_id);
 
       if (idx !== -1) {
@@ -266,6 +262,7 @@ export const useTaskModel = defineStore({
 
         if (this.current_task?.id === data!.taskDeleteEvent.id) {
           this.current_task = undefined;
+          this.current_task_id = null;
         }
 
         this.deleted_id$.next(data!.taskDeleteEvent.id);

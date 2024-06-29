@@ -71,12 +71,12 @@ task_model.$subscribe(async ({ events }, state) => {
     type = events.type
   }
 
+  if (!state.current_task) {
+    vote_model.clearState();
+  }
+
   if (key === 'current_task') {
     room_model.changeCurrentTaskId(state.current_task_id);
-
-    if (type === 'set') {
-      vote_model.clearState();
-    }
    
     if (state.current_task != null) {
       switch(state.current_task.voting_status_id) {

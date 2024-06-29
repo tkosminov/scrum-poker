@@ -32,21 +32,8 @@ onBeforeMount(() => {
   calcSelectedValue();
 })
 
-vote_model.$subscribe(async ({ events }) => {
-  let key: string;
-  let type: string;
-
-  if (Array.isArray(events)) {
-    key = events[0].key
-    type = events[0].type
-  } else {
-    key = events.key
-    type = events.type
-  }
-
-  if (type === 'add' || key === 'votes') {
-    calcSelectedValue();
-  }
+vote_model.$subscribe((_mutation, _state) => {
+  calcSelectedValue();
 })
 
 function calcSelectedValue() {
