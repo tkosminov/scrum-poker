@@ -1,7 +1,20 @@
 <template>
   <div class="card">
     <div class="card-body">
-      {{ props.task.title }}
+      <h5>
+        {{ props.task.title }}
+        <template v-if="props.task.closest_point">
+          <span
+            class="badge text-bg-secondary cursor-help"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top" 
+            title="Округленное значение"
+          >
+            <i class="bi bi-wrench-adjustable-circle"></i>
+            {{ props.task.closest_point }}
+          </span>
+        </template>
+      </h5>
     </div>
 
     <div class="card-body">
@@ -21,4 +34,8 @@ import { TaskUpdateFeature, TaskDeleteFeature, TaskSetCurrentFeature } from '@/f
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.cursor-help {
+  cursor: help;
+}
+</style>
