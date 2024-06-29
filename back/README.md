@@ -1,4 +1,4 @@
-# Scrum-Pocker Back
+# Scrum-Poker Back
 
 * NestJS 10
 * TypeORM 0.3
