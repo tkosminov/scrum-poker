@@ -1,0 +1,1 @@
+export { useVoteModel } from './vote';

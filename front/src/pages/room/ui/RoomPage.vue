@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { Ref, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { router } from '@/app/providers';
-import { useRoomModel, useTaskModel, useRoomUserModel, useUserModel } from '@/entities';
+import { useRoomModel, useTaskModel, useRoomUserModel, useUserModel, useVoteModel } from '@/entities';
 import { RoomInfoWidget, TasksListWidget, TaskCurrentWidget, RoomUsersListWidget } from '@/widgets'
 import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
 import { TaskCreateFeature } from '@/features'
@@ -45,6 +45,7 @@ const user_model = useUserModel()
 const room_model = useRoomModel()
 const task_model = useTaskModel()
 const room_user_model = useRoomUserModel()
+const vote_model = useVoteModel()
 const breadcrumb_model = useBreadcrumbModel()
 
 const send_leave_event: Ref<boolean> = ref(true);
@@ -53,6 +54,7 @@ onBeforeMount(async () => {
   room_model.clearState();
   task_model.clearState();
   room_user_model.clearState();
+  vote_model.clearState();
 
   await room_user_model.roomUserJoin({ room_id: props.id })
 
@@ -71,12 +73,16 @@ onBeforeMount(async () => {
 
   room_user_model.roomUserJoinSubscribe({ channel_id: props.id })
   room_user_model.roomUserLeaveSubscribe({ channel_id: props.id })
+
+  vote_model.changeSubscribe({ channel_id: props.id })
+  vote_model.getSubscribe({ channel_id: props.id })
 })
 
 onBeforeUnmount(async () => {
   room_model.unsubscribe()
   task_model.unsubscribe()
   room_user_model.unsubscribe()
+  vote_model.unsubscribe()
 
   if (send_leave_event.value) {
     await room_user_model.roomUserLeave({ room_id: props.id })

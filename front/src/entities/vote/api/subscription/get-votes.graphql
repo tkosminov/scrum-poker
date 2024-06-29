@@ -1,0 +1,10 @@
+subscription VotesGetEvent($channel_id: ID!) {
+  votesGetEvent(channel_id: $channel_id) {
+    room_user {
+      id
+      user_id
+    }
+    task_id
+    point
+  }
+}

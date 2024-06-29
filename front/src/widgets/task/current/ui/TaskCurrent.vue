@@ -14,6 +14,8 @@
 
     <template v-if="task_model.current_task.voting_status_id === EVotingStatusId.InProgress">
       <CHr title="Голосование"/>
+
+      <VotesListWidget :task="task_model.current_task" />
     </template>
   
     <template v-if="task_model.current_task.voting_status_id === EVotingStatusId.Completed">
@@ -48,15 +50,53 @@
 </template>
 
 <script setup lang="ts">
-import { useTaskModel, EVotingStatusId, useRoomModel } from '@/entities';
+import { useTaskModel, EVotingStatusId, useRoomModel, useVoteModel } from '@/entities';
 import { TaskChangeStatusFeature } from '@/features';
 import { CHr } from '@/shared'
+import { VotesListWidget } from '@/widgets/vote';
 
 const room_model = useRoomModel()
 const task_model = useTaskModel()
+const vote_model = useVoteModel()
 
-task_model.$subscribe((_mutation, state) => {
-  room_model.changeCurrentTaskId(state.current_task_id);
+task_model.$subscribe(async ({ events }, state) => {
+  let key: string;
+  let type: string;
+
+  if (Array.isArray(events)) {
+    key = events[0].key
+    type = events[0].type
+  } else {
+    key = events.key
+    type = events.type
+  }
+
+  if (key === 'current_task') {
+    room_model.changeCurrentTaskId(state.current_task_id);
+
+    if (type === 'set') {
+      vote_model.clearState();
+    }
+   
+    if (state.current_task != null) {
+      switch(state.current_task.voting_status_id) {
+        case EVotingStatusId.InProgress:
+          vote_model.clearState();
+          await vote_model.fetchVotes({ task_id: state.current_task.id })
+          await vote_model.fetchVoteCurrent({ task_id: state.current_task.id });
+  
+          break;
+        case EVotingStatusId.Completed:
+        await vote_model.fetchVotesFull({ task_id: state.current_task.id })
+  
+          break;
+        default:
+          vote_model.clearState();
+  
+          break;
+      }
+    }
+  }
 })
 </script>
 

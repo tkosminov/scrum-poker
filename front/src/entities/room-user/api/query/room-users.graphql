@@ -3,6 +3,7 @@ query RoomUsers($room_id: ID!) {
     id
     connected
     user {
+      id
       name
     }
   }

@@ -1,6 +1,7 @@
-import { Field, ID, InputType } from '@nestjs/graphql';
-import { IsEnum, IsInt, IsUUID } from 'class-validator';
-import { EVotePoint } from '../vote.entity';
+import { Field, ID, InputType, Int } from '@nestjs/graphql';
+import { IsInt, IsUUID, IsIn } from 'class-validator';
+
+import { POSSIBLE_POINTS } from '../vote.entity';
 
 @InputType()
 export class VoteChangeDTO {
@@ -8,7 +9,8 @@ export class VoteChangeDTO {
   @IsUUID()
   public task_id: string;
 
-  @Field(() => EVotePoint, { nullable: false })
-  @IsEnum(EVotePoint)
-  public point: EVotePoint;
+  @Field(() => Int, { nullable: false })
+  @IsInt()
+  @IsIn(POSSIBLE_POINTS)
+  public point: number;
 }

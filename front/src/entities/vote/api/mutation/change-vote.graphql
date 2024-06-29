@@ -1,0 +1,5 @@
+mutation VoteChange($task_id: ID!, $point: Int!) {
+  voteChange(data: {task_id: $task_id, point: $point}) {
+    room_user_id
+  }
+}

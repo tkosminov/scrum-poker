@@ -17,9 +17,9 @@ import { Room } from '../room/room.entity';
 import { Vote } from '../vote/vote.entity';
 
 export enum EVotingStatusId {
-  NOT_STARTED = 1,
-  IN_PROGRESS = 2,
-  COMPLETED = 3,
+  NOT_STARTED = '1',
+  IN_PROGRESS = '2',
+  COMPLETED = '3',
 }
 
 registerEnumType(EVotingStatusId, {

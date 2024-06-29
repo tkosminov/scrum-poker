@@ -1,0 +1,10 @@
+query VotesFull($task_id: ID!) {
+  votes(WHERE: {task_id: {EQ: $task_id}}) {
+    room_user {
+      id
+      user_id
+    }
+    task_id
+    point
+  }
+}

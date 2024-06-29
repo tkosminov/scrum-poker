@@ -7,7 +7,7 @@ export type RoomUsersQueryVariables = Types.Exact<{
 }>;
 
 
-export type RoomUsersQuery = { roomUsers: Array<{ id: string, connected: boolean, user: { name: string } }> };
+export type RoomUsersQuery = { roomUsers: Array<{ id: string, connected: boolean, user: { id: string, name: string } }> };
 
 
 export const RoomUsers = gql`
@@ -16,6 +16,7 @@ export const RoomUsers = gql`
     id
     connected
     user {
+      id
       name
     }
   }

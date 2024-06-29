@@ -71,6 +71,8 @@ export const useTaskModel = defineStore({
 
       if (idx !== -1) {
         this.current_task = this.tasks[idx];
+      } else {
+        this.current_task = undefined;
       }
     },
     async fetchTasks(variables: TasksQueryVariables) {

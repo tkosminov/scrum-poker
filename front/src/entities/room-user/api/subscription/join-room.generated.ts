@@ -7,7 +7,7 @@ export type RoomUserJoinEventSubscriptionVariables = Types.Exact<{
 }>;
 
 
-export type RoomUserJoinEventSubscription = { roomUserJoinEvent: { id: string, connected: boolean, user: { name: string } } };
+export type RoomUserJoinEventSubscription = { roomUserJoinEvent: { id: string, connected: boolean, user: { id: string, name: string } } };
 
 
 export const RoomUserJoinEvent = gql`
@@ -16,6 +16,7 @@ export const RoomUserJoinEvent = gql`
     id
     connected
     user {
+      id
       name
     }
   }

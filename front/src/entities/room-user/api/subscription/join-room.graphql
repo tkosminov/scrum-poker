@@ -3,6 +3,7 @@ subscription RoomUserJoinEvent($channel_id: ID!) {
     id
     connected
     user {
+      id
       name
     }
   }

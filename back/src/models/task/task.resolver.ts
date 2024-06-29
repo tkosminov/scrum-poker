@@ -2,11 +2,9 @@ import { Inject } from '@nestjs/common';
 import { Args, Context, GraphQLExecutionContext, ID, Parent, Resolver, Subscription } from '@nestjs/graphql';
 
 import { Query, ELoaderType, Loader, Filter, Order, Pagination, ResolveField, Mutation } from 'nestjs-graphql-easy';
-import { DataSource } from 'typeorm';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 
 import { GRAPHQL_SUBSCRIPTION } from '../../graphql-pub-sub/graphql-pub-sub.module';
-import { Vote } from '../vote/vote.entity';
 
 import { Task } from './task.entity';
 import { TaskService } from './task.service';
@@ -38,23 +36,6 @@ export class TaskResolver {
     @Context() ctx: GraphQLExecutionContext
   ) {
     return await ctx[field_alias];
-  }
-
-  @ResolveField(() => [Vote], { nullable: true })
-  public async votes(
-    @Parent() task: Task,
-    @Loader({
-      loader_type: ELoaderType.ONE_TO_MANY,
-      field_name: 'votes',
-      entity: () => Vote,
-      entity_fk_key: 'task_id',
-    })
-    field_alias: string,
-    @Filter(() => Vote) _filter: unknown,
-    @Order(() => Vote) _order: unknown,
-    @Context() ctx: GraphQLExecutionContext
-  ): Promise<Vote[]> {
-    return await ctx[field_alias].load(task.id);
   }
 
   @Mutation(() => Task)

@@ -42,20 +42,6 @@ export enum EOrderNulls {
   Last = 'LAST'
 }
 
-export enum EVotePoint {
-  Eight = 'EIGHT',
-  EightyNine = 'EIGHTY_NINE',
-  FiftyFive = 'FIFTY_FIVE',
-  Five = 'FIVE',
-  One = 'ONE',
-  Thirty = 'THIRTY',
-  ThirtyFour = 'THIRTY_FOUR',
-  Three = 'THREE',
-  TwentyOne = 'TWENTY_ONE',
-  Two = 'TWO',
-  Zero = 'ZERO'
-}
-
 export enum EVotingStatusId {
   Completed = 'COMPLETED',
   InProgress = 'IN_PROGRESS',
@@ -87,7 +73,7 @@ export interface Mutation {
   taskSetCurrent: Task;
   taskUpdate: Task;
   userUpdate: User;
-  voteChange: VoteChangeOjectDto;
+  voteChange: Vote;
 }
 
 
@@ -162,6 +148,7 @@ export interface Query {
   rooms: Array<Room>;
   tasks: Array<Task>;
   users: Array<User>;
+  voteCurrent: Maybe<Vote>;
   votes: Array<Vote>;
 }
 
@@ -190,6 +177,11 @@ export interface QueryUsersArgs {
   ORDER: InputMaybe<User_OrderInputType>;
   PAGINATION: InputMaybe<PaginationInputType>;
   WHERE: InputMaybe<User_FilterInputType>;
+}
+
+
+export interface QueryVoteCurrentArgs {
+  task_id: Scalars['ID']['input'];
 }
 
 
@@ -293,7 +285,8 @@ export interface Subscription {
   taskDeleteEvent: Task;
   taskSetCurrentEvent: Task;
   taskUpdateEvent: Task;
-  voteChangeEvent: VoteChangeOjectDto;
+  voteChangeEvent: Vote;
+  votesGetEvent: Array<Vote>;
 }
 
 
@@ -346,6 +339,11 @@ export interface SubscriptionVoteChangeEventArgs {
   channel_id: Scalars['ID']['input'];
 }
 
+
+export interface SubscriptionVotesGetEventArgs {
+  channel_id: Scalars['ID']['input'];
+}
+
 export interface Task {
   __typename?: 'Task';
   avg_point: Maybe<Scalars['Float']['output']>;
@@ -355,14 +353,7 @@ export interface Task {
   room_id: Scalars['ID']['output'];
   title: Scalars['String']['output'];
   updated_at: Scalars['DateTimeISO']['output'];
-  votes: Maybe<Array<Vote>>;
   voting_status_id: EVotingStatusId;
-}
-
-
-export interface TaskVotesArgs {
-  ORDER: InputMaybe<Vote_OrderInputType>;
-  WHERE: InputMaybe<Vote_FilterInputType>;
 }
 
 export interface TaskChangeStatusDto {
@@ -435,20 +426,15 @@ export interface Vote {
   created_at: Scalars['DateTimeISO']['output'];
   id: Scalars['ID']['output'];
   point: Scalars['Int']['output'];
+  room_user: RoomUser;
   room_user_id: Scalars['ID']['output'];
   task_id: Scalars['ID']['output'];
   updated_at: Scalars['DateTimeISO']['output'];
 }
 
 export interface VoteChangeDto {
-  point: EVotePoint;
+  point: Scalars['Int']['input'];
   task_id: Scalars['ID']['input'];
-}
-
-export interface VoteChangeOjectDto {
-  __typename?: 'VoteChangeOjectDTO';
-  room_user_id: Scalars['ID']['output'];
-  task_id: Scalars['ID']['output'];
 }
 
 export interface Vote_FilterInputType {

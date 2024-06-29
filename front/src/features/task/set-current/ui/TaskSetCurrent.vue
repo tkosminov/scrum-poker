@@ -26,9 +26,22 @@ onBeforeMount(() => {
   }
 })
 
-task_model.$subscribe((_mutation, state) => {
-  if (state.current_task_id) {
-    is_current.value = state.current_task_id === props.task.id;
+task_model.$subscribe(({ events }, state) => {
+  let key: string;
+  let type: string;
+
+  if (Array.isArray(events)) {
+    key = events[0].key
+    type = events[0].type
+  } else {
+    key = events.key
+    type = events.type
+  }
+
+  if (key === 'current_task') {
+    if (state.current_task_id) {
+      is_current.value = state.current_task_id === props.task.id;
+    }
   }
 })
 

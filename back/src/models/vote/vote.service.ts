@@ -16,6 +16,18 @@ export class VoteService {
     @InjectRepository(Vote) private readonly vote_repository: Repository<Vote>
   ) {}
 
+  public async currentUserVote(user_id: string, task_id: string) {
+    const [res]: Vote[] = await this.vote_repository
+      .createQueryBuilder('vote')
+      .select('vote.*')
+      .innerJoin('vote.room_user', 'room_user')
+      .where('room_user.user_id = :user_id', { user_id })
+      .andWhere('vote.task_id = :task_id', { task_id })
+      .execute();
+
+    return res;
+  }
+
   public async change(current_user: IJwtPayload, data: VoteChangeDTO) {
     const task = await this.task_repository.findOneOrFail({
       where: { id: data.task_id },
@@ -35,6 +47,6 @@ export class VoteService {
       .returning('*')
       .execute();
 
-    return { vote: { task_id: vote.task_id, room_user_id: vote.room_user_id }, room_id: task.room_id };
+    return { vote, room_id: task.room_id };
   }
 }

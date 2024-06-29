@@ -1,0 +1,9 @@
+subscription VoteChangeEvent($channel_id: ID!) {
+  voteChangeEvent(channel_id: $channel_id) {
+    room_user {
+      id
+      user_id
+    }
+    task_id
+  }
+}

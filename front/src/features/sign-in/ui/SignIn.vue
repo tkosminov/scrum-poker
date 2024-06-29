@@ -6,7 +6,7 @@
       <div id="full_name_help" class="form-text">Введите ФИО пользователя</div>
     </div>
 
-    <button type="button" class="btn btn-primary" @click="signIn">Войти</button>
+    <button type="button" class="btn btn-dark" @click="signIn">Войти</button>
   </div>
 </template>
 

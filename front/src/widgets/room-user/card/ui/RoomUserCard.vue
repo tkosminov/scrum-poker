@@ -1,10 +1,10 @@
 <template>
   <div class="card text-center mb-3" style="width: 120px;">
     <div class="card-body">
-      <h1>...</h1>
+      <h1>{{ selected_point }}</h1>
     </div>
     <div
-      class="card-footer"
+      class="card-footer cursor-help"
       data-bs-toggle="tooltip"
       data-bs-placement="top" 
       :title="room_user.user.name"
@@ -17,13 +17,55 @@
 </template>
 
 <script setup lang="ts">
-import { RoomUsersQuery } from '@/entities';
-
-// ... - не выбрано
-// ! - выбрано
-// [0-9?] - выбор
+import { RoomUsersQuery, EVotingStatusId } from '@/entities';
+import { useTaskModel, useVoteModel } from '@/entities';
+import { Ref, ref, onBeforeMount } from 'vue';
 
 const props = defineProps<{ room_user: RoomUsersQuery['roomUsers'][0] }>();
+
+const vote_model = useVoteModel();
+const task_model = useTaskModel();
+
+const selected_point: Ref<string | number> = ref('...');
+
+onBeforeMount(() => {
+  calcSelectedValue();
+})
+
+vote_model.$subscribe(async ({ events }) => {
+  let key: string;
+  let type: string;
+
+  if (Array.isArray(events)) {
+    key = events[0].key
+    type = events[0].type
+  } else {
+    key = events.key
+    type = events.type
+  }
+
+  if (type === 'add' || key === 'votes') {
+    calcSelectedValue();
+  }
+})
+
+function calcSelectedValue() {
+  selected_point.value = '...';
+
+  if (task_model.current_task && vote_model.votes.has(props.room_user.user.id)) {
+    if (task_model.current_task.voting_status_id === EVotingStatusId.Completed) {
+      const value = vote_model.votes.get(props.room_user.user.id);
+
+      selected_point.value = value ? value : '?';
+    } else {
+      selected_point.value = '!';
+    }
+  }
+}
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.cursor-help {
+  cursor: help !important;
+}
+</style>

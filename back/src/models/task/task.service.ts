@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
 
 import { findClosestNumbers } from '../../helpers/array.helper';
 import { Room } from '../room/room.entity';
-import { Vote, EVotePoint } from '../vote/vote.entity';
+import { POSSIBLE_POINTS, Vote } from '../vote/vote.entity';
+import { GRAPHQL_SUBSCRIPTION } from '../../graphql-pub-sub/graphql-pub-sub.module';
 
 import { EVotingStatusId, Task } from './task.entity';
 import { TaskCreateDTO } from './mutation-input/create.dto';
@@ -18,7 +20,8 @@ export class TaskService {
   constructor(
     @InjectRepository(Room) private readonly room_repository: Repository<Room>,
     @InjectRepository(Task) private readonly task_repository: Repository<Task>,
-    @InjectRepository(Vote) private readonly vote_repository: Repository<Vote>
+    @InjectRepository(Vote) private readonly vote_repository: Repository<Vote>,
+    @Inject(GRAPHQL_SUBSCRIPTION) private readonly pubSub: RedisPubSub
   ) {}
 
   public async create(data: TaskCreateDTO) {
@@ -69,6 +72,13 @@ export class TaskService {
         task.avg_point = res.avg_point;
         task.closest_point = res.closest_point;
 
+        const votes = await this.vote_repository.find({ where: { task_id: task.id } });
+
+        await this.pubSub.publish('votesGetEvent', {
+          votesGetEvent: votes,
+          channel_ids: [task.room_id],
+        });
+
         break;
       default:
         await this.vote_repository.delete({ task_id: task.id });
@@ -99,15 +109,7 @@ export class TaskService {
 
     const avg_point = Number(res.avg_point);
 
-    const possible_values = Object.values(EVotePoint).reduce<number[]>((acc, curr) => {
-      if (typeof curr !== 'string') {
-        acc.push(curr);
-      }
-
-      return acc;
-    }, []);
-
-    const closest_points = findClosestNumbers(possible_values, avg_point);
+    const closest_points = findClosestNumbers(POSSIBLE_POINTS, avg_point);
 
     if (closest_points.length === 1) {
       return {
