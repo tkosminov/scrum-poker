@@ -12,11 +12,13 @@
 <script setup lang="ts">
 import { type Ref, ref, onBeforeMount } from 'vue';
 import { useToast } from "vue-toastification";
+import { useI18n } from "vue-i18n";
 import { useTaskModel, type TasksQuery } from '@/entities';
 
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
 const is_current: Ref<boolean> = ref(false)
 
+const { t } = useI18n();
 const toast = useToast();
 const task_model = useTaskModel()
 
@@ -57,7 +59,7 @@ async function setCurrentTask() {
       timeout: 2500,
     });
   } else {
-    toast.success("Текущая задача заменена!", {
+    toast.success(t('features.task.set_current.change'), {
       timeout: 2500,
     });
   }

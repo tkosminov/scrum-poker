@@ -76,6 +76,9 @@ export const ru = {
         delete_task: 'Удалить задачу?',
         cancel: 'Отмена',
       },
+      set_current: {
+        change: 'Текущая задача изменена!',
+      },
       update: {
         updated: 'Задача сохранена!',
         update: 'Сохранить',
@@ -85,8 +88,5 @@ export const ru = {
         cancel: 'Отмена',
       },
     },
-    vote: {},
   },
-  entities: {},
-  shared: {},
 };
