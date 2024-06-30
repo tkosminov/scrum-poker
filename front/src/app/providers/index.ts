@@ -4,3 +4,4 @@ export * from './apollo';
 export * from './bootstrap';
 export * from './floating';
 export * from './toast';
+export * from './i18n';

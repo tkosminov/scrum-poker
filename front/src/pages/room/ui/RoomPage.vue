@@ -7,19 +7,19 @@
 
   <div class="row">
     <div class="col-xs-12 col-sm-4">
-      <CHr title="Пользователи" />
+      <CHr :title="$t('pages.room.users_list')" />
 
       <RoomUsersListWidget />
     </div>
 
     <div class="col-xs-12 col-sm-4">
-      <CHr title="Текущая задача" />
+      <CHr :title="$t('pages.room.current_task')" />
 
       <TaskCurrentWidget />
     </div>
 
     <div class="col-xs-12 col-sm-4">
-      <CHr title="Список задач" />
+      <CHr :title="$t('pages.room.tasks_list')" />
 
       <div class="row mb-2">
         <div class="col-12">
@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { Ref, onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { useI18n } from "vue-i18n";
 import { router } from '@/app/providers';
 import { useRoomModel, useTaskModel, useRoomUserModel, useUserModel, useVoteModel } from '@/entities';
 import { RoomInfoWidget, TasksListWidget, TaskCurrentWidget, RoomUsersListWidget } from '@/widgets'
@@ -41,6 +42,7 @@ import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
 import { TaskCreateFeature } from '@/features'
 
 const props = defineProps<{ id: string }>();
+const { t } = useI18n();
 const user_model = useUserModel()
 const room_model = useRoomModel()
 const task_model = useTaskModel()
@@ -111,7 +113,7 @@ room_model.$subscribe((_mutation, state) => {
 
     breadcrumb_model.set([
       {
-        name: 'Комнаты',
+        name: t('pages.rooms.title'),
         is_current: false,
         to: 'rooms'
       },

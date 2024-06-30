@@ -3,26 +3,48 @@
     <i class="bi bi-pencil"></i>
   </button>
 
-  <div class="modal fade" id="updateTaskModal" tabindex="-1" aria-labelledby="updateTaskModalLabel" aria-hidden="true" ref="update_task_modal_ref">
+  <div
+    class="modal fade"
+    id="updateTaskModal"
+    tabindex="-1"
+    aria-labelledby="updateTaskModalLabel"
+    aria-hidden="true"
+    ref="update_task_modal_ref"
+  >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="updateTaskModalLabel">Редактировать задачу</h1>
+          <h1 class="modal-title fs-5" id="updateTaskModalLabel">
+            {{ $t('features.task.update.update_task') }}
+          </h1>
         </div>
 
         <div class="modal-body">
           <div class="form-floating" :class="{ 'was-validated': !form_valid }">
-            <input type="text" class="form-control" id="taskTitle" placeholder="Введите название..." v-model="title" required />
-            <label for="taskTitle">Название</label>
+            <input
+              type="text"
+              class="form-control"
+              id="taskTitle"
+              :placeholder="$t('features.task.update.enter_title')"
+              v-model="title"
+              required
+            />
+            <label for="taskTitle">
+              {{ $t('features.task.update.title') }}
+            </label>
             <div class="invalid-feedback">
-              Введите название задачи
+              {{ $t('features.task.update.enter_title') }}
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
-          <button type="button" class="btn btn-dark" @click="updateTask">Сохранить</button>
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+            {{ $t('features.task.update.cancel') }}
+          </button>
+          <button type="button" class="btn btn-dark" @click="updateTask">
+            {{ $t('features.task.update.update') }}
+          </button>
         </div>
       </div>
     </div>
@@ -33,10 +55,12 @@
 import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
 import { useToast } from "vue-toastification";
+import { useI18n } from "vue-i18n";
 import { useTaskModel, TasksQuery } from '@/entities';
 
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
 const toast = useToast();
+const { t } = useI18n();
 
 const update_task_modal_ref: Ref<HTMLDivElement | null> = ref(null);
 let update_task_modal_value: Modal | null = null;
@@ -86,7 +110,7 @@ async function updateTask() {
   } else {
     closeUpdateTaskModal()
 
-    toast.success("Задача обновлена!", {
+    toast.success(t('features.task.update.updated'), {
       timeout: 2500,
     });
   }

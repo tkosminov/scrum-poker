@@ -1,12 +1,25 @@
 <template>
   <div class="row">
-    <div class="mb-3">
-      <label for="full_name" class="form-label">ФИО</label>
-      <input type="text" class="form-control" id="full_name" aria-describedby="full_name_help" v-model="name" />
-      <div id="full_name_help" class="form-text">Введите ФИО пользователя</div>
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="fullName"
+        v-model="name"
+        :placeholder="$t('features.sign_in.enter_full_name')"
+        aria-describedby="full_name_help"
+      />
+      <label for="fullName">
+        {{ $t('features.sign_in.full_name') }}
+      </label>
+      <div id="full_name_help" class="form-text">
+        {{ $t('features.sign_in.enter_full_name') }}
+      </div>
     </div>
 
-    <button type="button" class="btn btn-dark" @click="signIn">Войти</button>
+    <button type="button" class="btn btn-dark" @click="signIn">
+      {{ $t('features.sign_in.sign_in') }}
+    </button>
   </div>
 </template>
 

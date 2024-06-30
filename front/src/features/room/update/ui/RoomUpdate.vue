@@ -3,27 +3,48 @@
     <i class="bi bi-pencil"></i>
   </button>
 
-  <div class="modal fade" id="updateRoomModal" tabindex="-1" aria-labelledby="updateRoomModalLabel" aria-hidden="true" ref="update_room_modal_ref">
+  <div
+    class="modal fade"
+    id="updateRoomModal"
+    tabindex="-1"
+    aria-labelledby="updateRoomModalLabel"
+    aria-hidden="true"
+    ref="update_room_modal_ref"
+  >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="updateRoomModalLabel">Редактировать комнату</h1>
+          <h1 class="modal-title fs-5" id="updateRoomModalLabel">
+            {{ $t('features.room.update.update_room') }}
+          </h1>
         </div>
 
         <div class="modal-body">
           <div class="form-floating" :class="{ 'was-validated': !form_valid }">
-            <input type="text" class="form-control" id="roomTitle" placeholder="Введите название..." v-model="title" required />
-            <label for="roomTitle">Название</label>
+            <input
+              type="text"
+              class="form-control"
+              id="roomTitle"
+              :placeholder="$t('features.room.update.enter_title')"
+              v-model="title"
+              required
+            />
+            <label for="roomTitle">
+              {{ $t('features.room.update.title') }}
+            </label>
             <div class="invalid-feedback">
-              Введите название комнаты
+              {{ $t('features.room.update.enter_title') }}
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+            {{ $t('features.room.update.cancel') }}
+          </button>
           <button type="button" class="btn btn-dark" @click="updateRoom">
-            <i class="bi bi-pencil"></i> Сохранить
+            <i class="bi bi-pencil"></i>
+            {{ $t('features.room.update.update') }}
           </button>
         </div>
       </div>
@@ -35,10 +56,12 @@
 import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
 import { useToast } from "vue-toastification";
+import { useI18n } from "vue-i18n";
 import { CurrentRoomQuery, useRoomModel } from '@/entities';
 
 const props = defineProps<{ room: CurrentRoomQuery['rooms'][0] }>();
 const toast = useToast();
+const { t } = useI18n();
 
 const update_room_modal_ref: Ref<HTMLDivElement | null> = ref(null);
 let update_room_modal_value: Modal | null = null;
@@ -83,7 +106,7 @@ async function updateRoom() {
 
   closeUpdateRoomModal()
 
-  toast.success("Комната сохранена!", {
+  toast.success(t('features.room.update.updated'), {
     timeout: 2500,
   });
 }

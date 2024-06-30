@@ -1,28 +1,50 @@
 <template>
   <button type="button" class="btn btn-dark w-100" @click="openCreateTaskModal">
-    Добавить задачу
+    {{ $t('features.task.create.new_task') }}
   </button>
 
-  <div class="modal fade" id="createTaskModal" tabindex="-1" aria-labelledby="createTaskModalLabel" aria-hidden="true" ref="create_task_modal_ref">
+  <div
+    class="modal fade"
+    id="createTaskModal"
+    tabindex="-1"
+    aria-labelledby="createTaskModalLabel"
+    aria-hidden="true"
+    ref="create_task_modal_ref"
+  >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="createTaskModalLabel">Новая задача</h1>
+          <h1 class="modal-title fs-5" id="createTaskModalLabel">
+            {{ $t('features.task.create.create_task') }}
+          </h1>
         </div>
 
         <div class="modal-body">
           <div class="form-floating" :class="{ 'was-validated': !form_valid }">
-            <input type="text" class="form-control" id="taskTitle" placeholder="Введите название..." v-model="title" required />
-            <label for="taskTitle">Название</label>
+            <input
+              type="text"
+              class="form-control"
+              id="taskTitle"
+              :placeholder="$t('features.task.create.enter_title')"
+              v-model="title"
+              required
+            />
+            <label for="taskTitle">
+              {{ $t('features.task.create.title') }}
+            </label>
             <div class="invalid-feedback">
-              Введите название задачи
+              {{ $t('features.task.create.enter_title') }}
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
-          <button type="button" class="btn btn-dark" @click="createTask">Создать</button>
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+            {{ $t('features.task.create.cancel') }}
+          </button>
+          <button type="button" class="btn btn-dark" @click="createTask">
+            {{ $t('features.task.create.create') }}
+          </button>
         </div>
       </div>
     </div>
@@ -33,9 +55,11 @@
 import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
 import { useToast } from "vue-toastification";
+import { useI18n } from "vue-i18n";
 import { useTaskModel, useRoomModel } from '@/entities';
 
 const toast = useToast();
+const { t } = useI18n();
 
 const create_task_modal_ref: Ref<HTMLDivElement | null> = ref(null);
 let create_task_modal_value: Modal | null = null;
@@ -86,7 +110,7 @@ async function createTask() {
   } else {
     closeCreateTaskModal()
 
-    toast.success("Задача добавлена!", {
+    toast.success(t('features.task.create.created'), {
       timeout: 2500,
     });
   }

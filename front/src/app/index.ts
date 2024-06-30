@@ -11,6 +11,7 @@ import {
   provideApolloClients,
   FloatingVue,
   toast,
+  i18n,
 } from './providers';
 
 provideApolloClients({ default: apollo_client });
@@ -19,3 +20,4 @@ app.use(router);
 app.use(store);
 app.use(FloatingVue);
 app.use(toast.plugin, toast.settings);
+app.use(i18n);

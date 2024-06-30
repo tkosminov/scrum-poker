@@ -13,13 +13,13 @@
     </div>
 
     <template v-if="task_model.current_task.voting_status_id === EVotingStatusId.InProgress">
-      <CHr title="Голосование"/>
+      <CHr :title="$t('widgets.task.current.voting')" />
 
       <VotesListWidget :task="task_model.current_task" />
     </template>
   
     <template v-if="task_model.current_task.voting_status_id === EVotingStatusId.Completed">
-      <CHr title="Результат голосования"/>
+      <CHr :title="$t('widgets.task.current.voting_result')" />
     
       <div class="row">
         <div class="col-6 border-end">
@@ -27,7 +27,7 @@
             class="text-center cursor-help"
             data-bs-toggle="tooltip"
             data-bs-placement="top" 
-            title="Среднее значение"
+            :title="$t('widgets.task.current.average_value')"
           >
             <i class="bi bi-align-middle"></i>  <br />
             <span class="badge text-bg-secondary">{{ task_model.current_task.avg_point }}</span>
@@ -38,7 +38,7 @@
             class="text-center cursor-help"
             data-bs-toggle="tooltip"
             data-bs-placement="top" 
-            title="Округленное значение"
+            :title="$t('widgets.task.current.rounded_value')"
           >
             <i class="bi bi-wrench-adjustable-circle"></i> <br />
             <span class="badge text-bg-secondary">{{ task_model.current_task.closest_point }}</span>

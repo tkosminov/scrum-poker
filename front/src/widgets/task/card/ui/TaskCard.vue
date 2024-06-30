@@ -8,7 +8,7 @@
             class="badge text-bg-secondary cursor-help"
             data-bs-toggle="tooltip"
             data-bs-placement="top" 
-            title="Округленное значение"
+            :title="$t('widgets.task.card.rounded_value')"
           >
             <i class="bi bi-wrench-adjustable-circle"></i>
             {{ props.task.closest_point }}

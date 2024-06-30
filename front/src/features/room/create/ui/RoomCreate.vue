@@ -1,28 +1,50 @@
 <template>
   <button type="button" class="btn btn-dark" @click="openCreateRoomModal">
-    Создать
+    {{ $t('features.room.create.new_room') }}
   </button>
 
-  <div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModalLabel" aria-hidden="true" ref="create_room_modal_ref">
+  <div
+    class="modal fade"
+    id="createRoomModal"
+    tabindex="-1"
+    aria-labelledby="createRoomModalLabel"
+    aria-hidden="true"
+    ref="create_room_modal_ref"
+  >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="createRoomModalLabel">Новая комната</h1>
+          <h1 class="modal-title fs-5" id="createRoomModalLabel">
+            {{ $t('features.room.create.create_room') }}
+          </h1>
         </div>
 
         <div class="modal-body">
           <div class="form-floating" :class="{ 'was-validated': !form_valid }">
-            <input type="text" class="form-control" id="roomTitle" placeholder="Введите название..." v-model="title" required />
-            <label for="roomTitle">Название</label>
+            <input
+              type="text" 
+              class="form-control" 
+              id="roomTitle" 
+              :placeholder="$t('features.room.create.enter_title')"
+              v-model="title"
+              required
+            />
+            <label for="roomTitle">
+              {{ $t('features.room.create.title') }}
+            </label>
             <div class="invalid-feedback">
-              Введите название комнаты
+              {{ $t('features.room.create.enter_title') }}
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
-          <button type="button" class="btn btn-dark" @click="createRoom">Создать</button>
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+            {{ $t('features.room.create.cancel') }}
+          </button>
+          <button type="button" class="btn btn-dark" @click="createRoom">
+            {{ $t('features.room.create.create') }}
+          </button>
         </div>
       </div>
     </div>
@@ -33,9 +55,11 @@
 import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
 import { useToast } from "vue-toastification";
+import { useI18n } from "vue-i18n";
 import { useRoomModel } from '@/entities';
 
 const toast = useToast();
+const { t } = useI18n();
 
 const create_room_modal_ref: Ref<HTMLDivElement | null> = ref(null);
 let create_room_modal_value: Modal | null = null;
@@ -80,7 +104,7 @@ async function createRoom() {
 
   closeCreateRoomModal()
 
-  toast.success("Комната создана!", {
+  toast.success(t('features.room.create.created'), {
     timeout: 2500,
   });
 }

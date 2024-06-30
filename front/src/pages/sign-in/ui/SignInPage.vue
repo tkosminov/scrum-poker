@@ -7,7 +7,7 @@
     <div class="col-3 d-none d-sm-none d-md-block"></div>
 
     <div class="col-xs-12 col-sm-12 col-md-6">
-      <h1>Авторизация</h1>
+      <h1>{{ $t('pages.sign_in.title') }}</h1>
     </div>
 
     <div class="col-3 d-none d-sm-none d-md-block"></div>
@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
+import { useI18n } from "vue-i18n";
 import { useRouter, useRoute } from 'vue-router'
 import { useToast } from "vue-toastification";
 
@@ -33,6 +34,7 @@ import { CPreloader, useBreadcrumbModel } from '@/shared'
 import { SignInFeature } from '@/features'
 import { useUserModel } from '@/entities';
 
+const { t } = useI18n();
 const user_model = useUserModel()
 const breadcrumb_model = useBreadcrumbModel()
 const router = useRouter()
@@ -42,7 +44,7 @@ const toast = useToast();
 onBeforeMount(() => {
   breadcrumb_model.set([
     {
-      name: 'Авторизация',
+      name: t('pages.sign_in.title'),
       is_current: true
     },
   ])
@@ -50,7 +52,7 @@ onBeforeMount(() => {
 
 user_model.$subscribe((_mutation, state) => {
   if (state.current_user) {
-    toast.success("Вход выполнен!", {
+    toast.success(t('pages.sign_in.successful'), {
       timeout: 2500,
     });
 

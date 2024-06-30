@@ -3,17 +3,29 @@
     <i class="bi bi-trash"></i>
   </button>
 
-  <div class="modal fade" id="deleteRoomModal" tabindex="-1" aria-labelledby="deleteRoomModalLabel" aria-hidden="true" ref="delete_room_modal_ref">
+  <div
+    class="modal fade"
+    id="deleteRoomModal"
+    tabindex="-1"
+    aria-labelledby="deleteRoomModalLabel"
+    aria-hidden="true"
+    ref="delete_room_modal_ref"
+  >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="deleteRoomModalLabel">Удалить комнату?</h1>
+          <h1 class="modal-title fs-5" id="deleteRoomModalLabel">
+            {{ $t('features.room.delete.delete_room') }}
+          </h1>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+            {{ $t('features.room.delete.cancel') }}
+          </button>
           <button type="button" class="btn btn-dark" @click="deleteRoom">
-            <i class="bi bi-trash"></i> Удалить
+            <i class="bi bi-trash"></i>
+            {{ $t('features.room.delete.delete') }}
           </button>
         </div>
       </div>
@@ -25,10 +37,12 @@
 import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
 import { useToast } from "vue-toastification";
+import { useI18n } from "vue-i18n";
 import { CurrentRoomQuery, useRoomModel } from '@/entities';
 
 const props = defineProps<{ room: CurrentRoomQuery['rooms'][0] }>();
 const toast = useToast();
+const { t } = useI18n();
 
 const delete_room_modal_ref: Ref<HTMLDivElement | null> = ref(null);
 let delete_room_modal_value: Modal | null = null;
@@ -62,7 +76,7 @@ async function deleteRoom() {
 
   closeDeleteRoomModal()
 
-  toast.success("Комната удалена!", {
+  toast.success(t('features.room.delete.deleted'), {
     timeout: 2500,
   });
 }
