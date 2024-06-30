@@ -44,7 +44,8 @@ const toast = useToast();
 onBeforeMount(() => {
   breadcrumb_model.set([
     {
-      name: t('pages.sign_in.title'),
+      name: 'pages.sign_in.title',
+      use_i18n: true,
       is_current: true
     },
   ])

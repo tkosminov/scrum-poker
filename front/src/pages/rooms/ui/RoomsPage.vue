@@ -31,19 +31,18 @@
 
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount } from 'vue';
-import { useI18n } from "vue-i18n";
 import { RoomsListWidget } from '@/widgets'
 import { RoomCreateFeature } from '@/features'
 import { useRoomModel } from '@/entities';
 import { CPreloader, useBreadcrumbModel } from '@/shared'
 
-const { t } = useI18n();
 const room_model = useRoomModel()
 const breadcrumb_model = useBreadcrumbModel()
 
 onBeforeMount(async () => {
   breadcrumb_model.set([{
-    name: t('pages.rooms.title'),
+    name: 'pages.rooms.title',
+    use_i18n: true,
     is_current: true
   }]);
 

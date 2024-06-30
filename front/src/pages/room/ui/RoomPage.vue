@@ -34,7 +34,6 @@
 
 <script setup lang="ts">
 import { Ref, onBeforeMount, onBeforeUnmount, ref } from 'vue';
-import { useI18n } from "vue-i18n";
 import { router } from '@/app/providers';
 import { useRoomModel, useTaskModel, useRoomUserModel, useUserModel, useVoteModel } from '@/entities';
 import { RoomInfoWidget, TasksListWidget, TaskCurrentWidget, RoomUsersListWidget } from '@/widgets'
@@ -42,7 +41,6 @@ import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
 import { TaskCreateFeature } from '@/features'
 
 const props = defineProps<{ id: string }>();
-const { t } = useI18n();
 const user_model = useUserModel()
 const room_model = useRoomModel()
 const task_model = useTaskModel()
@@ -113,7 +111,8 @@ room_model.$subscribe((_mutation, state) => {
 
     breadcrumb_model.set([
       {
-        name: t('pages.rooms.title'),
+        name: 'pages.rooms.title',
+        use_i18n: true,
         is_current: false,
         to: 'rooms'
       },

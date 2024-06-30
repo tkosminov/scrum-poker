@@ -5,11 +5,15 @@
         <i class="bi bi-suit-spade"></i>
         ScrumPoker
       </router-link>
+      <div class="d-flex">
+        <I18nFeature />
+      </div>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
+import { I18nFeature } from '@/features'
 </script>
 
 <style scoped lang="scss"></style>

@@ -1,5 +1,5 @@
 <template>
-  <CNavbar />
+  <NavbarWidget />
 
   <div class="container mt-6">
     <CBreadcrumb />
@@ -11,7 +11,8 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
 import { RouterView } from "vue-router";
-import { CNavbar, CBreadcrumb, existsRefreshToken } from '@/shared'
+import { CBreadcrumb, existsRefreshToken } from '@/shared'
+import { NavbarWidget } from '@/widgets'
 import { useUserModel } from '@/entities'
 
 const user_model = useUserModel()

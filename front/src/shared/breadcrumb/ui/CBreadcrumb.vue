@@ -11,13 +11,13 @@
             :ariaCurrent="[breadcrumb.is_current ? 'page' : '']"
           >
             <template v-if="breadcrumb.is_current">
-              {{ breadcrumb.name }}
+              {{ breadcrumb.use_i18n ? $t(breadcrumb.name) : breadcrumb.name }}
             </template>
             <template v-else>
               <router-link
                 :to="{ name: breadcrumb.to, params: breadcrumb.params }"
               >
-                {{ breadcrumb.name }}
+                {{ breadcrumb.use_i18n ? $t(breadcrumb.name) : breadcrumb.name }}
               </router-link>
             </template>
           </li>

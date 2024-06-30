@@ -4,6 +4,7 @@ import { RouteParamsRaw } from 'vue-router';
 export interface IBreadcrumb {
   name: string;
   is_current: boolean;
+  use_i18n?: boolean;
   to?: string;
   params?: RouteParamsRaw;
 }
