@@ -61,14 +61,11 @@ const vote_model = useVoteModel()
 
 task_model.$subscribe(async ({ events }, state) => {
   let key: string;
-  let type: string;
 
   if (Array.isArray(events)) {
     key = events[0].key
-    type = events[0].type
   } else {
     key = events.key
-    type = events.type
   }
 
   if (!state.current_task) {

@@ -1,0 +1,10 @@
+version: '3'
+services:
+  scrum-poker-app:
+    build:
+      context: .
+      args:
+        - env=development
+    ports:
+      - '5173:80'
+    container_name: scrum-poker-app

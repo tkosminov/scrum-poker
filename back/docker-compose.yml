@@ -1,0 +1,52 @@
+version: '3'
+services:
+  scrum-poker-api:
+    build:
+      context: .
+      args:
+        - env=development
+    ports:
+      - '8080:80'
+    environment:
+      DB_HOST: scrum-poker-db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      REDIS_HOST: scrum-poker-redis
+      REDIS_PORT: 6379
+    links:
+      - scrum-poker-db
+      - scrum-poker-redis
+    depends_on:
+      - scrum-poker-db
+      - scrum-poker-redis
+    networks:
+      - scrum-poker-network
+    container_name: scrum-poker-api
+    restart: on-failure
+
+  scrum-poker-db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    expose:
+      - "5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - scrum-poker-network
+    container_name: scrum-poker-db
+    restart: on-failure
+
+  scrum-poker-redis:
+    image: redis:7-alpine
+    expose:
+      - "6379"
+    networks:
+      - scrum-poker-network
+    container_name: scrum-poker-redis
+    restart: on-failure
+
+networks:
+  scrum-poker-network:
+    external: true

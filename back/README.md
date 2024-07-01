@@ -5,8 +5,12 @@
 
 ## Dependencies
 
-* [NodeJS 20](https://nodejs.org/download/release/latest-v20.x/)
-* [PostgreSQL 13](https://www.postgresql.org/download/)
+* NodeJS 20
+  * [ubuntu/debian](https://computingforgeeks.com/how-to-install-node-js-on-ubuntu-debian/)
+* Redis
+  * [ubuntu/debian](https://computingforgeeks.com/how-to-install-redis-on-ubuntu/)
+* PostgreSQL 13
+  * [ubuntu/debian](https://computingforgeeks.com/how-to-install-postgresql-13-on-ubuntu/)
 
 ## Installation
 
@@ -19,3 +23,17 @@ npm ci
 ```bash
 npm run start:dev
 ```
+
+api listening on `http://localhost:8080`
+
+## Docker
+
+```bash
+sudo docker network create scrum-poker-network
+```
+
+```bash
+sudo docker-compose up --build
+```
+
+api listening on `http://localhost:8080`

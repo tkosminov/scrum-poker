@@ -29,14 +29,11 @@ const room: Ref<CurrentRoomQuery['rooms'][0] | undefined> = ref(undefined);
 
 room_model.$subscribe(({ events }, state) => {
   let key: string;
-  let type: string;
 
   if (Array.isArray(events)) {
     key = events[0].key
-    type = events[0].type
   } else {
     key = events.key
-    type = events.type
   }
 
   if (key === 'current_room') {

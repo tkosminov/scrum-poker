@@ -42,15 +42,16 @@ RUN nginx -t
 # App
 
 COPY tsconfig.json tsconfig.build.json tsconfig.eslint.json .prettierrc .eslintrc.js .eslintignore ./
+COPY types ./types
 COPY src ./src
 
 RUN npm run build
 
 # Build info
 
-ENV DOCKER_DEPLOY true
-ENV ALLOW_CONFIG_MUTATIONS true
-ENV NODE_ENV ${env}
+ENV DOCKER_DEPLOY=true
+ENV ALLOW_CONFIG_MUTATIONS=true
+ENV NODE_ENV=${env}
 
 RUN touch build_info.txt
 RUN echo "env: ${env}" >> build_info.txt

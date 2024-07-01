@@ -1,7 +1,7 @@
 # Scrum-Poker
 
-- [back](./back/README.md)
 - [front](./front/README.md)
+- [back](./back/README.md)
 
 ## Description
 
