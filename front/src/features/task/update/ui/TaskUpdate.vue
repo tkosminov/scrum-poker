@@ -52,10 +52,10 @@
 </template>
 
 <script setup lang="ts">
-import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
-import { useToast } from "vue-toastification";
 import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
+import { Modal } from "bootstrap";
 import { useTaskModel, TasksQuery } from '@/entities';
 
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
@@ -101,16 +101,16 @@ async function updateTask() {
     return;
   }
 
-  await task_model.update({ id: props.task.id, title: title.value })
+  try {
+    await task_model.update({ id: props.task.id, title: title.value })
 
-  if (task_model.loading_error) {
-    toast.error(task_model.loading_error, {
-      timeout: 2500,
-    });
-  } else {
     closeUpdateTaskModal()
 
     toast.success(t('features.task.update.updated'), {
+      timeout: 2500,
+    });
+  } catch (error) {
+    toast.error(task_model.mutation_error!, {
       timeout: 2500,
     });
   }

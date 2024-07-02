@@ -34,10 +34,10 @@
 </template>
 
 <script setup lang="ts">
-import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
-import { useToast } from "vue-toastification";
 import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
+import { Modal } from "bootstrap";
 import { CurrentRoomQuery, useRoomModel } from '@/entities';
 
 const props = defineProps<{ room: CurrentRoomQuery['rooms'][0] }>();
@@ -72,13 +72,19 @@ function closeDeleteRoomModal() {
 }
 
 async function deleteRoom() {
-  await room_model.delete({ id: props.room.id })
+  try {
+    await room_model.delete({ id: props.room.id })
 
-  closeDeleteRoomModal()
+    closeDeleteRoomModal()
 
-  toast.success(t('features.room.delete.deleted'), {
-    timeout: 2500,
-  });
+    toast.success(t('features.room.delete.deleted'), {
+      timeout: 2500,
+    });
+  } catch (error) {
+    toast.error(room_model.mutation_error!, {
+      timeout: 2500,
+    });
+  }
 }
 </script>
 

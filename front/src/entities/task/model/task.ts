@@ -30,7 +30,9 @@ import {
 
 interface IState {
   loading: boolean;
-  loading_error: string | undefined;
+  query_error: string | undefined;
+  mutation_error: string | undefined;
+  subscription_error: string | undefined;
   stoppers: Array<() => void>;
   tasks: TasksQuery['tasks'];
   current_task_id: string | null;
@@ -43,7 +45,9 @@ export const useTaskModel = defineStore({
   state: (): IState => ({
     stoppers: [],
     loading: false,
-    loading_error: undefined,
+    query_error: undefined,
+    mutation_error: undefined,
+    subscription_error: undefined,
     tasks: [],
     current_task_id: null,
     current_task: undefined,
@@ -52,7 +56,9 @@ export const useTaskModel = defineStore({
   actions: {
     clearState() {
       this.loading = false;
-      this.loading_error = undefined;
+      this.query_error = undefined;
+      this.mutation_error = undefined;
+      this.subscription_error = undefined;
       this.tasks = [];
       this.current_task_id = null;
       this.current_task = undefined;
@@ -73,7 +79,7 @@ export const useTaskModel = defineStore({
     },
     async fetchTasks(variables: TasksQueryVariables) {
       this.loading = true;
-      this.loading_error = undefined;
+      this.query_error = undefined;
 
       const { loading, result, error } = await tasks(variables);
 
@@ -89,7 +95,7 @@ export const useTaskModel = defineStore({
 
             this.initCurrentTask(null);
 
-            this.loading_error = error.value?.message;
+            this.query_error = error.value?.message;
           }
         },
         {
@@ -98,114 +104,129 @@ export const useTaskModel = defineStore({
       );
     },
     async create(variables: TaskCreateMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await taskCreate(variables);
+      const { mutate, onDone, onError } = await taskCreate(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     async update(variables: TaskUpdateMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await taskUpdate(variables);
+      const { mutate, onDone, onError } = await taskUpdate(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     async delete(variables: TaskDeleteMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await taskDelete(variables);
+      const { mutate, onDone, onError } = await taskDelete(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     async setCurrent(variables: TaskSetCurrentMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await taskSetCurrent(variables);
+      const { mutate, onDone, onError } = await taskSetCurrent(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     async changeStatus(variables: TaskChangeStatusMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await taskChangeStatus(variables);
+      const { mutate, onDone, onError } = await taskChangeStatus(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     unsubscribe() {
       this.stoppers.forEach((stop) => {
@@ -224,6 +245,8 @@ export const useTaskModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },
@@ -245,6 +268,8 @@ export const useTaskModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },
@@ -270,6 +295,8 @@ export const useTaskModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },
@@ -283,6 +310,8 @@ export const useTaskModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },
@@ -304,6 +333,8 @@ export const useTaskModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },

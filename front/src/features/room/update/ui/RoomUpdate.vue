@@ -53,10 +53,10 @@
 </template>
 
 <script setup lang="ts">
-import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
-import { useToast } from "vue-toastification";
 import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
+import { Modal } from "bootstrap";
 import { CurrentRoomQuery, useRoomModel } from '@/entities';
 
 const props = defineProps<{ room: CurrentRoomQuery['rooms'][0] }>();
@@ -102,13 +102,19 @@ async function updateRoom() {
     return;
   }
 
-  await room_model.update({ id: props.room.id, title: title.value })
+  try {
+    await room_model.update({ id: props.room.id, title: title.value })
 
-  closeUpdateRoomModal()
+    closeUpdateRoomModal()
 
-  toast.success(t('features.room.update.updated'), {
-    timeout: 2500,
-  });
+    toast.success(t('features.room.update.updated'), {
+      timeout: 2500,
+    });
+  } catch (error) {
+    toast.error(room_model.mutation_error!, {
+      timeout: 2500,
+    });
+  }
 }
 </script>
 

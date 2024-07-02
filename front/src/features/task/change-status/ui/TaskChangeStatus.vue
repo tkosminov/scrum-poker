@@ -29,15 +29,22 @@
 </template>
 
 <script setup lang="ts">
-import { TasksQuery, EVotingStatusId } from '@/entities';
-import { useTaskModel } from '@/entities';
+import { useToast } from "vue-toastification";
+import { TasksQuery, EVotingStatusId, useTaskModel } from '@/entities';
 
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
 
+const toast = useToast();
 const task_model = useTaskModel()
 
 async function changeStatus(voting_status_id: EVotingStatusId) {
-  await task_model.changeStatus({ id: props.task.id, voting_status_id })
+  try {
+    await task_model.changeStatus({ id: props.task.id, voting_status_id })
+  } catch (error) {
+    toast.error(task_model.mutation_error!, {
+      timeout: 2500,
+    });
+  }
 }
 </script>
 

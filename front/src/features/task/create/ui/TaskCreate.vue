@@ -52,10 +52,10 @@
 </template>
 
 <script setup lang="ts">
-import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
-import { useToast } from "vue-toastification";
 import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
+import { Modal } from "bootstrap";
 import { useTaskModel, useRoomModel } from '@/entities';
 
 const toast = useToast();
@@ -101,16 +101,16 @@ async function createTask() {
     return;
   }
 
-  await task_model.create({ title: title.value, room_id: room_model.current_room!.id })
+  try {
+    await task_model.create({ title: title.value, room_id: room_model.current_room!.id })
 
-  if (task_model.loading_error) {
-    toast.error(task_model.loading_error, {
+    closeCreateTaskModal()
+  
+    toast.success(t('features.task.create.created'), {
       timeout: 2500,
     });
-  } else {
-    closeCreateTaskModal()
-
-    toast.success(t('features.task.create.created'), {
+  } catch (error) {
+    toast.error(task_model.mutation_error!, {
       timeout: 2500,
     });
   }

@@ -23,7 +23,9 @@ import {
 
 interface IState {
   loading: boolean;
-  loading_error: string | undefined;
+  query_error: string | undefined;
+  mutation_error: string | undefined;
+  subscription_error: string | undefined;
   stoppers: Array<() => void>;
   rooms: RoomsQuery['rooms'];
   current_room: CurrentRoomQuery['rooms'][0] | undefined;
@@ -35,7 +37,9 @@ export const useRoomModel = defineStore({
   state: (): IState => ({
     stoppers: [],
     loading: false,
-    loading_error: undefined,
+    query_error: undefined,
+    mutation_error: undefined,
+    subscription_error: undefined,
     rooms: [],
     current_room: undefined,
     deleted_id$: new BehaviorSubject(''),
@@ -43,7 +47,9 @@ export const useRoomModel = defineStore({
   actions: {
     clearState() {
       this.loading = false;
-      this.loading_error = undefined;
+      this.query_error = undefined;
+      this.mutation_error = undefined;
+      this.subscription_error = undefined;
       this.rooms = [];
       this.current_room = undefined;
       this.deleted_id$.next('');
@@ -55,7 +61,7 @@ export const useRoomModel = defineStore({
     },
     async fetchRooms() {
       this.loading = true;
-      this.loading_error = undefined;
+      this.query_error = undefined;
 
       const { loading, result, error } = await rooms({});
 
@@ -68,7 +74,7 @@ export const useRoomModel = defineStore({
 
           if (!value) {
             this.rooms = response.value;
-            this.loading_error = error.value?.message;
+            this.query_error = error.value?.message;
           }
         },
         {
@@ -78,7 +84,7 @@ export const useRoomModel = defineStore({
     },
     async fetchCurrentRoom(variables: CurrentRoomQueryVariables) {
       this.loading = true;
-      this.loading_error = undefined;
+      this.query_error = undefined;
 
       const { loading, result, error } = await currentRoom(variables);
 
@@ -91,7 +97,7 @@ export const useRoomModel = defineStore({
 
           if (!value) {
             this.current_room = response.value?.[0];
-            this.loading_error = error.value?.message;
+            this.query_error = error.value?.message;
           }
         },
         {
@@ -100,70 +106,79 @@ export const useRoomModel = defineStore({
       );
     },
     async create(variables: RoomCreateMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await roomCreate(variables);
+      const { mutate, onDone, onError } = await roomCreate(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     async update(variables: RoomUpdateMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await roomUpdate(variables);
+      const { mutate, onDone, onError } = await roomUpdate(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     async delete(variables: RoomDeleteMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await roomDelete(variables);
+      const { mutate, onDone, onError } = await roomDelete(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     unsubscribe() {
       this.stoppers.forEach((stop) => {
@@ -182,6 +197,8 @@ export const useRoomModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },
@@ -203,6 +220,8 @@ export const useRoomModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },
@@ -223,6 +242,8 @@ export const useRoomModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },

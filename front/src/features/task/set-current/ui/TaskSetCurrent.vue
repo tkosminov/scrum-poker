@@ -11,8 +11,8 @@
 
 <script setup lang="ts">
 import { type Ref, ref, onBeforeMount } from 'vue';
-import { useToast } from "vue-toastification";
 import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
 import { useTaskModel, type TasksQuery } from '@/entities';
 
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
@@ -49,14 +49,14 @@ async function setCurrentTask() {
     return;
   }
 
-  await task_model.setCurrent({ id: props.task.id })
+  try {
+    await task_model.setCurrent({ id: props.task.id })
 
-  if (task_model.loading_error) {
-    toast.error(task_model.loading_error, {
+    toast.success(t('features.task.set_current.change'), {
       timeout: 2500,
     });
-  } else {
-    toast.success(t('features.task.set_current.change'), {
+  } catch (error) {
+    toast.error(task_model.mutation_error!, {
       timeout: 2500,
     });
   }

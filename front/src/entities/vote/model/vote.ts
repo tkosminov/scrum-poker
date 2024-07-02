@@ -18,7 +18,9 @@ import {
 
 interface IState {
   loading: boolean;
-  loading_error: string | undefined;
+  query_error: string | undefined;
+  mutation_error: string | undefined;
+  subscription_error: string | undefined;
   stoppers: Array<() => void>;
   votes: Map<string, number | null>;
   current_vote: number | undefined;
@@ -29,20 +31,24 @@ export const useVoteModel = defineStore({
   state: (): IState => ({
     stoppers: [],
     loading: false,
-    loading_error: undefined,
+    query_error: undefined,
+    mutation_error: undefined,
+    subscription_error: undefined,
     votes: new Map(),
     current_vote: undefined,
   }),
   actions: {
     clearState() {
       this.loading = false;
-      this.loading_error = undefined;
+      this.query_error = undefined;
+      this.mutation_error = undefined;
+      this.subscription_error = undefined;
       this.votes = new Map();
       this.current_vote = undefined;
     },
     async fetchVotes(variables: VotesQueryVariables) {
       this.loading = true;
-      this.loading_error = undefined;
+      this.query_error = undefined;
 
       const { loading, result, error } = await votes(variables);
 
@@ -60,7 +66,7 @@ export const useVoteModel = defineStore({
               return acc;
             }, new Map());
 
-            this.loading_error = error.value?.message;
+            this.query_error = error.value?.message;
           }
         },
         {
@@ -70,7 +76,7 @@ export const useVoteModel = defineStore({
     },
     async fetchVotesFull(variables: VotesFullQueryVariables) {
       this.loading = true;
-      this.loading_error = undefined;
+      this.query_error = undefined;
 
       const { loading, result, error } = await votesFull(variables);
 
@@ -88,7 +94,7 @@ export const useVoteModel = defineStore({
               return acc;
             }, new Map());
 
-            this.loading_error = error.value?.message;
+            this.query_error = error.value?.message;
           }
         },
         {
@@ -98,7 +104,7 @@ export const useVoteModel = defineStore({
     },
     async fetchVoteCurrent(variables: VoteCurrentQueryVariables) {
       this.loading = true;
-      this.loading_error = undefined;
+      this.query_error = undefined;
 
       const { loading, result, error } = await voteCurrent(variables);
 
@@ -112,7 +118,7 @@ export const useVoteModel = defineStore({
           if (!value) {
             this.current_vote = response.value;
 
-            this.loading_error = error.value?.message;
+            this.query_error = error.value?.message;
           }
         },
         {
@@ -121,27 +127,29 @@ export const useVoteModel = defineStore({
       );
     },
     async change(variables: VoteChangeMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await voteChange(variables);
+      const { mutate, onDone, onError } = await voteChange(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.current_vote = variables.point;
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     unsubscribe() {
       this.stoppers.forEach((stop) => {
@@ -160,6 +168,8 @@ export const useVoteModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },
@@ -177,6 +187,8 @@ export const useVoteModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },

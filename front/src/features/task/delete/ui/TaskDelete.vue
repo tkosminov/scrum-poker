@@ -34,10 +34,10 @@
 </template>
 
 <script setup lang="ts">
-import { Modal } from "bootstrap";
 import { ref, type Ref, onMounted } from "vue";
-import { useToast } from "vue-toastification";
 import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
+import { Modal } from "bootstrap";
 import { useTaskModel, TasksQuery } from '@/entities';
 
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
@@ -72,13 +72,19 @@ function closeDeleteTaskModal() {
 }
 
 async function deleteTask() {
-  await task_model.delete({ id: props.task.id })
+  try {
+    await task_model.delete({ id: props.task.id })
 
-  closeDeleteTaskModal()
+    closeDeleteTaskModal()
 
-  toast.success(t('features.task.delete.deleted'), {
-    timeout: 2500,
-  });
+    toast.success(t('features.task.delete.deleted'), {
+      timeout: 2500,
+    });
+  } catch (error) {
+    toast.error(task_model.mutation_error!, {
+      timeout: 2500,
+    });
+  }
 }
 </script>
 

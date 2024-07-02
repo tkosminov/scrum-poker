@@ -12,11 +12,13 @@
 </template>
 
 <script setup lang="ts">
-import { useVoteModel } from '@/entities';
 import { Ref, ref } from 'vue';
+import { useToast } from "vue-toastification";
+import { useVoteModel } from '@/entities';
 
 const props = defineProps<{ task_id: string, point: number }>();
 
+const toast = useToast();
 const vote_model = useVoteModel();
 const is_current: Ref<boolean> = ref(false);
 
@@ -26,7 +28,13 @@ vote_model.$subscribe((_mutation, state) => {
 
 async function changeVote() {
   if (!is_current.value) {
-    await vote_model.change({ task_id: props.task_id, point: props.point })
+    try {
+      await vote_model.change({ task_id: props.task_id, point: props.point })
+    } catch (error) {
+      toast.error(vote_model.mutation_error!, {
+        timeout: 2500,
+      });
+    }
   }
 }
 </script>

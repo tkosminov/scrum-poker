@@ -23,7 +23,10 @@ import {
 interface IState {
   current_user: CurrentUserQuery['currentUser'] | undefined;
   loading: boolean;
-  loading_error: string | undefined;
+  rest_error: string | undefined;
+  query_error: string | undefined;
+  mutation_error: string | undefined;
+  subscription_error: string | undefined;
 }
 
 function setTokens(data: ISignInResponse) {
@@ -38,12 +41,15 @@ export const useUserModel = defineStore({
   state: (): IState => ({
     current_user: undefined,
     loading: false,
-    loading_error: undefined,
+    rest_error: undefined,
+    query_error: undefined,
+    mutation_error: undefined,
+    subscription_error: undefined,
   }),
   actions: {
     async signIn(name: string) {
       this.loading = true;
-      this.loading_error = undefined;
+      this.rest_error = undefined;
 
       try {
         const { data: res } = await signIn(name);
@@ -54,13 +60,13 @@ export const useUserModel = defineStore({
       } catch (error: any) {
         clearTokens();
 
-        this.loading_error = error.message;
+        this.rest_error = error.message;
         this.loading = false;
       }
     },
     async refreshToken() {
       this.loading = true;
-      this.loading_error = undefined;
+      this.rest_error = undefined;
 
       try {
         const token = getRefreshToken();
@@ -72,13 +78,13 @@ export const useUserModel = defineStore({
       } catch (error: any) {
         clearTokens();
 
-        this.loading_error = error.message;
+        this.rest_error = error.message;
         this.loading = false;
       }
     },
     async fetchCurrentUser() {
       this.loading = true;
-      this.loading_error = undefined;
+      this.query_error = undefined;
 
       const { loading, result, error } = await currentUser({});
 
@@ -91,7 +97,7 @@ export const useUserModel = defineStore({
 
           if (!value) {
             this.current_user = response.value;
-            this.loading_error = error.value?.message;
+            this.query_error = error.value?.message;
           }
         },
         {
@@ -100,32 +106,29 @@ export const useUserModel = defineStore({
       );
     },
     async update(variables: UserUpdateMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
+      const { mutate, onDone, onError } = await userUpdate(variables);
 
-      const { mutate, loading, error } = await userUpdate(variables);
+      mutate();
 
-      const response = await mutate();
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+          resolve(null);
+        });
 
-          if (!value) {
-            if (response?.data?.userUpdate && this.current_user) {
-              this.current_user.name = response.data.userUpdate.name;
-            }
+        onError((error) => {
+          let message: string = '';
 
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
 
-      return response?.data?.userUpdate;
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
   },
 });

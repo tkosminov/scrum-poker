@@ -18,7 +18,9 @@ import {
 
 interface IState {
   loading: boolean;
-  loading_error: string | undefined;
+  query_error: string | undefined;
+  mutation_error: string | undefined;
+  subscription_error: string | undefined;
   stoppers: Array<() => void>;
   room_users: RoomUsersQuery['roomUsers'];
   deleted_id$: BehaviorSubject<string>;
@@ -29,20 +31,24 @@ export const useRoomUserModel = defineStore({
   state: (): IState => ({
     stoppers: [],
     loading: false,
-    loading_error: undefined,
+    query_error: undefined,
+    mutation_error: undefined,
+    subscription_error: undefined,
     room_users: [],
     deleted_id$: new BehaviorSubject(''),
   }),
   actions: {
     clearState() {
       this.loading = false;
-      this.loading_error = undefined;
+      this.query_error = undefined;
+      this.mutation_error = undefined;
+      this.subscription_error = undefined;
       this.room_users = [];
       this.deleted_id$.next('');
     },
     async fetchRoomUsers(variables: RoomUsersQueryVariables) {
       this.loading = true;
-      this.loading_error = undefined;
+      this.query_error = undefined;
 
       const { loading, result, error } = await roomUsers(variables);
 
@@ -55,7 +61,7 @@ export const useRoomUserModel = defineStore({
 
           if (!value) {
             this.room_users = response.value;
-            this.loading_error = error.value?.message;
+            this.query_error = error.value?.message;
           }
         },
         {
@@ -64,48 +70,54 @@ export const useRoomUserModel = defineStore({
       );
     },
     async roomUserJoin(variables: RoomUserJoinMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await roomUserJoin(variables);
+      const { mutate, onDone, onError } = await roomUserJoin(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     async roomUserLeave(variables: RoomUserLeaveMutationVariables) {
-      this.loading = true;
-      this.loading_error = undefined;
-
-      const { mutate, loading, error } = await roomUserLeave(variables);
+      const { mutate, onDone, onError } = await roomUserLeave(variables);
 
       mutate();
 
-      watch(
-        loading,
-        (value) => {
-          this.loading = value;
+      return new Promise((resolve, reject) => {
+        onDone(() => {
+          this.mutation_error = undefined;
 
-          if (!value) {
-            this.loading_error = error.value?.message;
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
+          resolve(null);
+        });
+
+        onError((error) => {
+          let message: string = '';
+
+          error.graphQLErrors.forEach((gql_err) => {
+            message += (gql_err.extensions.originalError as { message: string[] }).message.join('; ');
+          });
+
+          this.mutation_error = message;
+
+          reject(new Error(this.mutation_error));
+        });
+      });
     },
     unsubscribe() {
       this.stoppers.forEach((stop) => {
@@ -128,6 +140,8 @@ export const useRoomUserModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },
@@ -148,6 +162,8 @@ export const useRoomUserModel = defineStore({
       });
 
       onError((error) => {
+        this.subscription_error = error.message;
+
         console.error(error);
       });
     },
