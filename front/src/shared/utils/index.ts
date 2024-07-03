@@ -1,0 +1,1 @@
+export { toStrDate } from './date';

@@ -27,23 +27,28 @@
 <script setup lang="ts">
 import { Ref, ref, onBeforeMount } from 'vue';
 import { useI18n } from "vue-i18n";
+import { EI18nLang } from '@/shared'
 
-const langs: Ref<string[]> = ref(['ru', 'en'])
-const current_lang: Ref<string> = ref('ru')
+const langs: Ref<EI18nLang[]> = ref([EI18nLang.RU, EI18nLang.EN])
+const current_lang: Ref<EI18nLang> = ref(EI18nLang.RU)
 
 const i18n = useI18n();
 
 onBeforeMount(() => {
-  const lang = localStorage.getItem('lang')
+  let lang = localStorage.getItem('lang') as EI18nLang | null;
 
-  if (lang && langs.value.includes(lang)) {
-    current_lang.value = lang;
+  if (!lang || !langs.value.includes(lang)) {
+    lang = langs.value[0]
+
+    localStorage.setItem('lang', lang)
   }
+
+  current_lang.value = lang;
 
   i18n.locale.value = current_lang.value;
 })
 
-function setCurrentLang(lang: string) {
+function setCurrentLang(lang: EI18nLang) {
   current_lang.value = lang;
   localStorage.setItem('lang', lang);
 

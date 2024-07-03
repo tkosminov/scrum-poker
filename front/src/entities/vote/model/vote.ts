@@ -133,12 +133,14 @@ export const useVoteModel = defineStore({
 
       return new Promise((resolve, reject) => {
         onDone(() => {
+          this.current_vote = variables.point;
           this.mutation_error = undefined;
 
           resolve(null);
         });
 
         onError((error) => {
+          this.current_vote = undefined;
           let message: string = '';
 
           error.graphQLErrors.forEach((gql_err) => {

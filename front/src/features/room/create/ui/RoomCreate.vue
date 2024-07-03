@@ -57,6 +57,7 @@ import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
 import { Modal } from "bootstrap";
 import { useRoomModel } from '@/entities';
+import { EI18nLang, toStrDate } from '@/shared'
 
 const toast = useToast();
 const { t } = useI18n();
@@ -78,7 +79,19 @@ onMounted(() => {
 
 function openCreateRoomModal(event: Event) {
   form_valid.value = true;
-  title.value = ""
+
+  const current_date = new Date()
+  const lang = localStorage.getItem('lang') as EI18nLang;
+
+  let value = ""
+
+  if (lang === EI18nLang.RU) {
+    value = `Груминг ${toStrDate(current_date)}`
+  } else {
+    value = `Grooming ${toStrDate(current_date)}`
+  }
+
+  title.value = value;
 
   event.preventDefault();
 
