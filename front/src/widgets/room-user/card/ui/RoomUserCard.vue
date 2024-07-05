@@ -17,9 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import { RoomUsersQuery, EVotingStatusId } from '@/entities';
-import { useTaskModel, useVoteModel } from '@/entities';
 import { Ref, ref, onBeforeMount } from 'vue';
+import { useTaskModel, useVoteModel, RoomUsersQuery, EVotingStatusId } from '@/entities';
 
 const props = defineProps<{ room_user: RoomUsersQuery['roomUsers'][0] }>();
 

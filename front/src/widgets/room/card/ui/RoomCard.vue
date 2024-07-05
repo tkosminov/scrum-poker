@@ -4,7 +4,7 @@
       <div class="col-4 d-none d-sm-none d-md-none d-lg-block"></div>
 
       <div class="col-12 col-sm-8 col-md-8 col-lg-4">
-        <h1>{{ room.title }}</h1>
+        <CHr :title="room.title" />
       </div>
 
       <div class="col-12 col-sm-4 col-md-4 col-lg-4">
@@ -19,10 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import { useRoomModel, CurrentRoomQuery } from '@/entities';
-import { RoomDeleteFeature, RoomUpdateFeature, RoomCopyLinkFeature } from '@/features';
-
 import { Ref, ref } from 'vue';
+import { RoomDeleteFeature, RoomUpdateFeature, RoomCopyLinkFeature } from '@/features';
+import { useRoomModel, CurrentRoomQuery } from '@/entities';
+import { CHr } from '@/shared'
 
 const room_model = useRoomModel()
 const room: Ref<CurrentRoomQuery['rooms'][0] | undefined> = ref(undefined);

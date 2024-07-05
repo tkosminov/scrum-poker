@@ -11,10 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { useTaskModel, TasksQuery } from '@/entities';
-import { TaskCardWidget } from '@/widgets'
-
 import { Ref, ref } from 'vue';
+import { TaskCardWidget } from '@/widgets'
+import { useTaskModel, TasksQuery } from '@/entities';
 
 const task_model = useTaskModel()
 const tasks: Ref<TasksQuery['tasks'] | undefined> = ref(undefined);

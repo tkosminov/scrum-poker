@@ -11,10 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { useRoomUserModel, RoomUsersQuery } from '@/entities';
-import { RoomUserCardWidget } from '@/widgets'
-
 import { Ref, ref } from 'vue';
+import { RoomUserCardWidget } from '@/widgets'
+import { useRoomUserModel, RoomUsersQuery } from '@/entities';
 
 const room_user_model = useRoomUserModel()
 const room_users: Ref<RoomUsersQuery['roomUsers'] | undefined> = ref(undefined);

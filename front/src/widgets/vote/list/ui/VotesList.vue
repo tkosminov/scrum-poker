@@ -11,8 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { TasksQuery } from '@/entities';
 import { VoteChangeFeature } from '@/features'
+import { TasksQuery } from '@/entities';
 
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
 

@@ -1,3 +1,3 @@
-import I18nFeature from './ui/I18n.vue';
+import I18nSwitchFeature from './ui/I18nSwitch.vue';
 
-export { I18nFeature };
+export { I18nSwitchFeature };

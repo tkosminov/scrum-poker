@@ -12,7 +12,7 @@
 
     <ul class="dropdown-menu dropdown-menu-dark">
       <li
-        class="dropdown-item"
+        class="dropdown-item cursor-pointer"
         v-for="lang in langs"
         :key="lang"
         @click="setCurrentLang(lang)"
@@ -56,4 +56,8 @@ function setCurrentLang(lang: EI18nLang) {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.cursor-pointer {
+  cursor: pointer !important;
+}
+</style>

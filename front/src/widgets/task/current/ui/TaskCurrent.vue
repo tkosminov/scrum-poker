@@ -50,10 +50,10 @@
 </template>
 
 <script setup lang="ts">
-import { useTaskModel, EVotingStatusId, useRoomModel, useVoteModel } from '@/entities';
+import { VotesListWidget } from '@/widgets';
 import { TaskChangeStatusFeature } from '@/features';
+import { useTaskModel, EVotingStatusId, useRoomModel, useVoteModel } from '@/entities';
 import { CHr } from '@/shared'
-import { VotesListWidget } from '@/widgets/vote';
 
 const room_model = useRoomModel()
 const task_model = useTaskModel()

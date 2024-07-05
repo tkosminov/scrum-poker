@@ -11,9 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRoomModel, RoomsQuery, RoomCard } from '@/entities';
-
 import { Ref, ref } from 'vue';
+import { useRoomModel, RoomsQuery, RoomCard } from '@/entities';
 
 const room_model = useRoomModel()
 const rooms: Ref<RoomsQuery['rooms'] | undefined> = ref(undefined);

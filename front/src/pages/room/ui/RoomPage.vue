@@ -3,7 +3,7 @@
     <CPreloader />
   </template>
 
-  <RoomInfoWidget />
+  <RoomCardWidget />
 
   <div class="row">
     <div class="col-xs-12 col-sm-4">
@@ -35,10 +35,10 @@
 <script setup lang="ts">
 import { Ref, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { router } from '@/app/providers';
-import { useRoomModel, useTaskModel, useRoomUserModel, useUserModel, useVoteModel } from '@/entities';
-import { RoomInfoWidget, TasksListWidget, TaskCurrentWidget, RoomUsersListWidget } from '@/widgets'
-import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
+import { RoomCardWidget, TasksListWidget, TaskCurrentWidget, RoomUsersListWidget } from '@/widgets'
 import { TaskCreateFeature } from '@/features'
+import { useRoomModel, useTaskModel, useRoomUserModel, useUserModel, useVoteModel } from '@/entities';
+import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
 
 const props = defineProps<{ id: string }>();
 const user_model = useUserModel()

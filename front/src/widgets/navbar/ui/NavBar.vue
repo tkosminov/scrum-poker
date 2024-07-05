@@ -6,14 +6,14 @@
         ScrumPoker
       </router-link>
       <div class="d-flex">
-        <I18nFeature />
+        <I18nSwitchFeature />
       </div>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { I18nFeature } from '@/features'
+import { I18nSwitchFeature } from '@/features'
 </script>
 
 <style scoped lang="scss"></style>

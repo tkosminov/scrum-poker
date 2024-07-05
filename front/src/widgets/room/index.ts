@@ -1,4 +1,4 @@
 import RoomsListWidget from './list';
-import RoomInfoWidget from './info';
+import RoomCardWidget from './card';
 
-export { RoomsListWidget, RoomInfoWidget };
+export { RoomsListWidget, RoomCardWidget };
