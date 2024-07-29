@@ -7,8 +7,8 @@ export function toStrDate(date: Date) {
 
   str += year;
 
-  str += month < 10 ? `.0${month}` : month;
-  str += day < 10 ? `.0${day}` : day;
+  str += month < 10 ? `.0${month}` : `.${month}`;
+  str += day < 10 ? `.0${day}` : `.${day}`;
 
   return str;
 }
