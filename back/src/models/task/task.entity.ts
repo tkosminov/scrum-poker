@@ -11,10 +11,15 @@ import {
   registerEnumType,
 } from 'nestjs-graphql-easy';
 import { Index, ManyToOne, JoinColumn, OneToMany, OneToOne } from 'typeorm';
-import { DateTimeISOResolver } from 'graphql-scalars';
+import { DateTimeISOResolver, JSONResolver } from 'graphql-scalars';
 
 import { Room } from '../room/room.entity';
 import { Vote } from '../vote/vote.entity';
+
+export interface IPointCount {
+  count: number;
+  percent: number;
+}
 
 export enum EVotingStatusId {
   NOT_STARTED = '1',
@@ -70,6 +75,10 @@ export class Task {
   @Field(() => Float, { nullable: true })
   @Column('double precision', { nullable: true })
   public avg_point: number;
+
+  @Field(() => JSONResolver, { nullable: true })
+  @Column('jsonb', { nullable: true })
+  public counts_point: Record<string, IPointCount>;
 
   /**
    * ! relations

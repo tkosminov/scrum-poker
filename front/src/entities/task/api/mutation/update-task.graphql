@@ -9,5 +9,6 @@ mutation TaskUpdate($id: ID!, $title: String!) {
     voting_status_id
     closest_point
     avg_point
+    counts_point
   }
 }

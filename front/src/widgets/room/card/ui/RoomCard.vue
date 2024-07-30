@@ -19,27 +19,25 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { type Ref, ref, watch } from 'vue';
+import { storeToRefs } from 'pinia'
 import { RoomDeleteFeature, RoomUpdateFeature, RoomCopyLinkFeature } from '@/features';
 import { useRoomModel, CurrentRoomQuery } from '@/entities';
 import { CHr } from '@/shared'
 
 const room_model = useRoomModel()
+const { current_room } = storeToRefs(room_model)
 const room: Ref<CurrentRoomQuery['rooms'][0] | undefined> = ref(undefined);
 
-room_model.$subscribe(({ events }, state) => {
-  let key: string;
-
-  if (Array.isArray(events)) {
-    key = events[0].key
-  } else {
-    key = events.key
+watch(
+  () => current_room.value,
+  (curr_current_room, _prev_current_room) => {
+    room.value = curr_current_room;
+  },
+  {
+    immediate: true,
   }
-
-  if (key === 'current_room') {
-    room.value = state.current_room;
-  }
-});
+)
 </script>
 
 <style scoped lang="scss"></style>

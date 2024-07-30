@@ -8,7 +8,7 @@ import { Room } from '../room/room.entity';
 import { POSSIBLE_POINTS, Vote } from '../vote/vote.entity';
 import { GRAPHQL_SUBSCRIPTION } from '../../graphql-pub-sub/graphql-pub-sub.module';
 
-import { EVotingStatusId, Task } from './task.entity';
+import { EVotingStatusId, IPointCount, Task } from './task.entity';
 import { TaskCreateDTO } from './mutation-input/create.dto';
 import { TaskUpdateDTO } from './mutation-input/update.dto';
 import { TaskDeleteDTO } from './mutation-input/delete.dto';
@@ -67,10 +67,11 @@ export class TaskService {
 
     switch (data.voting_status_id) {
       case EVotingStatusId.COMPLETED:
-        const res = await this.calculatePoints(task.id);
+        const res = await this.calculateFinalPoint(task.id);
 
         task.avg_point = res.avg_point;
         task.closest_point = res.closest_point;
+        task.counts_point = await this.calculateChartPoint(task.id);
 
         const votes = await this.vote_repository.find({ where: { task_id: task.id } });
 
@@ -85,6 +86,7 @@ export class TaskService {
 
         task.avg_point = null;
         task.closest_point = null;
+        task.counts_point = null;
 
         break;
     }
@@ -93,12 +95,41 @@ export class TaskService {
       voting_status_id: task.voting_status_id,
       avg_point: task.avg_point,
       closest_point: task.closest_point,
+      counts_point: task.counts_point,
     });
 
     return task;
   }
 
-  private async calculatePoints(task_id: string) {
+  private async calculateChartPoint(task_id: string) {
+    const points: Array<{ point: number }> = await this.vote_repository
+      .createQueryBuilder('vote')
+      .select('vote.point', 'point')
+      .where({
+        task_id,
+      })
+      .execute();
+
+    const count = points.length;
+
+    return points.reduce<Record<string, IPointCount>>((acc, curr) => {
+      const key = `${curr.point}`;
+
+      if (!acc[key]) {
+        acc[key] = {
+          count: 0,
+          percent: 0,
+        };
+      }
+
+      acc[key].count++;
+      acc[key].percent = Number(((acc[key].count / count) * 100).toFixed(1));
+
+      return acc;
+    }, {});
+  }
+
+  private async calculateFinalPoint(task_id: string) {
     const [res]: [{ avg_point: string }] = await this.vote_repository
       .createQueryBuilder('vote')
       .select('COALESCE(ROUND(AVG(NULLIF(vote.point, 0)), 1), 0)', 'avg_point')

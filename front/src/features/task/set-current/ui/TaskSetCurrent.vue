@@ -10,9 +10,10 @@
 </template>
 
 <script setup lang="ts">
-import { type Ref, ref, onBeforeMount } from 'vue';
+import { type Ref, ref, onBeforeMount, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
+import { storeToRefs } from 'pinia'
 import { useTaskModel, type TasksQuery } from '@/entities';
 
 const props = defineProps<{ task: TasksQuery['tasks'][0] }>();
@@ -21,6 +22,7 @@ const is_current: Ref<boolean> = ref(false)
 const { t } = useI18n();
 const toast = useToast();
 const task_model = useTaskModel()
+const { current_task_id } = storeToRefs(task_model)
 
 onBeforeMount(() => {
   if (task_model.current_task_id) {
@@ -28,21 +30,15 @@ onBeforeMount(() => {
   }
 })
 
-task_model.$subscribe(({ events }, state) => {
-  let key: string;
-
-  if (Array.isArray(events)) {
-    key = events[0].key
-  } else {
-    key = events.key
+watch(
+  () => current_task_id.value,
+  (curr_current_task_id, _prev_current_task_id) => {
+    is_current.value = curr_current_task_id === props.task.id;
+  },
+  {
+    immediate: true,
   }
-
-  if (key === 'current_task') {
-    if (state.current_task_id) {
-      is_current.value = state.current_task_id === props.task.id;
-    }
-  }
-})
+)
 
 async function setCurrentTask() {
   if (is_current.value) {

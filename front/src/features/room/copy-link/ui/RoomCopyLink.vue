@@ -4,6 +4,7 @@
     class="btn"
     :class="{ 'btn-dark': !copied, 'btn-outline-dark': copied }"
     @click="copyRoomUrl"
+    :disabled="clipboard_unavailable"
   >
     <i class="bi bi-check2" v-if="copied"></i>
     <i class="bi bi-share" v-else></i>
@@ -23,8 +24,13 @@ const { t } = useI18n();
 const copied: Ref<boolean> = ref(false)
 
 const room_url = `${window.location.origin}/${props.room.id}`
+const clipboard_unavailable = navigator.clipboard == null;
 
 function copyRoomUrl() {
+  if (clipboard_unavailable) {
+    return
+  }
+
   copied.value = true;
 
   setTimeout(() => {

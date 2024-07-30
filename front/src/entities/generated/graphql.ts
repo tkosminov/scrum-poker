@@ -14,6 +14,7 @@ export interface Scalars {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTimeISO: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 }
 
 export interface Boolean_FilterInputType {
@@ -348,6 +349,7 @@ export interface Task {
   __typename?: 'Task';
   avg_point: Maybe<Scalars['Float']['output']>;
   closest_point: Maybe<Scalars['Int']['output']>;
+  counts_point: Maybe<Scalars['JSON']['output']>;
   created_at: Scalars['DateTimeISO']['output'];
   id: Scalars['ID']['output'];
   room_id: Scalars['ID']['output'];
