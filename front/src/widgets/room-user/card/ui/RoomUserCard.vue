@@ -1,19 +1,26 @@
 <template>
-  <div class="card text-center mb-3" style="width: 120px;">
-    <div class="card-body">
-      <h1>{{ selected_point }}</h1>
-    </div>
-    <div
-      class="card-footer cursor-help"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top" 
-      :title="room_user.user.name"
-    >
-      <p class="text-nowrap text-truncate">
+  <v-card min-width="100px" max-width="200px">
+    <v-card-item class="d-flex align-center justify-space-around">
+      <v-avatar variant="tonal">
+        <v-icon icon="mdi-account-circle" v-if="selected_point === '...'"></v-icon>
+        <v-icon icon="mdi-check" v-else-if="selected_point === '!'"></v-icon>
+        <template v-else>
+          {{ selected_point }}
+        </template>
+      </v-avatar>
+    </v-card-item>
+
+    <v-card-subtitle class="cursor-default">
+      {{ room_user.user.name }}
+
+      <v-tooltip
+        activator="parent"
+        location="top"
+      >
         {{ room_user.user.name }}
-      </p>
-    </div>
-  </div>
+      </v-tooltip>
+    </v-card-subtitle>
+  </v-card>
 </template>
 
 <script setup lang="ts">

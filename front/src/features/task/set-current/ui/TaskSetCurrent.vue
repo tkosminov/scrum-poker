@@ -1,12 +1,11 @@
 <template>
-  <button
-    type="button"
-    class="btn w-100"
-    :class="{ 'btn-dark': is_current, 'btn-outline-dark': !is_current }"
+  <v-radio
+    :key="`${props.task.id}_${is_current}`"
+    v-model="is_current"
     @click="setCurrentTask"
+    color="success"
   >
-    <i class="bi bi-hand-index"></i>
-  </button>
+  </v-radio>
 </template>
 
 <script setup lang="ts">

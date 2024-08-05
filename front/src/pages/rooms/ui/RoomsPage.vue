@@ -1,32 +1,33 @@
 <template>
-    <template v-if="room_model.loading">
-      <CPreloader />
-    </template>
+  <template v-if="room_model.loading">
+    <CPreloader />
+  </template>
 
-    <div class="row mb-2">
-      <div class="col-4 d-none d-sm-none d-md-none d-lg-block"></div>
+  <v-container> 
+    <v-row>
+      <v-col cols="12" md="4"></v-col>
 
-      <div class="col-12 col-sm-8 col-md-8 col-lg-4">
-        <CHr :title="$t('pages.rooms.title')" />
-      </div>
+      <v-col cols="12" md="4">
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>
+              {{ $t('pages.rooms.title') }}
+            </v-list-item-title>
 
-      <div class="col-12 col-sm-4 col-md-4 col-lg-4">
-        <div class="d-flex justify-content-center gap-1">
-          <RoomCreateFeature />
-        </div>
-      </div>
-    </div>
+            <template v-slot:append>
+              <v-list-item-action end>
+                <RoomCreateFeature />
+              </v-list-item-action>
+            </template>
+          </v-list-item>
+        </v-list>
 
-    <div class="row">
-      <div class="col-4 d-none d-sm-none d-md-none d-lg-block"></div>
-
-      <div class="col-12 col-sm-8 col-md-8 col-lg-4">
         <RoomsListWidget />
-      </div>
+      </v-col>
 
-      <div class="col-4 d-none d-sm-none d-md-none d-lg-block">
-      </div>
-    </div>
+      <v-col cols="12" md="4"></v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
@@ -34,7 +35,7 @@ import { onBeforeMount, onBeforeUnmount } from 'vue';
 import { RoomsListWidget } from '@/widgets'
 import { RoomCreateFeature } from '@/features'
 import { useRoomModel } from '@/entities';
-import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
+import { CPreloader, useBreadcrumbModel } from '@/shared'
 
 const room_model = useRoomModel()
 const breadcrumb_model = useBreadcrumbModel()

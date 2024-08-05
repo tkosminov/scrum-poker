@@ -1,11 +1,17 @@
 <template>
-  <NavbarWidget />
+  <v-layout>
+    <NavbarWidget />
 
-  <div class="container mt-6">
-    <CBreadcrumb />
+    <v-container class="mt-6">
+      <v-row>
+        <CBreadcrumb />
+      </v-row>
 
-    <RouterView />
-  </div>
+      <v-row>
+        <RouterView />
+      </v-row>
+    </v-container>
+  </v-layout>
 </template>
 
 <script setup lang="ts">

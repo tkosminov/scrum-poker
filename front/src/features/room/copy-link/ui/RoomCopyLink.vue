@@ -1,14 +1,11 @@
 <template>
-  <button
-    type="button"
-    class="btn"
-    :class="{ 'btn-dark': !copied, 'btn-outline-dark': copied }"
+  <v-btn
+    icon="mdi-share-variant"
+    variant="tonal"
+    size="small"
     @click="copyRoomUrl"
     :disabled="clipboard_unavailable"
-  >
-    <i class="bi bi-check2" v-if="copied"></i>
-    <i class="bi bi-share" v-else></i>
-  </button>
+  ></v-btn>
 </template>
 
 <script setup lang="ts">

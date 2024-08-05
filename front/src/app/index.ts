@@ -9,15 +9,15 @@ import {
   apollo_client,
   DefaultApolloClient,
   provideApolloClients,
-  FloatingVue,
   toast,
   i18n,
+  vuetify,
 } from './providers';
 
 provideApolloClients({ default: apollo_client });
 app.provide(DefaultApolloClient, apollo_client);
 app.use(router);
 app.use(store);
-app.use(FloatingVue);
 app.use(toast.plugin, toast.settings);
 app.use(i18n);
+app.use(vuetify);

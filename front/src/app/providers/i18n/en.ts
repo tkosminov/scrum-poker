@@ -3,7 +3,6 @@ export const en = {
     room: {
       users_list: 'Users',
       current_task: 'Current task',
-      tasks_list: 'Tasks',
     },
     rooms: {
       title: 'Rooms',
@@ -15,12 +14,19 @@ export const en = {
   },
   widgets: {
     task: {
+      list: {
+        tasks_list: 'Tasks',
+      },
       card: {
         rounded_value: 'Rounded value',
       },
       current: {
         voting: 'Voting',
         voting_result: 'Voting results',
+      },
+    },
+    vote: {
+      result: {
         average_value: 'Average value',
         rounded_value: 'Rounded value',
       },
@@ -56,6 +62,7 @@ export const en = {
       },
     },
     sign_in: {
+      title: 'Sign In',
       full_name: 'Username',
       enter_full_name: 'Enter username',
       sign_in: 'Sign In',

@@ -1,3 +1,4 @@
 import VotesListWidget from './list';
+import VotesResultWidget from './result';
 
-export { VotesListWidget };
+export { VotesListWidget, VotesResultWidget };

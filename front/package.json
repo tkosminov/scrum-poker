@@ -15,11 +15,10 @@
     "codegen:generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "@vue/apollo-composable": "^4.0.0",
     "axios": "^1.6.2",
-    "bootstrap": "^5.3.3",
-    "bootstrap-icons": "^1.11.3",
-    "floating-vue": "^5.2.2",
+    "charts.css": "^1.1.0",
     "graphql-ws": "^5.14.3",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.1.7",
@@ -27,7 +26,8 @@
     "vue": "^3.3.11",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.2.5",
-    "vue-toastification": "^2.0.0-rc.5"
+    "vue-toastification": "^2.0.0-rc.5",
+    "vuetify": "^3.6.13"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.0",
@@ -37,7 +37,6 @@
     "@graphql-codegen/typescript-document-nodes": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@rushstack/eslint-patch": "^1.6.1",
-    "@types/bootstrap": "^5.2.10",
     "@types/node": "^20.10.5",
     "@vitejs/plugin-vue": "^4.5.2",
     "@vue/eslint-config-prettier": "^8.0.0",

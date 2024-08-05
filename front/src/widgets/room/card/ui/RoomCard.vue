@@ -1,21 +1,44 @@
 <template>
-  <div class="row">
+  <v-row>
     <template v-if="room">
-      <div class="col-4 d-none d-sm-none d-md-none d-lg-block"></div>
+      <v-col cols="12" md="4"></v-col>
 
-      <div class="col-12 col-sm-8 col-md-8 col-lg-4">
-        <CHr :title="room.title" />
-      </div>
+      <v-col cols="12" md="4">
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>
+              {{ room.title }}
+            </v-list-item-title>
 
-      <div class="col-12 col-sm-4 col-md-4 col-lg-4">
-        <div class="d-flex justify-content-center gap-1">
-          <RoomCopyLinkFeature :room="room" />
-          <RoomUpdateFeature :room="room" />
-          <RoomDeleteFeature :room="room" />
-        </div>
-      </div>
+            <template v-slot:append>
+              <v-list-item-action end>
+                <RoomCopyLinkFeature :room="room" />
+
+                <v-divider vertical class="ml-2 mr-2"></v-divider>
+                
+                <v-menu>
+                  <template v-slot:activator="{ props }">
+                    <v-btn icon="mdi-dots-vertical" v-bind="props" size="small" variant="tonal"></v-btn>
+                  </template>
+
+                  <v-list>
+                    <v-list-item>
+                      <RoomUpdateFeature :room="room" />
+                    </v-list-item>
+                    <v-list-item>
+                      <RoomDeleteFeature :room="room" />
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-list-item-action>
+            </template>
+          </v-list-item>
+        </v-list>
+      </v-col>
+
+      <v-col cols="12" md="4"></v-col>
     </template>
-  </div>
+  </v-row>
 </template>
 
 <script setup lang="ts">
@@ -23,7 +46,6 @@ import { type Ref, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia'
 import { RoomDeleteFeature, RoomUpdateFeature, RoomCopyLinkFeature } from '@/features';
 import { useRoomModel, CurrentRoomQuery } from '@/entities';
-import { CHr } from '@/shared'
 
 const room_model = useRoomModel()
 const { current_room } = storeToRefs(room_model)

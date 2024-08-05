@@ -1,90 +1,71 @@
 <template>
   <template v-if="task_model.current_task">
-    <div class="row">
-      <div class="col-12">
-        <h4>{{ task_model.current_task.title }}</h4>
-      </div>
-    </div>
-  
-    <div class="row">
-      <div class="col-12">
+    <v-card variant="tonal">
+      <v-card-text>
+        {{ task_model.current_task.title }}
+      </v-card-text>
+
+      <v-divider></v-divider>
+
+      <v-card-actions>
         <TaskChangeStatusFeature :task="task_model.current_task" />
-      </div>
-    </div>
+      </v-card-actions>
+    </v-card>
 
     <template v-if="task_model.current_task.voting_status_id === EVotingStatusId.InProgress">
-      <CHr :title="$t('widgets.task.current.voting')" />
+      <v-card variant="tonal" class="mt-2">
+        <v-card-title>
+          {{ $t('widgets.task.current.voting') }}
+        </v-card-title>
 
-      <VotesListWidget :task="task_model.current_task" />
+        <v-card-actions>
+          <VotesListWidget :task="task_model.current_task" />
+        </v-card-actions>
+      </v-card>
     </template>
-  
+
     <template v-if="task_model.current_task.voting_status_id === EVotingStatusId.Completed">
-      <CHr :title="$t('widgets.task.current.voting_result')" />
-    
-      <div class="row">
-        <div class="col-6 border-end">
-          <h4
-            class="text-center cursor-help"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top" 
-            :title="$t('widgets.task.current.average_value')"
-          >
-            <i class="bi bi-align-middle"></i>  <br />
-            <span class="badge text-bg-secondary">{{ task_model.current_task.avg_point }}</span>
-          </h4>
-        </div>
-        <div class="col-6">
-          <h4
-            class="text-center cursor-help"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top" 
-            :title="$t('widgets.task.current.rounded_value')"
-          >
-            <i class="bi bi-wrench-adjustable-circle"></i> <br />
-            <span class="badge text-bg-secondary">{{ task_model.current_task.closest_point }}</span>
-          </h4>
-        </div>
-      </div>
+      <v-card variant="tonal" class="mt-2">
+        <v-card-title>
+          {{ $t('widgets.task.current.voting_result') }}
+        </v-card-title>
+
+        <v-card-item>
+          <VotesResultWidget />
+        </v-card-item>
+      </v-card>
     </template>
   </template>
 </template>
 
 <script setup lang="ts">
-import { VotesListWidget } from '@/widgets';
+import { watch } from 'vue';
+import { storeToRefs } from 'pinia'
+import { VotesListWidget, VotesResultWidget } from '@/widgets';
 import { TaskChangeStatusFeature } from '@/features';
 import { useTaskModel, EVotingStatusId, useRoomModel, useVoteModel } from '@/entities';
-import { CHr } from '@/shared'
 
 const room_model = useRoomModel()
 const task_model = useTaskModel()
 const vote_model = useVoteModel()
 
-task_model.$subscribe(async ({ events }, state) => {
-  let key: string;
+const { current_task } = storeToRefs(task_model)
 
-  if (Array.isArray(events)) {
-    key = events[0].key
-  } else {
-    key = events.key
-  }
-
-  if (!state.current_task) {
-    vote_model.clearState();
-  }
-
-  if (key === 'current_task') {
-    room_model.changeCurrentTaskId(state.current_task_id);
+watch(
+  () => current_task.value,
+  async (curr_current_task, _prev_current_task) => {
+    room_model.changeCurrentTaskId(curr_current_task?.id || null);
    
-    if (state.current_task != null) {
-      switch(state.current_task.voting_status_id) {
+    if (curr_current_task != null) {
+      switch(curr_current_task.voting_status_id) {
         case EVotingStatusId.InProgress:
           vote_model.clearState();
-          await vote_model.fetchVotes({ task_id: state.current_task.id })
-          await vote_model.fetchVoteCurrent({ task_id: state.current_task.id });
+          await vote_model.fetchVotes({ task_id: curr_current_task.id })
+          await vote_model.fetchVoteCurrent({ task_id: curr_current_task.id });
   
           break;
         case EVotingStatusId.Completed:
-        await vote_model.fetchVotesFull({ task_id: state.current_task.id })
+        await vote_model.fetchVotesFull({ task_id: curr_current_task.id })
   
           break;
         default:
@@ -92,9 +73,14 @@ task_model.$subscribe(async ({ events }, state) => {
   
           break;
       }
+    } else {
+      vote_model.clearState();
     }
+  },
+  {
+    immediate: true,
   }
-})
+)
 </script>
 
 <style scoped lang="scss">

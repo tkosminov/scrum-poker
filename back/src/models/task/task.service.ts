@@ -123,7 +123,7 @@ export class TaskService {
       }
 
       acc[key].count++;
-      acc[key].percent = Number(((acc[key].count / count) * 100).toFixed(1));
+      acc[key].percent = Number((acc[key].count / count).toFixed(1));
 
       return acc;
     }, {});

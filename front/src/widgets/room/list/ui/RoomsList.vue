@@ -1,13 +1,12 @@
 <template>
-  <div
-    class="row"
-    v-for="room in rooms"
-    :key="`${room.id}_${room.title}`"
-  >
-    <div class="col-12 mb-2">
+  <v-list>
+    <v-list-item
+      v-for="room in rooms"
+      :key="`${room.id}_${room.title}`"
+    >
       <RoomCard :room="room" />
-    </div>
-  </div>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script setup lang="ts">

@@ -1,14 +1,13 @@
 <template>
-  <div
-    class="card text-center mb-3 cursor-pointer"
-    style="width: 120px;"
+  <v-btn
+    height="80px"
+    width="80px"
     @click="changeVote"
-    :class="{ 'bg-secondary': is_current }"
+    :color="is_current ? 'purple' : ''"
+    :variant="is_current ? 'flat' : 'tonal'"
   >
-    <div class="card-body">
-      <h1>{{ point ? point : '?' }}</h1>
-    </div>
-  </div>
+    {{ point ? point : '?' }}
+  </v-btn>
 </template>
 
 <script setup lang="ts">

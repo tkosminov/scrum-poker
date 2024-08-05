@@ -1,102 +1,79 @@
 <template>
-  <button type="button" class="btn btn-dark w-100" @click="openCreateTaskModal">
-    {{ $t('features.task.create.new_task') }}
-  </button>
+    <v-dialog
+      max-width="400"
+      v-model="dialog"
+    >
+      <template v-slot:activator="{ props: activatorProps }">
+        <v-btn
+          icon="mdi-plus"
+          variant="tonal"
+          size="small"
+          v-bind="activatorProps"
+          @click="openCreateTaskModal"
+        ></v-btn>
+      </template>
 
-  <div
-    class="modal fade"
-    id="createTaskModal"
-    tabindex="-1"
-    aria-labelledby="createTaskModalLabel"
-    aria-hidden="true"
-    ref="create_task_modal_ref"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="createTaskModalLabel">
-            {{ $t('features.task.create.create_task') }}
-          </h1>
-        </div>
+      <v-card>
+        <v-card-title>
+          {{ $t('features.task.create.create_task') }}
+        </v-card-title>
 
-        <div class="modal-body">
-          <div class="form-floating" :class="{ 'was-validated': !form_valid }">
-            <input
-              type="text"
-              class="form-control"
-              id="taskTitle"
-              :placeholder="$t('features.task.create.enter_title')"
-              v-model="title"
-              required
-            />
-            <label for="taskTitle">
-              {{ $t('features.task.create.title') }}
-            </label>
-            <div class="invalid-feedback">
-              {{ $t('features.task.create.enter_title') }}
-            </div>
-          </div>
-        </div>
+        <v-card-item>
+          <v-textarea
+            row-height="25"
+            rows="3"
+            hide-details="auto"
+            :label="$t('features.task.create.enter_title')"
+            :error-messages="error_messages"
+            v-model="title"
+          ></v-textarea>
+        </v-card-item>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+        <template v-slot:actions>
+          <v-spacer></v-spacer>
+
+          <v-btn @click="closeCreateTaskModal">
             {{ $t('features.task.create.cancel') }}
-          </button>
-          <button type="button" class="btn btn-dark" @click="createTask">
+          </v-btn>
+
+          <v-btn @click="createTask">
             {{ $t('features.task.create.create') }}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+          </v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, onMounted } from "vue";
+import { ref, type Ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
-import { Modal } from "bootstrap";
 import { useTaskModel, useRoomModel } from '@/entities';
 
 const toast = useToast();
 const { t } = useI18n();
 
-const create_task_modal_ref: Ref<HTMLDivElement | null> = ref(null);
-let create_task_modal_value: Modal | null = null;
-
 const room_model = useRoomModel();
 const task_model = useTaskModel()
 const title: Ref<string> = ref("")
-const form_valid: Ref<boolean> = ref(true)
 
-onMounted(() => {
-  if (create_task_modal_ref.value instanceof HTMLDivElement) {
-    create_task_modal_value = new Modal(create_task_modal_ref.value, {
-      keyboard: false,
-    });
-  }
-});
+const dialog: Ref<boolean> = ref(false);
+const error_messages: Ref<Array<string>> = ref([]);
 
-function openCreateTaskModal(event: Event) {
-  form_valid.value = true;
+
+function openCreateTaskModal() {
+  dialog.value = true
   title.value = ""
-
-  event.preventDefault();
-
-  if (create_task_modal_value) {
-    create_task_modal_value.show();
-  }
+  error_messages.value = []
 }
 
 function closeCreateTaskModal() {
-  if (create_task_modal_value) {
-    create_task_modal_value.hide();
-  }
+  dialog.value = false
 }
 
 async function createTask() {
   if (!title.value.length) {
-    form_valid.value = false;
+    error_messages.value = [t('features.task.create.enter_title')];
 
     return;
   }

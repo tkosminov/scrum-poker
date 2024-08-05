@@ -3,25 +3,15 @@
     <CPreloader />
   </template>
 
-  <div class="row">
-    <div class="col-3 d-none d-sm-none d-md-block"></div>
-
-    <div class="col-xs-12 col-sm-12 col-md-6">
-      <h1>{{ $t('pages.sign_in.title') }}</h1>
-    </div>
-
-    <div class="col-3 d-none d-sm-none d-md-block"></div>
-  </div>
-
-  <div class="row">
-    <div class="col-3 d-none d-sm-none d-md-block"></div>
-
-    <div class="col-xs-12 col-sm-12 col-md-6">
-      <SignInFeature />
-    </div>
-
-    <div class="col-3 d-none d-sm-none d-md-block"></div>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="12" md="4"></v-col>
+      <v-col cols="12" md="4">
+        <SignInFeature />
+      </v-col>
+      <v-col cols="12" md="4"></v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">

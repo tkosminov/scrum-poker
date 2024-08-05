@@ -1,30 +1,30 @@
 <template>
   <template v-if="task.voting_status_id === EVotingStatusId.NotStarted">
-    <button
-      type="button"
-      class="btn btn-dark w-100"
+    <v-btn
+      block
+      prepend-icon="mdi-play"
+      density="comfortable"
+      variant="tonal"
       @click="changeStatus(EVotingStatusId.InProgress)"
-    >
-      <i class="bi bi-play"></i>
-    </button>
+    ></v-btn>
   </template>
   <template v-else-if="task.voting_status_id === EVotingStatusId.InProgress">
-    <button
-      type="button"
-      class="btn btn-dark w-100"
+    <v-btn
+      block
+      prepend-icon="mdi-stop"
+      density="comfortable"
+      variant="tonal"
       @click="changeStatus(EVotingStatusId.Completed)"
-    >
-      <i class="bi bi-stop"></i>
-    </button>
+    ></v-btn>
   </template>
   <template v-else-if="task.voting_status_id === EVotingStatusId.Completed">
-    <button
-      type="button"
-      class="btn btn-dark w-100"
+    <v-btn
+      block
+      prepend-icon="mdi-repeat"
+      density="comfortable"
+      variant="tonal"
       @click="changeStatus(EVotingStatusId.InProgress)"
-    >
-      <i class="bi bi-arrow-clockwise"></i>
-    </button>
+    ></v-btn>
   </template>
 </template>
 

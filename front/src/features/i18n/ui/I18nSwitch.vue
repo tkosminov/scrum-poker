@@ -1,27 +1,25 @@
 <template>
-  <div class="dropdown">
-    <button
-      class="btn btn-dark dropdown-toggle"
-      type="button"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      <img style="width: 20px;" :src="`/langs/${current_lang}.svg`" />
-      {{ current_lang }}
-    </button>
+  <v-menu>
+    <template v-slot:activator="{ props }">
+      <v-btn v-bind="props">
+        <img style="width: 20px;" :src="`/langs/${current_lang}.svg`" />
+        {{ current_lang }}
+      </v-btn>
+    </template>
 
-    <ul class="dropdown-menu dropdown-menu-dark">
-      <li
-        class="dropdown-item cursor-pointer"
+    <v-list>
+      <v-list-item
         v-for="lang in langs"
         :key="lang"
         @click="setCurrentLang(lang)"
       >
-        <img style="width: 20px;" :src="`/langs/${lang}.svg`" />
-        {{ lang }}
-      </li>
-    </ul>
-  </div>
+        <v-list-item-title>
+          <img style="width: 20px;" :src="`/langs/${lang}.svg`" />
+          {{ lang }}
+        </v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 
 <script setup lang="ts">

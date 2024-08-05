@@ -1,13 +1,13 @@
 <template>
-  <div class="row row-cols-auto">
-    <div
-      class="col"
+  <v-row>
+    <v-col
       v-for="point of POSSIBLE_POINTS"
       :key="point"
+      class="d-flex child-flex justify-center"
     >
       <VoteChangeFeature :task_id="props.task.id" :point="point" />
-    </div>
-  </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">

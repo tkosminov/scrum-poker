@@ -3,42 +3,31 @@
     <CPreloader />
   </template>
 
-  <RoomCardWidget />
+  <v-container>
+    <RoomCardWidget />
 
-  <div class="row">
-    <div class="col-xs-12 col-sm-4">
-      <CHr :title="$t('pages.room.users_list')" />
+    <v-row>
+      <v-col cols="12" md="4">
+        <RoomUsersListWidget />
+      </v-col>
 
-      <RoomUsersListWidget />
-    </div>
+      <v-col cols="12" md="4">
+        <TaskCurrentWidget />
+      </v-col>
 
-    <div class="col-xs-12 col-sm-4">
-      <CHr :title="$t('pages.room.current_task')" />
-
-      <TaskCurrentWidget />
-    </div>
-
-    <div class="col-xs-12 col-sm-4">
-      <CHr :title="$t('pages.room.tasks_list')" />
-
-      <div class="row mb-2">
-        <div class="col-12">
-          <TaskCreateFeature />
-        </div>
-      </div>
-
-      <TasksListWidget />
-    </div>
-  </div>
+      <v-col cols="12" md="4">
+        <TasksListWidget />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
 import { Ref, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { router } from '@/app/providers';
 import { RoomCardWidget, TasksListWidget, TaskCurrentWidget, RoomUsersListWidget } from '@/widgets'
-import { TaskCreateFeature } from '@/features'
 import { useRoomModel, useTaskModel, useRoomUserModel, useUserModel, useVoteModel } from '@/entities';
-import { CPreloader, useBreadcrumbModel, CHr } from '@/shared'
+import { CPreloader, useBreadcrumbModel } from '@/shared'
 
 const props = defineProps<{ id: string }>();
 const user_model = useUserModel()

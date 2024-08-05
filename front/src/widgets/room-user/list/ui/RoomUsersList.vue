@@ -1,13 +1,14 @@
 <template>
-  <div class="row row-cols-auto">
-    <div
-      class="col"
+  <v-row>
+    <v-col
       v-for="room_user in room_users"
       :key="room_user.id"
+      sm="auto"
+      class="d-flex child-flex justify-center"
     >
-      <RoomUserCardWidget :room_user="room_user"/>
-    </div>
-  </div>
+      <RoomUserCardWidget :room_user="room_user" />
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">

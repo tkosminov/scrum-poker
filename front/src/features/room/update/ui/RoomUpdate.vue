@@ -1,103 +1,77 @@
 <template>
-  <button type="button" class="btn btn-dark" @click="openUpdateRoomModal">
-    <i class="bi bi-pencil"></i>
-  </button>
-
-  <div
-    class="modal fade"
-    id="updateRoomModal"
-    tabindex="-1"
-    aria-labelledby="updateRoomModalLabel"
-    aria-hidden="true"
-    ref="update_room_modal_ref"
+  <v-dialog
+    max-width="400"
+    v-model="dialog"
   >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="updateRoomModalLabel">
-            {{ $t('features.room.update.update_room') }}
-          </h1>
-        </div>
+    <template v-slot:activator="{ props: activatorProps }">
+      <v-btn
+        icon="mdi-pencil"
+        variant="flat"
+        size="small"
+        v-bind="activatorProps"
+        @click="openUpdateRoomModal"
+      ></v-btn>
+    </template>
 
-        <div class="modal-body">
-          <div class="form-floating" :class="{ 'was-validated': !form_valid }">
-            <input
-              type="text"
-              class="form-control"
-              id="roomTitle"
-              :placeholder="$t('features.room.update.enter_title')"
-              v-model="title"
-              required
-            />
-            <label for="roomTitle">
-              {{ $t('features.room.update.title') }}
-            </label>
-            <div class="invalid-feedback">
-              {{ $t('features.room.update.enter_title') }}
-            </div>
-          </div>
-        </div>
+    <v-card>
+      <v-card-title>
+        {{ $t('features.room.update.update_room') }}
+      </v-card-title>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
-            {{ $t('features.room.update.cancel') }}
-          </button>
-          <button type="button" class="btn btn-dark" @click="updateRoom">
-            <i class="bi bi-pencil"></i>
-            {{ $t('features.room.update.update') }}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+      <v-card-item>
+        <v-text-field
+          hide-details="auto"
+          :label="$t('features.room.update.enter_title')"
+          :error-messages="error_messages"
+          v-model="title"
+        ></v-text-field>
+      </v-card-item>
+
+      <template v-slot:actions>
+        <v-spacer></v-spacer>
+
+        <v-btn @click="closeUpdateRoomModal">
+          {{ $t('features.room.update.cancel') }}
+        </v-btn>
+
+        <v-btn @click="updateRoom">
+          {{ $t('features.room.update.update') }}
+        </v-btn>
+      </template>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, onMounted } from "vue";
+import { ref, type Ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
-import { Modal } from "bootstrap";
 import { CurrentRoomQuery, useRoomModel } from '@/entities';
 
 const props = defineProps<{ room: CurrentRoomQuery['rooms'][0] }>();
 const toast = useToast();
 const { t } = useI18n();
 
-const update_room_modal_ref: Ref<HTMLDivElement | null> = ref(null);
-let update_room_modal_value: Modal | null = null;
-
 const room_model = useRoomModel()
 const title: Ref<string | null> = ref(props.room.title)
-const form_valid: Ref<boolean> = ref(true)
 
-onMounted(() => {
-  if (update_room_modal_ref.value instanceof HTMLDivElement) {
-    update_room_modal_value = new Modal(update_room_modal_ref.value, {
-      keyboard: false,
-    });
-  }
-});
+const dialog: Ref<boolean> = ref(false);
+const error_messages: Ref<Array<string>> = ref([]);
 
-function openUpdateRoomModal(event: Event) {
-  form_valid.value = true;
+function openUpdateRoomModal() {
+  dialog.value = true
+
   title.value = props.room.title;
-
-  event.preventDefault();
-
-  if (update_room_modal_value) {
-    update_room_modal_value.show();
-  }
+  error_messages.value = [];
 }
 
 function closeUpdateRoomModal() {
-  if (update_room_modal_value) {
-    update_room_modal_value.hide();
-  }
+  dialog.value = false
 }
 
 async function updateRoom() {
   if (!title.value?.length) {
-    form_valid.value = false;
+    error_messages.value = [t('features.room.update.enter_title')];
 
     return;
   }

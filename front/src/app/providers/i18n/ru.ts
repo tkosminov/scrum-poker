@@ -3,24 +3,30 @@ export const ru = {
     room: {
       users_list: 'Пользователи',
       current_task: 'Текущая задача',
-      tasks_list: 'Задачи',
     },
     rooms: {
       title: 'Комнаты',
     },
     sign_in: {
-      title: 'Авторизация',
+      title: 'Войти',
       successful: 'Успешно!',
     },
   },
   widgets: {
     task: {
+      list: {
+        tasks_list: 'Задачи',
+      },
       card: {
         rounded_value: 'Округленное значение',
       },
       current: {
         voting: 'Голосование',
         voting_result: 'Результаты голосования',
+      },
+    },
+    vote: {
+      result: {
         average_value: 'Среднее значение',
         rounded_value: 'Округленное значение',
       },
@@ -56,8 +62,9 @@ export const ru = {
       },
     },
     sign_in: {
-      full_name: 'ФИО',
-      enter_full_name: 'Введите ФИО',
+      title: 'Войти',
+      full_name: 'Имя пользователя',
+      enter_full_name: 'Введите имя пользователя',
       sign_in: 'Войти',
     },
     task: {

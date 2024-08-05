@@ -1,19 +1,31 @@
 <template>
-  <div
-    class="row"
-    v-for="task in tasks"
-    :key="`${task.id}_${task.title}`"
-  >
-    <div class="col-12 mb-2">
+  <v-list>
+    <v-list-item>
+      <v-list-item-title>
+        {{ $t('widgets.task.list.tasks_list') }}
+      </v-list-item-title>
+
+      <template v-slot:append>
+        <v-list-item-action end>
+          <TaskCreateFeature />
+        </v-list-item-action>
+      </template>
+    </v-list-item>
+
+    <v-list-item
+      v-for="task in tasks"
+      :key="`${task.id}_${task.title}`"
+    >
       <TaskCardWidget :task="task"/>
-    </div>
-  </div>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { type Ref, ref } from 'vue';
 import { TaskCardWidget } from '@/widgets'
 import { useTaskModel, TasksQuery } from '@/entities';
+import { TaskCreateFeature } from '@/features';
 
 const task_model = useTaskModel()
 const tasks: Ref<TasksQuery['tasks'] | undefined> = ref(undefined);
