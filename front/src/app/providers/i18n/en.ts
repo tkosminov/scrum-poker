@@ -23,6 +23,7 @@ export const en = {
       current: {
         voting: 'Voting',
         voting_result: 'Voting results',
+        voting_in_progress: 'Voting in progress',
       },
     },
     vote: {

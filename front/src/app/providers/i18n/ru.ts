@@ -23,6 +23,7 @@ export const ru = {
       current: {
         voting: 'Голосование',
         voting_result: 'Результаты голосования',
+        voting_in_progress: 'Голосование запущено',
       },
     },
     vote: {

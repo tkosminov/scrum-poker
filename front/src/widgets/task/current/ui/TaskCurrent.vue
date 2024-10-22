@@ -41,9 +41,14 @@
 <script setup lang="ts">
 import { watch } from 'vue';
 import { storeToRefs } from 'pinia'
+import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
 import { VotesListWidget, VotesResultWidget } from '@/widgets';
 import { TaskChangeStatusFeature } from '@/features';
 import { useTaskModel, EVotingStatusId, useRoomModel, useVoteModel } from '@/entities';
+
+const toast = useToast();
+const { t } = useI18n();
 
 const room_model = useRoomModel()
 const task_model = useTaskModel()
@@ -59,13 +64,17 @@ watch(
     if (curr_current_task != null) {
       switch(curr_current_task.voting_status_id) {
         case EVotingStatusId.InProgress:
+          toast.warning(t('widgets.task.current.voting_in_progress'), {
+            timeout: 2500,
+          });
+
           vote_model.clearState();
           await vote_model.fetchVotes({ task_id: curr_current_task.id })
           await vote_model.fetchVoteCurrent({ task_id: curr_current_task.id });
   
           break;
         case EVotingStatusId.Completed:
-        await vote_model.fetchVotesFull({ task_id: curr_current_task.id })
+          await vote_model.fetchVotesFull({ task_id: curr_current_task.id })
   
           break;
         default:
